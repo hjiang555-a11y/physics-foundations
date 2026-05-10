@@ -1,0 +1,1058 @@
+scope_conditions:
+- id: inertial_frame
+  category: reference_frame
+- id: classical_limit
+  category: quantum_classical_boundary
+- id: relativistic_regime
+  category: velocity_regime
+- id: non_relativistic_limit
+  category: velocity_regime
+- id: thermal_equilibrium
+  category: physical_regime
+- id: isolated_system
+  category: system_boundary
+- id: conservative_force
+  category: force_type
+- id: electrostatic_regime
+  category: electromagnetic_regime
+- id: magnetostatic_regime
+  category: electromagnetic_regime
+- id: vacuum
+  category: medium_condition
+- id: linear_medium
+  category: medium_condition
+- id: macroscopic_limit
+  category: scale_regime
+- id: point_particle_approximation
+  category: model_approximation
+- id: quantum_regime
+  category: quantum_classical_boundary
+- id: weak_field_limit
+  category: gravitational_regime
+- id: continuous_medium
+  category: model_approximation
+- id: steady_state
+  category: temporal_condition
+- id: low_temperature_limit
+  category: temperature_range
+- id: zero_temperature_limit
+  category: temperature_range
+scope_aliases:
+  inertial: inertial_frame
+  classical: classical_limit
+  relativistic: relativistic_regime
+  non_relativistic: non_relativistic_limit
+  equilibrium: thermal_equilibrium
+  isolated: isolated_system
+  conservative: conservative_force
+  electrostatic: electrostatic_regime
+  magnetostatic: magnetostatic_regime
+  quantum: quantum_regime
+  macroscopic: macroscopic_limit
+  point_particle: point_particle_approximation
+  weak_field: weak_field_limit
+scope_discontinuities:
+- pair:
+  - classical_limit
+  - quantum_regime
+  reason: Classical and quantum descriptions use different dynamical structures.
+- pair:
+  - non_relativistic_limit
+  - relativistic_regime
+  reason: Requires explicit Lorentz transformation bridge.
+- pair:
+  - electrostatic_regime
+  - magnetostatic_regime
+  reason: General electromagnetic behavior requires Maxwell displacement current correction.
+- pair:
+  - zero_temperature_limit
+  - thermal_equilibrium
+  reason: Third-law behavior differs qualitatively from finite-temperature equilibrium.
+quantities:
+- canonical_id: qty.time
+  symbol: t
+  dimension: '[T]'
+  si_unit: s
+  equivalence_class: time
+  role: fundamental_dimension
+  monotonic_direction: +
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - BIPM SI basic quantity. In QM, time cannot be represented by a non-commuting operator (Pauli theorem corollary).
+  hardness: canonical
+- canonical_id: qty.length
+  symbol: r
+  dimension: '[L]'
+  si_unit: m
+  equivalence_class: geometric_length
+  role: fundamental_dimension
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'BIPM SI basic quantity. Position operator components do not commute in QM: [x_i, p_j] = i*hbar*delta_ij.'
+  hardness: canonical
+- canonical_id: qty.mass
+  symbol: m
+  dimension: '[M]'
+  si_unit: kg
+  equivalence_class: inertial_mass
+  role: fundamental_dimension
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to:
+    qty.gravitational_mass: 'Equivalence principle: m_i = m_g. This bridge is the sole empirical input to GR.'
+  caveats:
+  - BIPM SI basic quantity. Here refers to inertial mass m_i. Distinct from gravitational mass m_g — equated via equivalence
+    principle but physically distinct identities.
+  - Mass is not quantized in QM (unlike charge).
+  hardness: canonical
+- canonical_id: qty.velocity
+  symbol: v
+  dimension: '[L T⁻¹]'
+  si_unit: m s⁻¹
+  equivalence_class: velocity
+  role: kinematic_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - v = dr/dt. Upper bound constrained by c (special relativity).
+  hardness: canonical
+- canonical_id: qty.acceleration
+  symbol: a
+  dimension: '[L T⁻²]'
+  si_unit: m s⁻²
+  equivalence_class: acceleration
+  role: kinematic_variable
+  monotonic_direction: null
+  valid_when:
+  - inertial_frame
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - a = dv/dt. Newton's second law holds in simple form only in inertial frames.
+  hardness: canonical
+- canonical_id: qty.momentum
+  symbol: p
+  dimension: '[M L T⁻¹]'
+  si_unit: kg m s⁻¹
+  equivalence_class: momentum
+  role: state_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'p = mv (classical limit). In QM: p = -i*hbar*nabla. Canonically conjugate to coordinate q: [q_i, p_j] = i*hbar*delta_ij.'
+  hardness: canonical
+- canonical_id: qty.force
+  symbol: F
+  dimension: '[M L T⁻²]'
+  si_unit: N
+  equivalence_class: force
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - inertial_frame
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'F = dp/dt (Newton II). Definition of force is operational: spring extension, acceleration measurement.'
+  - Non-inertial frames require fictitious forces (centrifugal, Coriolis).
+  - In GR, gravity no longer appears as a force in free-fall.
+  hardness: canonical
+- canonical_id: qty.energy
+  symbol: E
+  dimension: '[M L² T⁻²]'
+  si_unit: J
+  equivalence_class: energy
+  role: state_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - Same dimension as torque [M L² T⁻²] but distinct physical identity — NOT interchangeable.
+  - 'E = mc²: mass-energy equivalence (SR).'
+  - 'Kinetic energy: T = (1/2)mv² (classical); E² = p² c² + m² c⁴ (relativistic).'
+  hardness: canonical
+- canonical_id: qty.action
+  symbol: S
+  dimension: '[M L² T⁻¹]'
+  si_unit: J s
+  equivalence_class: action
+  role: state_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - S = integral L dt. Same dimension as angular momentum [M L² T⁻¹] and hbar — but physically a variational quantity, not
+    an observable.
+  - Action is a Lorentz invariant.
+  - exp(iS/hbar) is central to the QM path integral formulation.
+  hardness: canonical
+- canonical_id: qty.angular_momentum
+  symbol: L
+  dimension: '[M L² T⁻¹]'
+  si_unit: kg m² s⁻¹
+  equivalence_class: angular_momentum
+  role: state_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - L = r cross p. Same dimension as action but distinct physical identity.
+  - 'Quantized in QM: L_z = m_l*hbar (orbital), S_z = m_s*hbar (spin).'
+  hardness: canonical
+- canonical_id: qty.torque
+  symbol: tau
+  dimension: '[M L² T⁻²]'
+  si_unit: N m
+  equivalence_class: torque
+  role: state_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - tau = r cross F. Same dimension as energy but distinct physical identity — NOT interchangeable.
+  - 'Rotational analogue of force: tau = I*alpha.'
+  hardness: canonical
+- canonical_id: qty.power
+  symbol: P
+  dimension: '[M L² T⁻³]'
+  si_unit: W
+  equivalence_class: power
+  role: derived_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - P = dE/dt. Rate of energy conversion.
+  hardness: canonical
+- canonical_id: qty.angular_velocity
+  symbol: omega
+  dimension: '[T⁻¹]'
+  si_unit: rad s⁻¹
+  equivalence_class: angular_velocity
+  role: kinematic_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - omega = dtheta/dt. Same dimension as frequency [T⁻¹] but distinct physical identity.
+  hardness: canonical
+- canonical_id: qty.density
+  symbol: rho
+  dimension: '[M L⁻³]'
+  si_unit: kg m⁻³
+  equivalence_class: mass_density
+  role: material_parameter
+  monotonic_direction: null
+  valid_when:
+  - continuous_medium
+  - macroscopic_limit
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - rho = m/V. Continuous medium approximation.
+  hardness: canonical
+- canonical_id: qty.pressure
+  symbol: P
+  dimension: '[M L⁻¹ T⁻²]'
+  si_unit: Pa
+  equivalence_class: pressure
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - thermal_equilibrium
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - P = F/A. Same dimension as energy density [M L⁻¹ T⁻²] but distinct physical identity.
+  - Thermodynamic state variable — defined only at equilibrium.
+  hardness: canonical
+- canonical_id: qty.gravitational_mass
+  symbol: m_g
+  dimension: '[M]'
+  si_unit: kg
+  equivalence_class: gravitational_mass
+  role: fundamental_dimension
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to:
+    qty.mass: 'Equivalence principle: m_g = m_i. Experimentally established fact; axiomatic input to GR.'
+  caveats:
+  - Gravitational charge — source of gravitational interaction. Same dimension as inertial mass but distinct physical identity.
+  - Equivalence principle asserts m_g = m_i, but this equality is an input to physical law, not a logical deduction.
+  hardness: canonical
+- canonical_id: qty.electric_charge
+  symbol: q
+  dimension: '[T I]'
+  si_unit: C
+  equivalence_class: electric_charge
+  role: state_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'BIPM SI derived quantity (q = integral I dt). Quantized: q = n*e (elementary charge e).'
+  - Coupling constant for electromagnetic interaction.
+  - Global conservation partial_mu J^mu = 0 follows from U(1) gauge symmetry (Noether).
+  hardness: canonical
+- canonical_id: qty.electric_current
+  symbol: I
+  dimension: '[I]'
+  si_unit: A
+  equivalence_class: electric_current
+  role: fundamental_dimension
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - BIPM SI basic quantity. In SI, the fundamental electrical dimension (rather than charge).
+  hardness: canonical
+- canonical_id: qty.electric_field
+  symbol: E
+  dimension: '[M L T⁻³ I⁻¹]'
+  si_unit: V m⁻¹
+  equivalence_class: electric_field
+  role: state_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - E = F/q (operational definition). Dynamically coupled to B in Maxwell's equations.
+  hardness: canonical
+- canonical_id: qty.magnetic_field
+  symbol: B
+  dimension: '[M T⁻² I⁻¹]'
+  si_unit: T
+  equivalence_class: magnetic_flux_density
+  role: state_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'Magnetic flux density. Note: H (magnetic field strength, [L⁻¹ I]) has different dimension from B. In vacuum B = mu_0
+    H.'
+  - Div B = 0 is a geometric necessity (no isolated magnetic monopoles).
+  hardness: canonical
+- canonical_id: qty.magnetic_field_strength
+  symbol: H
+  dimension: '[L⁻¹ I]'
+  si_unit: A m⁻¹
+  equivalence_class: magnetic_field_strength
+  role: state_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - H and B have different dimensions. In vacuum B = mu_0 H. In media B = mu_0(H + M).
+  - H appears in the free-current term of Ampere's law.
+  hardness: canonical
+- canonical_id: qty.electric_potential
+  symbol: V
+  dimension: '[M L² T⁻³ I⁻¹]'
+  si_unit: V
+  equivalence_class: electric_potential
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - electrostatic_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'V = -integral E*dr (electrostatics). In time-varying fields: E = -grad V - partial A/partial t, requiring both scalar
+    and vector potentials.'
+  - 'Dimension [M L² T⁻³ I⁻¹] matches power/current: V = P/I.'
+  hardness: canonical
+- canonical_id: qty.magnetic_vector_potential
+  symbol: A
+  dimension: '[M L T⁻² I⁻¹]'
+  si_unit: T m
+  equivalence_class: magnetic_vector_potential
+  role: state_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'B = curl A. Gauge freedom: A -> A + grad chi does not change B.'
+  - In QM, A manifests directly via the Aharonov-Bohm effect — physically observable consequences.
+  hardness: canonical
+- canonical_id: qty.current_density
+  symbol: J
+  dimension: '[L⁻² I]'
+  si_unit: A m⁻²
+  equivalence_class: current_density
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - macroscopic_limit
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'J = I/A. Continuous medium approximation. Microscopic form: J = rho_q v.'
+  hardness: canonical
+- canonical_id: qty.charge_density
+  symbol: rho_q
+  dimension: '[L⁻³ T I]'
+  si_unit: C m⁻³
+  equivalence_class: charge_density
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - macroscopic_limit
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'rho_q = q/V. Coupled to J in continuity equation: partial rho/partial t + div J = 0.'
+  hardness: canonical
+- canonical_id: qty.magnetic_flux
+  symbol: Phi
+  dimension: '[M L² T⁻² I⁻¹]'
+  si_unit: Wb
+  equivalence_class: magnetic_flux
+  role: state_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'Phi = integral B*dA. Central to electromagnetic induction: dPhi/dt generates emf.'
+  hardness: canonical
+- canonical_id: qty.temperature
+  symbol: T
+  dimension: '[Θ]'
+  si_unit: K
+  equivalence_class: thermodynamic_temperature
+  role: state_variable
+  monotonic_direction: +
+  valid_when:
+  - thermal_equilibrium
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - BIPM SI basic quantity. Rigorously defined only in thermal equilibrium.
+  - Negative temperature (T < 0 K) possible in spin systems with finite Hilbert space — Boltzmann distribution sign inverts.
+  - 'Different dimension from energy: k_B provides the link (dE = k_B T).'
+  hardness: canonical
+- canonical_id: qty.entropy
+  symbol: S
+  dimension: '[M L² T⁻² Θ⁻¹]'
+  si_unit: J K⁻¹
+  equivalence_class: entropy
+  role: state_variable
+  monotonic_direction: +
+  valid_when:
+  - thermal_equilibrium
+  - macroscopic_limit
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - S = k_B ln W (Boltzmann). dS >= 0 (2nd law) is a statistical regularity at the microscopic level, not an absolute constraint.
+  - Same dimension as k_B — the Boltzmann factor k_B T is the energy link.
+  hardness: canonical
+- canonical_id: qty.volume
+  symbol: V
+  dimension: '[L³]'
+  si_unit: m³
+  equivalence_class: volume
+  role: geometric_parameter
+  monotonic_direction: null
+  valid_when:
+  - macroscopic_limit
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - Volumetric measure in 3D space.
+  hardness: canonical
+- canonical_id: qty.amount_of_substance
+  symbol: n
+  dimension: '[N]'
+  si_unit: mol
+  equivalence_class: amount_of_substance
+  role: fundamental_dimension
+  monotonic_direction: null
+  valid_when:
+  - macroscopic_limit
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - BIPM SI basic quantity. N_A = 6.02214076 x 10²3 mol⁻¹ is an SI defining constant (exact).
+  - Meaningful only for systems above the molecular scale.
+  hardness: canonical
+- canonical_id: qty.heat
+  symbol: Q
+  dimension: '[M L² T⁻²]'
+  si_unit: J
+  equivalence_class: heat
+  role: process_variable
+  monotonic_direction: null
+  valid_when:
+  - thermal_equilibrium
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - Heat is a process quantity (path function), NOT a state variable. Unlike internal energy U — dU is exact, dQ is inexact.
+  - Same dimension as energy and work but thermodynamically distinct.
+  hardness: canonical
+- canonical_id: qty.internal_energy
+  symbol: U
+  dimension: '[M L² T⁻²]'
+  si_unit: J
+  equivalence_class: thermodynamic_internal_energy
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - thermal_equilibrium
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - dU = T dS - P dV + mu dN (fundamental thermodynamic relation). U is a state function — dU is an exact differential.
+  hardness: canonical
+- canonical_id: qty.work
+  symbol: W
+  dimension: '[M L² T⁻²]'
+  si_unit: J
+  equivalence_class: work
+  role: process_variable
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - W = integral F*dr. Process quantity (path function), NOT a state variable.
+  - Along with heat Q, both are energy transfer modes — but mechanically vs thermally distinct.
+  hardness: canonical
+- canonical_id: qty.heat_capacity
+  symbol: C
+  dimension: '[M L² T⁻² Θ⁻¹]'
+  si_unit: J K⁻¹
+  equivalence_class: heat_capacity
+  role: material_parameter
+  monotonic_direction: null
+  valid_when:
+  - thermal_equilibrium
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - C = dQ/dT. Process-dependent — C_P != C_V.
+  - Same dimension as entropy but distinct physical identity — entropy is a state quantity, heat capacity is a material parameter.
+  hardness: canonical
+- canonical_id: qty.state_vector
+  symbol: '|psi>'
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: quantum_state
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - quantum_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - Complex vector in Hilbert space. Dimensionless — dimensions carried by the basis |x>.
+  - 'Normalizable: <psi|psi> = 1. Superposition: alpha|psi1> + beta|psi2> is also a valid state.'
+  hardness: canonical
+- canonical_id: qty.wave_function
+  symbol: psi(r)
+  dimension: '[L^(-3/2)]'
+  si_unit: m^(-3/2)
+  equivalence_class: quantum_wave_function
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - quantum_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - Wave function in position representation = <r|psi>. Dimension [L^(-3/2)] is non-integer — outside BIPM specification.
+  - This dimension is not fully compatible with the classical dimensional system — see dimensions.md notes.
+  - '|psi(r)|² d³r gives probability of finding particle near r — probability is dimensionless.'
+  hardness: canonical
+- canonical_id: qty.probability_density
+  symbol: '|psi|²'
+  dimension: '[L⁻³]'
+  si_unit: m⁻³
+  equivalence_class: quantum_probability_density
+  role: derived_variable
+  monotonic_direction: null
+  valid_when:
+  - quantum_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - P = |psi(r)|². Born rule — probability density.
+  - 'Normalization: integral |psi|² d³r = 1 (total probability integrates to 1).'
+  hardness: canonical
+- canonical_id: qty.spin
+  symbol: s
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: quantum_spin
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - quantum_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - Spin is a purely quantum degree of freedom — no classical analogue. Dimensionless but takes half-integer or integer values
+    (in units of hbar).
+  - 'Spin-statistics theorem: half-integer spin -> fermions; integer spin -> bosons.'
+  - Different from orbital angular momentum — spin is dimensionless (in units of hbar), orbital angular momentum is [M L²
+    T⁻¹].
+  hardness: canonical
+- canonical_id: qty.quantum_number
+  symbol: n
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: quantum_number
+  role: analysis_parameter
+  monotonic_direction: null
+  valid_when:
+  - quantum_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - Fully dimensionless. Labels discrete eigenstates (n, l, m_l, m_s, etc.).
+  - n = 0 is legal in some systems (e.g. harmonic oscillator ground state n=0).
+  hardness: canonical
+- canonical_id: qty.complex_amplitude
+  symbol: alpha
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: quantum_complex_amplitude
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - quantum_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'State expansion coefficient: |psi> = sum_i alpha_i |phi_i>. |alpha|² = probability (Born rule).'
+  - Fully dimensionless.
+  hardness: canonical
+- canonical_id: qty.spacetime_interval
+  symbol: Delta_s²
+  dimension: '[L²]'
+  si_unit: m²
+  equivalence_class: spacetime_interval
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - relativistic_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - Delta_s² = c²*Delta_t² - |Delta_r|². Lorentz invariant.
+  - 'Delta_s² > 0: timelike; = 0: lightlike; < 0: spacelike (causally disconnected).'
+  hardness: canonical
+- canonical_id: qty.lorentz_factor
+  symbol: gamma
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: lorentz_factor
+  role: derived_variable
+  monotonic_direction: +
+  valid_when:
+  - relativistic_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - gamma = 1/sqrt(1 - v²/c²). Dimensionless. gamma -> 1 recovers classical limit.
+  hardness: canonical
+- canonical_id: qty.four_momentum
+  symbol: p^mu
+  dimension: '[M L T⁻¹]'
+  si_unit: kg m s⁻¹
+  equivalence_class: four_momentum
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - relativistic_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - p^mu = (E/c, p). Invariant p_mu p^mu = m² c² yields E² = p² c² + m² c⁴.
+  - Four-vector — components transform into each other under Lorentz transformations.
+  hardness: canonical
+- canonical_id: qty.stress_energy_tensor
+  symbol: T^mu nu
+  dimension: '[M L⁻¹ T⁻²]'
+  si_unit: Pa
+  equivalence_class: stress_energy_tensor
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - relativistic_regime
+  - macroscopic_limit
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - T^00 = energy density; T^0i = momentum density; T^ij = stress tensor.
+  - 'Source of GR field equations: G^mu nu = (8pi G/c⁴)*T^mu nu.'
+  hardness: canonical
+- canonical_id: qty.einstein_tensor
+  symbol: G^mu nu
+  dimension: '[L⁻²]'
+  si_unit: m⁻²
+  equivalence_class: einstein_tensor
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - relativistic_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - G^mu nu = R^mu nu - (1/2)R g^mu nu. Describes spacetime curvature.
+  - Bianchi identity ensures nabla_mu G^mu nu = 0 -> automatic energy-momentum conservation nabla_mu T^mu nu = 0.
+  hardness: canonical
+- canonical_id: qty.metric_tensor
+  symbol: g_mu nu
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: metric_tensor
+  role: state_variable
+  monotonic_direction: null
+  valid_when:
+  - relativistic_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - ds² = g_mu nu dx^mu dx^nu. Metric defines spacetime geometry.
+  - Fully dimensionless (coordinate differentials carry dimension by convention).
+  hardness: canonical
+- canonical_id: qty.ricci_scalar
+  symbol: R
+  dimension: '[L⁻²]'
+  si_unit: m⁻²
+  equivalence_class: ricci_scalar
+  role: derived_variable
+  monotonic_direction: null
+  valid_when:
+  - relativistic_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'R = g^mu nu R_mu nu. Einstein-Hilbert action: S = (1/(2*kappa))*integral R sqrt(-g) d⁴x.'
+  hardness: canonical
+- canonical_id: qty.cosmological_constant
+  symbol: Lambda
+  dimension: '[L⁻²]'
+  si_unit: m⁻²
+  equivalence_class: cosmological_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when:
+  - relativistic_regime
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - Lambda ~ 10^-52 m⁻² (observed). Differs from QM vacuum energy prediction by ~120 orders of magnitude — greatest theoretical
+    puzzle.
+  - 'In Einstein field equations: G^mu nu + Lambda g^mu nu = (8pi G/c⁴) T^mu nu.'
+  hardness: canonical
+
+# ── 6c. Standard Model quantum numbers ──────────────────────────────────
+- canonical_id: qty.weak_isospin
+  symbol: I_3
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: weak_isospin
+  role: quantum_number
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'Third component of weak isospin: I_3 = +1/2 for (nu_L, u_L), -1/2 for (e_L, d_L), 0 for all right-handed fermions.'
+  - SU(2)_L gauge quantum number. Dimensionless discrete label.
+  hardness: canonical
+
+- canonical_id: qty.weak_hypercharge
+  symbol: 'Y'
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: weak_hypercharge
+  role: quantum_number
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'U(1)_Y gauge quantum number. Related to electric charge by Q = I_3 + Y/2.'
+  - Y(L) = -1, Y(e_R) = -2, Y(Q_L) = 1/3, Y(u_R) = 4/3, Y(d_R) = -2/3.
+  hardness: canonical
+
+- canonical_id: qty.color_charge
+  symbol: 'r, g, b'
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: color_charge
+  role: quantum_number
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'SU(3)_C gauge quantum number. Three values (r, g, b) for quarks and gluons; color singlet (white) for all hadrons and leptons.'
+  - Confinement: only color-neutral states observed as free particles.
+  hardness: canonical
+
+- canonical_id: qty.generation
+  symbol: 'g'
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: fermion_generation
+  role: quantum_number
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'g in {1, 2, 3} labels the three fermion generations. g=1: (e, nu_e, u, d). g=2: (mu, nu_mu, c, s). g=3: (tau, nu_tau, t, b).'
+  - Generations are replicas with identical gauge quantum numbers, differing only in mass (Yukawa couplings).
+  hardness: canonical
+
+- canonical_id: qty.higgs_vev
+  symbol: 'v'
+  dimension: '[M L^2 T^-2]'
+  si_unit: GeV
+  equivalence_class: higgs_vacuum_expectation_value
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - v ~ 246 GeV. Sets the electroweak scale. M_W = g*v/2, M_Z = sqrt(g^2 + g'^2)*v/2.
+  - 'Determined from muon lifetime (Fermi constant G_F = 1/(sqrt(2)*v^2)).'
+  hardness: canonical
+
+- canonical_id: qty.weak_mixing_angle
+  symbol: 'theta_W'
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: weinberg_angle
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - 'sin^2(theta_W) ~ 0.231. Defines the mixing between W^3 and B gauge bosons: Z = cos(theta_W)*W^3 - sin(theta_W)*B, photon = sin(theta_W)*W^3 + cos(theta_W)*B.'
+  - 'g = e/sin(theta_W), g'' = e/cos(theta_W).'
+  hardness: canonical
+
+- canonical_id: cst.speed_of_light
+  symbol: c
+  dimension: '[L T⁻¹]'
+  si_unit: m s⁻¹
+  equivalence_class: physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - c = 2.99792458 x 10^8 m/s (exact, SI 2019 defining constant).
+  - Same dimension as ordinary velocity [L T⁻¹] but physical identity is a constant — cannot be monotonically propagated
+    as a variable.
+  - 'Boundary of causal structure: superluminal propagation violates causality.'
+  hardness: canonical
+- canonical_id: cst.reduced_planck
+  symbol: hbar
+  dimension: '[M L² T⁻¹]'
+  si_unit: J s
+  equivalence_class: physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - hbar = h/(2pi) = 1.054571817... x 10⁻³4 J s (exact, h is SI 2019 defining constant).
+  - Same dimension as action and angular momentum [M L² T⁻¹] but physical identity is a constant.
+  - hbar -> 0 recovers classical mechanics. Nonzero hbar is the structural root of QM.
+  hardness: canonical
+- canonical_id: cst.boltzmann
+  symbol: k_B
+  dimension: '[M L² T⁻² Θ⁻¹]'
+  si_unit: J K⁻¹
+  equivalence_class: physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - k_B = 1.380649 x 10⁻²3 J/K (exact, SI 2019 defining constant).
+  - Temperature <-> energy conversion factor. Same dimension as entropy and heat capacity but physically a constant.
+  - k_B T sets the energy scale in statistical mechanics.
+  hardness: canonical
+- canonical_id: cst.gravitational
+  symbol: G
+  dimension: '[M⁻¹ L³ T⁻²]'
+  si_unit: m³ kg⁻¹ s⁻²
+  equivalence_class: physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - G = 6.67430(15) x 10⁻¹1 m³ kg⁻¹ s⁻² (least precise fundamental constant, 2.2e-5 relative uncertainty).
+  - NOT an SI defining constant — still measured experimentally.
+  - 'Linked to Planck length: l_P = sqrt(hbar*G/c³).'
+  hardness: canonical
+- canonical_id: cst.elementary_charge
+  symbol: e
+  dimension: '[T I]'
+  si_unit: C
+  equivalence_class: physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - e = 1.602176634 x 10⁻¹9 C (exact, SI 2019 defining constant).
+  - Charge quantization unit — all free-particle charges are integer multiples of e.
+  - 'Fine-structure constant: alpha = e²/(4*pi*epsilon0*hbar*c) ~ 1/137.036.'
+  hardness: canonical
+- canonical_id: cst.vacuum_permittivity
+  symbol: epsilon0
+  dimension: '[M⁻¹ L⁻³ T⁴ I²]'
+  si_unit: F m⁻¹
+  equivalence_class: physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when:
+  - vacuum
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - epsilon0 = 8.8541878188(14) x 10⁻¹2 F/m (not exact, post-SI-2019 derived from alpha).
+  - c = 1/sqrt(epsilon0*mu0) — intrinsic property of vacuum.
+  hardness: canonical
+- canonical_id: cst.vacuum_permeability
+  symbol: mu0
+  dimension: '[M L T⁻² I⁻²]'
+  si_unit: N A⁻²
+  equivalence_class: physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when:
+  - vacuum
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - mu0 = 1.25663706127(20) x 10^-6 N/A² (not exact, post-SI-2019 derived from alpha).
+  - Magnetic permeability of free space.
+  hardness: canonical
+- canonical_id: cst.gas_constant
+  symbol: R
+  dimension: '[M L² T⁻² Θ⁻¹ N⁻¹]'
+  si_unit: J mol⁻¹ K⁻¹
+  equivalence_class: physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - R = 8.314462618 J mol⁻¹ K⁻¹ (exact, R = N_A*k_B, both SI defining constants).
+  - Ideal gas constant — PV = nRT.
+  hardness: canonical
+- canonical_id: cst.avogadro
+  symbol: N_A
+  dimension: '[N⁻¹]'
+  si_unit: mol⁻¹
+  equivalence_class: physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - N_A = 6.02214076 x 10²3 mol⁻¹ (exact, SI 2019 defining constant).
+  - 'Conversion factor: microscopic particle count <-> macroscopic amount of substance.'
+  hardness: canonical
+- canonical_id: cst.fine_structure
+  symbol: alpha
+  dimension: '[1]'
+  si_unit: ''
+  equivalence_class: physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - alpha = e²/(4*pi*epsilon0*hbar*c) ~ 1/137.036 (dimensionless). Electromagnetic interaction strength.
+  - Same numerical value in any unit system — a truly dimensionless constant.
+  - Uncertainty 1.5 x 10⁻¹0 — one of the most precisely measured physical constants.
+  hardness: canonical
+- canonical_id: cst.planck_length
+  symbol: l_P
+  dimension: '[L]'
+  si_unit: m
+  equivalence_class: derived_physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - l_P = sqrt(hbar*G/c³) ~ 1.616255(18) x 10⁻³5 m.
+  - Same dimension as ordinary length [L] but physical identity is a boundary — six independent arguments place minimal measurable
+    length at this scale.
+  - NOT interchangeable with qty.length — ACCIDENTAL_COLLISION warning.
+  hardness: canonical
+- canonical_id: cst.planck_mass
+  symbol: m_P
+  dimension: '[M]'
+  si_unit: kg
+  equivalence_class: derived_physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - m_P = sqrt(hbar*c/G) ~ 2.176434(24) x 10^-8 kg (~22 micrograms — NOT a tiny value!).
+  - The Planck mass is surprisingly large (dust-grain scale).
+  hardness: canonical
+- canonical_id: cst.planck_time
+  symbol: t_P
+  dimension: '[T]'
+  si_unit: s
+  equivalence_class: derived_physical_constant
+  role: physical_constant
+  monotonic_direction: null
+  valid_when: []
+  invalid_when: []
+  bridge_to: {}
+  caveats:
+  - t_P = l_P/c ~ 5.391247(60) x 10⁻⁴4 s.
+  - Shortest physically meaningful time interval.
+  hardness: canonical

@@ -1,0 +1,217 @@
+# ═══════════════════════════════════════════════════════════════
+# Sci-hf 物理声明 — Kernel + Contingent + Laws + Corollaries
+# ═══════════════════════════════════════════════════════════════
+#
+# 三层结构：
+#   [kernel]     — 不可推导的物理内核，任何物理宇宙的框架
+#   [contingent] — 我们这个宇宙的经验事实
+#   [law]        — 从 kernel + contingent 推导的有效定律
+#   [corollary]  — 从 law 推导的推论
+
+# ── 词汇声明 ──────────────────────────────────────────────────
+
+Q(time, [T], time)
+Q(length, [L], geometric_length)
+Q(mass, [M], inertial_mass)
+Q(velocity, [L·T⁻¹], velocity)
+Q(acceleration, [L·T⁻²], acceleration)
+Q(momentum, [M·L·T⁻¹], momentum)
+Q(force, [M·L·T⁻²], force)
+Q(energy, [M·L²·T⁻²], energy)
+Q(action, [M·L²·T⁻¹], action)
+Q(angular_momentum, [M·L²·T⁻¹], angular_momentum)
+Q(pressure, [M·L⁻¹·T⁻²], pressure)
+Q(volume, [L³], volume)
+Q(temperature, [Θ], thermodynamic_temperature)
+Q(entropy, [M·L²·T⁻²·Θ⁻¹], entropy)
+Q(internal_energy, [M·L²·T⁻²], thermodynamic_internal_energy)
+Q(electric_charge, [T·I], electric_charge)
+Q(electric_field, [M·L·T⁻³·I⁻¹], electric_field)
+Q(magnetic_field, [M·T⁻²·I⁻¹], magnetic_flux_density)
+Q(current_density, [L⁻²·I], current_density)
+Q(charge_density, [L⁻³·T·I], charge_density)
+Q(spin, [1], quantum_spin)
+Q(probability_density, [L⁻³], quantum_probability_density)
+Q(state_vector, [1], quantum_state)
+Q(gravitational_mass, [M], gravitational_mass)
+Q(spacetime_interval, [L²], spacetime_interval)
+Q(metric_tensor, [1], metric_tensor)
+Q(einstein_tensor, [L⁻²], einstein_tensor)
+Q(stress_energy_tensor, [M·L⁻¹·T⁻²], stress_energy_tensor)
+Q(color_charge, [1], color_charge)
+Q(weak_isospin, [1], weak_isospin)
+Q(weak_hypercharge, [1], weak_hypercharge)
+Q(generation, [1], fermion_generation)
+Q(higgs_vev, [M·L²·T⁻²], higgs_vacuum_expectation_value)
+
+C(inertial_frame, reference_frame)
+C(thermal_equilibrium, physical_regime)
+C(isolated_system, system_boundary)
+C(conservative_force, force_type)
+C(classical_limit, quantum_classical_boundary)
+C(quantum_regime, quantum_classical_boundary)
+C(relativistic_regime, velocity_regime)
+C(vacuum, medium_condition)
+C(macroscopic_limit, scale_regime)
+C(zero_temperature_limit, temperature_range)
+
+# ── 常量 ──────────────────────────────────────────────────────
+
+Q(c, [L·T⁻¹], physical_constant)
+Q(ħ, [M·L²·T⁻¹], physical_constant)
+Q(k_B, [M·L²·T⁻²·Θ⁻¹], physical_constant)
+Q(G, [M⁻¹·L³·T⁻²], physical_constant)
+Q(ε₀, [M⁻¹·L⁻³·T⁴·I²], physical_constant)
+Q(μ₀, [M·L·T⁻²·I⁻²], physical_constant)
+
+# ═══════════════════════════════════════════════════════════════
+# 内核层 [kernel] — 不可推导的物理框架
+# ═══════════════════════════════════════════════════════════════
+
+# ── K1: 最小作用量原理 ──
+
+[kernel] δS = 0
+
+# ── K2: 对称性 → 守恒律 (Noether) ──
+
+[law] d(E)/d(t) = 0 | time_translation_invariance
+        ← law.noether_theorem
+
+[law] d(P)/d(t) = 0 | space_translation_invariance, isolated_system
+        ← law.noether_theorem
+
+[law] d(L)/d(t) = 0 | rotational_invariance, isolated_system
+        ← law.noether_theorem
+
+# ── K3: 量子公设 ──
+
+[law] braket(ψ,ψ) = 1 | quantum_regime
+        ← kernel.superposition_principle
+
+[kernel] i·ħ·∂(ket(ψ))/∂(t) = H·ket(ψ) | quantum_regime, isolated_system
+
+[kernel] comm(x, p) = i·ħ | quantum_regime
+
+[kernel] P = braket(ψ,ψ) | quantum_regime
+
+[kernel] ket(ψ(r₁,s₁;r₂,s₂)) = −ket(ψ(r₂,s₂;r₁,s₁)) | quantum_regime
+
+# ── K4: 相对论原理 ──
+
+[kernel] Δs² = c²·Δt² − |Δr|² | inertial_frame
+
+[kernel] m_i = m_g  (等效原理)
+
+[kernel] spatial_dim = 3, temporal_dim = 1
+
+[rule] 未经实验证实的理论不是可信理论；不能作为 kernel 判据
+
+# ── K5: 热力学 ──
+
+[kernel] ΔS ≥ 0 | isolated_system, macroscopic_limit
+
+[kernel] S = k_B · ln(W) | macroscopic_limit, thermal_equilibrium
+
+# ── K6: 因果性 ──
+
+[kernel] Δs² ≤ 0 → 无因果关联 | relativistic_regime
+
+# ═══════════════════════════════════════════════════════════════
+# 经验层 [contingent] — 我们这个宇宙的经验事实
+# ═══════════════════════════════════════════════════════════════
+
+[contingent] gauge_group = SU(3)×SU(2)×U(1)
+
+[contingent] fermion_generation = 3
+
+[contingent] Higgs 机制: SU(2)_L × U(1)_Y → U(1)_EM  at v ≈ 246 GeV
+
+# ═══════════════════════════════════════════════════════════════
+# 定律层 [law] — 从内核推导的有效定律
+# ═══════════════════════════════════════════════════════════════
+
+# ── 经典力学 ──
+
+[law] F = 0 → d(v)/d(t) = 0
+      | inertial_frame, classical_limit
+      ← kernel.least_action
+
+[law] F = d(p)/d(t)
+      | inertial_frame, classical_limit
+      ← kernel.least_action, law.euler_lagrange
+
+[law] F₁₂ = −(F₂₁)
+      | inertial_frame
+      ← law.noether_theorem
+
+[law] F₁₂ = −(G·m₁·m₂/r^2)·r̂
+      | classical_limit, weak_field_limit
+
+# ── 电磁学 ──
+
+[law] ∇·(E) = ρ_q / ε₀
+      ← kernel.gauge_interactions
+
+[law] ∇·(B) = 0
+
+[law] ∇×(E) = −∂(B)/∂(t)
+
+[law] ∇×(B) = μ₀·J + μ₀·ε₀·∂(E)/∂(t)
+
+[law] F = q·(E + v×B)
+
+# ── 量子力学 ──
+
+[law] i·ħ·∂(ψ)/∂(t) = −(ħ^2/(2·m))·∇²(ψ) + V·ψ
+      | quantum_regime
+
+[law] E = h·ν
+
+[law] λ = h / p
+
+[law] σ_x·σ_p ≥ ħ/2
+
+# ── 热力学 ──
+
+[law] T_A = T_B, T_B = T_C → T_A = T_C | thermal_equilibrium
+
+[law] dU = T·dS − P·dV | thermal_equilibrium
+      ← law.noether_theorem, kernel.boltzmann_entropy
+
+[law] S → 0 | T → 0
+
+[law] P·V = n·R·T | thermal_equilibrium, classical_limit
+      ← law.first_law_thermo, kernel.boltzmann_entropy
+
+# ── 相对论 ──
+
+[law] t = γ·(t₀ − v·x/c^2)
+      x = γ·(x₀ − v·t)
+      γ = 1 / (1 − v^2/c^2)^(1/2)
+      | relativistic_regime
+
+[law] E^2 = p^2·c^2 + m^2·c^4
+
+[law] G_μν + Λ·g_μν = (8·π·G/c^4)·T_μν
+      | relativistic_regime
+
+[law] ∂_μ T^μν = 0 | isolated_system
+
+[law] ∂_μ J = 0
+
+[law] ∇²(E) = (1/c^2)·∂²(E)/∂(t)^2
+      ∇²(B) = (1/c^2)·∂²(B)/∂(t)^2
+      | vacuum
+
+# ═══════════════════════════════════════════════════════════════
+# 推论层 [corollary]
+# ═══════════════════════════════════════════════════════════════
+
+[corollary] T^2 ∝[+] r^3
+            ← law.newton_second, law.newton_gravitation
+
+[corollary] f(E) = 1 / (exp((E − μ)/(k_B·T)) + 1)
+            ← kernel.pauli_exclusion, kernel.boltzmann_entropy
+
+[corollary] f(E) = 1 / (exp((E − μ)/(k_B·T)) − 1)
+            ← kernel.superposition_principle, kernel.boltzmann_entropy

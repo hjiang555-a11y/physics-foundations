@@ -1,0 +1,297 @@
+# ─────────────────────────────────────────────────────────────────
+# Sci-hf 内核框架 — Kernel Frameworks
+# ─────────────────────────────────────────────────────────────────
+#
+# 内核层 (kernel)：物理理论推导图的根节点。
+# 这些原理不可从更深层原理推导，是有效定律的逻辑前提。
+# reference/rules.md 的 R1–R6 是物理世界最底层的 6 条核心原则，不等同于本文件全部 kernel.*。
+#
+# 分层：
+#   kernel       — 不可推导的物理公理，推导图的根
+#   mathematical — 从 kernel + 数学推出的定理（如 Noether）
+#   structural   — 约束定律形式的元规则（如量纲一致性）
+#
+# 注意：Euler-Lagrange 方程已移至 effective_laws（数学推论，非公理）
+#       Standard Model 仍在 contingent.yaml；3+1 时空维度是靠近核心的 kernel 内容。
+# ─────────────────────────────────────────────────────────────────
+
+# ═════════════════════════════════════════════════════════════════
+# K1: 最小作用量原理  Principle of Least Action
+# ═════════════════════════════════════════════════════════════════
+
+kernels:
+
+  - id: kernel.least_action
+    relation: >
+      The actual path taken by a physical system between two states
+      extremizes the action integral: δS = δ∫L dt = 0.
+      Applies across classical, quantum (path integral), and field theory.
+      The Lagrangian L encodes the complete dynamics of the system.
+    quantities:
+      - qty.action
+    scope: []
+    provenance: "Hamilton (1834-35); Feynman Lectures Vol.II Ch.19; Landau & Lifshitz Mechanics §2"
+    hardness: kernel
+    layer: kernel
+
+# ═════════════════════════════════════════════════════════════════
+# K2: 对称性与规范不变性  Symmetry & Gauge Invariance
+# ═════════════════════════════════════════════════════════════════
+
+  - id: kernel.gauge_interactions
+    relation: >
+      Requiring local gauge invariance of a Lagrangian — i.e., invariance under
+      ψ → exp(iα(x))ψ — forces the introduction of a gauge field A_μ that
+      transforms as A_μ → A_μ + ∂_μ α. This gauge field mediates interactions.
+      The field strength F_μν = ∂_μ A_ν − ∂_ν A_μ encodes the force.
+    quantities:
+      - qty.action
+    scope: []
+    provenance: "Weyl (1929); Yang & Mills (1954); Gross PNAS 93, 14256 (1996)"
+    hardness: kernel
+    layer: kernel
+
+# ═════════════════════════════════════════════════════════════════
+# K3: 量子力学公设  Quantum Mechanics Postulates
+# ═════════════════════════════════════════════════════════════════
+
+  - id: kernel.superposition_principle
+    relation: >
+      A quantum state is a vector in a complex Hilbert space.
+      Any linear combination of legal states is also a legal state:
+      |ψ⟩ = Σᵢ αᵢ|ψᵢ⟩.
+    quantities:
+      - qty.state_vector
+      - qty.complex_amplitude
+    scope:
+      - quantum_regime
+    provenance: "Dirac, Principles of QM (1930); Feynman Lectures Vol.III"
+    hardness: kernel
+    layer: kernel
+
+  - id: kernel.operator_observable
+    relation: >
+      Physical observables correspond to Hermitian operators.
+      Measurement outcomes are eigenvalues of the corresponding operator.
+    quantities:
+      - qty.state_vector
+      - qty.quantum_number
+    scope:
+      - quantum_regime
+    provenance: "Dirac (1930); von Neumann (1932)"
+    hardness: kernel
+    layer: kernel
+
+  - id: kernel.unitary_evolution
+    relation: >
+      Time evolution of an isolated quantum system is unitary:
+      |ψ(t)⟩ = U(t,t₀)|ψ(t₀)⟩, where U†U = UU† = I.
+      The Hamiltonian H is the generator of time translations:
+      U(t) = exp(−iHt/ℏ). This preserves total probability.
+      (The coordinate representation iℏ·∂ψ/∂t = Hψ is the effective law
+      law.schroedinger_equation, not the kernel statement.)
+    quantities:
+      - qty.state_vector
+      - cst.reduced_planck
+      - qty.time
+    scope:
+      - quantum_regime
+      - isolated_system
+    provenance: "Schrödinger, Ann.Phys. 79, 361 (1926); Dirac (1930)"
+    hardness: kernel
+    layer: kernel
+
+  - id: kernel.canonical_commutation
+    relation: >
+      Canonically conjugate variables satisfy [x, p] = iℏ.
+      This is the structural divide between quantum and classical physics.
+    quantities:
+      - qty.length
+      - qty.momentum
+      - cst.reduced_planck
+    scope:
+      - quantum_regime
+    provenance: "Heisenberg Z.Phys. 43, 172 (1927); Dirac (1930)"
+    hardness: kernel
+    layer: kernel
+
+  - id: kernel.born_rule
+    relation: >
+      Probability of measurement outcome = squared modulus of amplitude:
+      P = |ψ|² = ⟨ψ|ψ⟩.
+    quantities:
+      - qty.probability_density
+      - qty.state_vector
+    scope:
+      - quantum_regime
+    provenance: "Born Z.Phys. 37, 863 (1926)"
+    hardness: kernel
+    layer: kernel
+
+  - id: kernel.pauli_exclusion
+    relation: >
+      Multi-fermion wavefunction is totally antisymmetric under exchange:
+      ψ(r₁,s₁; r₂,s₂) = −ψ(r₂,s₂; r₁,s₁).
+      No two identical fermions occupy the same quantum state.
+    quantities:
+      - qty.spin
+      - qty.state_vector
+    scope:
+      - quantum_regime
+    provenance: "Pauli Z.Phys. 31, 765 (1925); independent postulate in non-relativistic QM; derivable in QFT from spin-statistics theorem"
+    hardness: kernel
+    layer: kernel
+    note: "In non-relativistic QM this is a postulate. In QFT it follows from the spin-statistics theorem (microscopic causality + Lorentz invariance)."
+
+# ═════════════════════════════════════════════════════════════════
+# K4: 相对论原理  Relativity Principles
+# ═════════════════════════════════════════════════════════════════
+
+  - id: kernel.light_speed_invariance
+    relation: >
+      The speed of light in vacuum c is the same in all inertial frames.
+      It is the maximum speed of causal influence.
+    quantities:
+      - cst.speed_of_light
+    scope: []
+    provenance: "Einstein Ann.Phys. 17, 891 (1905); Michelson-Morley (1887)"
+    hardness: kernel
+    layer: kernel
+
+  - id: kernel.equivalence_principle
+    relation: >
+      Inertial mass equals gravitational mass: mᵢ = m_g.
+      Locally, a gravitational field is indistinguishable from acceleration.
+    quantities:
+      - qty.mass
+      - qty.gravitational_mass
+    scope: []
+    provenance: "Einstein Jb.Radioakt. 4, 411 (1907); Will Living Rev.Relativ. 17, 4 (2014)"
+    hardness: kernel
+    layer: kernel
+
+  - id: kernel.general_covariance
+    relation: >
+      Physical laws take the same form in all coordinate systems.
+      Consequence: gravity = spacetime curvature, described by a metric g_μν.
+      The specific field equations (Einstein) follow from combining general
+      covariance with kernel.least_action.
+    quantities:
+      - qty.metric_tensor
+    scope: []
+    provenance: "Einstein (1915); Weinberg Gravitation and Cosmology (1972)"
+    hardness: kernel
+    layer: kernel
+
+  - id: kernel.lorentz_invariance
+    relation: >
+      The spacetime interval Δs² = c²Δt² − |Δr|² is invariant under
+      transformations between inertial frames.
+      Consequence 1: The Lorentz transformations t′=γ(t−vx/c²), x′=γ(x−vt)
+      preserve this interval.
+      Consequence 2 (causality): Spacelike separated events (Δs² < 0)
+      cannot have causal influence on each other.
+      Together these define the causal structure of spacetime.
+    quantities:
+      - qty.spacetime_interval
+      - cst.speed_of_light
+      - qty.time
+      - qty.length
+    scope: []
+    provenance: "Einstein (1905); Minkowski (1908)"
+    hardness: kernel
+    layer: kernel
+
+  - id: kernel.spacetime_dimensionality
+    relation: >
+      The observed physical spacetime has three extended spatial dimensions
+      and one temporal dimension: spatial_dim(D) = 3, temporal_dim = 1.
+      This is a basic premise / rule for dimension-specific formulas in this
+      corpus, not a result derived from later calculations. Unverified theories
+      with extra compact dimensions (for example 10/11-dimensional string or
+      M-theory candidates) cannot be used as criteria to demote this kernel
+      premise.
+    quantities:
+      - qty.time
+      - qty.length
+    scope: []
+    provenance: "Observed macroscopic spacetime; Ehrenfest (1917); Whitrow (1955)"
+    hardness: kernel
+    layer: kernel
+
+# ═════════════════════════════════════════════════════════════════
+# K5: 热力学第二定律  Second Law of Thermodynamics
+# ═════════════════════════════════════════════════════════════════
+
+  - id: kernel.second_law
+    relation: >
+      The entropy of an isolated system never decreases: ΔS ≥ 0.
+      All natural processes proceed in the direction of increasing total entropy.
+    direction: "+"
+    quantities:
+      - qty.entropy
+    scope:
+      - isolated_system
+      - macroscopic_limit
+    provenance: "Clausius (1850); Boltzmann S = k·ln(W) (1877)"
+    hardness: kernel
+    layer: kernel
+
+  - id: kernel.boltzmann_entropy
+    relation: >
+      Entropy is proportional to the logarithm of accessible microstates:
+      S = k_B · ln(W). Statistical foundation of the second law.
+    direction: "+"
+    quantities:
+      - qty.entropy
+      - cst.boltzmann
+    scope:
+      - macroscopic_limit
+      - thermal_equilibrium
+    provenance: "Boltzmann (1872-1875); Planck (1900)"
+    hardness: kernel
+    layer: kernel
+
+# ═════════════════════════════════════════════════════════════════
+# 结构性元规则  Structural Meta-Rules
+# ═════════════════════════════════════════════════════════════════
+
+structural_rules:
+
+  - id: rule.dimensional_consistency
+    relation: >
+      Two quantities can appear in an equation, sum, or difference iff their
+      dimension vectors are equal. dim(A·B) = dim(A) + dim(B).
+      dim(A/B) = dim(A) − dim(B). This is a purely algebraic constraint.
+    quantities: []
+    scope: []
+    provenance: "BIPM SI Brochure 9th ed. §2.3.3; ISO/IEC 80000-1"
+    hardness: structural
+    layer: rule
+
+  - id: rule.conservation_continuity
+    relation: >
+      Every conserved quantity has a local continuity equation:
+      ∂_μ J^μ = 0.
+      Energy: ∂_μ T^μν = 0; Charge: ∇·J + ∂ρ/∂t = 0.
+    quantities:
+      - qty.energy
+      - qty.momentum
+      - qty.electric_charge
+      - qty.probability_density
+    scope: []
+    provenance: "Goldstein §1.2; Jackson §5.2; Griffiths §8.1"
+    hardness: structural
+    layer: rule
+
+  - id: rule.empirical_verification_boundary
+    relation: >
+      A theory not confirmed by experiment is not a trusted theory for this
+      corpus. Unverified theoretical frameworks may be recorded as context,
+      but they cannot serve as adjudicating criteria for kernel placement or
+      override empirically established, non-inferable kernel premises.
+    quantities: []
+    scope: []
+    provenance: "Sci-hf kernel construction principle"
+    hardness: structural
+    layer: rule

@@ -1,0 +1,1151 @@
+claims:
+- id: qty.time
+  statement: dim=[T], class=time
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.length
+  statement: dim=[L], class=geometric_length
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.mass
+  statement: dim=[M], class=inertial_mass
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.velocity
+  statement: dim=[L T⁻¹], class=velocity
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.acceleration
+  statement: dim=[L T⁻²], class=acceleration
+  about: []
+  under:
+  - inertial_frame
+  layer: quantity
+  _from: []
+- id: qty.momentum
+  statement: dim=[M L T⁻¹], class=momentum
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.force
+  statement: dim=[M L T⁻²], class=force
+  about: []
+  under:
+  - inertial_frame
+  layer: quantity
+  _from: []
+- id: qty.energy
+  statement: dim=[M L² T⁻²], class=energy
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.action
+  statement: dim=[M L² T⁻¹], class=action
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.angular_momentum
+  statement: dim=[M L² T⁻¹], class=angular_momentum
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.torque
+  statement: dim=[M L² T⁻²], class=torque
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.power
+  statement: dim=[M L² T⁻³], class=power
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.angular_velocity
+  statement: dim=[T⁻¹], class=angular_velocity
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.density
+  statement: dim=[M L⁻³], class=mass_density
+  about: []
+  under:
+  - continuous_medium
+  - macroscopic_limit
+  layer: quantity
+  _from: []
+- id: qty.pressure
+  statement: dim=[M L⁻¹ T⁻²], class=pressure
+  about: []
+  under:
+  - thermal_equilibrium
+  layer: quantity
+  _from: []
+- id: qty.gravitational_mass
+  statement: dim=[M], class=gravitational_mass
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.electric_charge
+  statement: dim=[T I], class=electric_charge
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.electric_current
+  statement: dim=[I], class=electric_current
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.electric_field
+  statement: dim=[M L T⁻³ I⁻¹], class=electric_field
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.magnetic_field
+  statement: dim=[M T⁻² I⁻¹], class=magnetic_flux_density
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.magnetic_field_strength
+  statement: dim=[L⁻¹ I], class=magnetic_field_strength
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.electric_potential
+  statement: dim=[M L² T⁻³ I⁻¹], class=electric_potential
+  about: []
+  under:
+  - electrostatic_regime
+  layer: quantity
+  _from: []
+- id: qty.magnetic_vector_potential
+  statement: dim=[M L T⁻² I⁻¹], class=magnetic_vector_potential
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.current_density
+  statement: dim=[L⁻² I], class=current_density
+  about: []
+  under:
+  - macroscopic_limit
+  layer: quantity
+  _from: []
+- id: qty.charge_density
+  statement: dim=[L⁻³ T I], class=charge_density
+  about: []
+  under:
+  - macroscopic_limit
+  layer: quantity
+  _from: []
+- id: qty.magnetic_flux
+  statement: dim=[M L² T⁻² I⁻¹], class=magnetic_flux
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.temperature
+  statement: dim=[Θ], class=thermodynamic_temperature
+  about: []
+  under:
+  - thermal_equilibrium
+  layer: quantity
+  _from: []
+- id: qty.entropy
+  statement: dim=[M L² T⁻² Θ⁻¹], class=entropy
+  about: []
+  under:
+  - thermal_equilibrium
+  - macroscopic_limit
+  layer: quantity
+  _from: []
+- id: qty.volume
+  statement: dim=[L³], class=volume
+  about: []
+  under:
+  - macroscopic_limit
+  layer: quantity
+  _from: []
+- id: qty.amount_of_substance
+  statement: dim=[N], class=amount_of_substance
+  about: []
+  under:
+  - macroscopic_limit
+  layer: quantity
+  _from: []
+- id: qty.heat
+  statement: dim=[M L² T⁻²], class=heat
+  about: []
+  under:
+  - thermal_equilibrium
+  layer: quantity
+  _from: []
+- id: qty.internal_energy
+  statement: dim=[M L² T⁻²], class=thermodynamic_internal_energy
+  about: []
+  under:
+  - thermal_equilibrium
+  layer: quantity
+  _from: []
+- id: qty.work
+  statement: dim=[M L² T⁻²], class=work
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.heat_capacity
+  statement: dim=[M L² T⁻² Θ⁻¹], class=heat_capacity
+  about: []
+  under:
+  - thermal_equilibrium
+  layer: quantity
+  _from: []
+- id: qty.state_vector
+  statement: dim=[1], class=quantum_state
+  about: []
+  under:
+  - quantum_regime
+  layer: quantity
+  _from: []
+- id: qty.wave_function
+  statement: dim=[L^(-3/2)], class=quantum_wave_function
+  about: []
+  under:
+  - quantum_regime
+  layer: quantity
+  _from: []
+- id: qty.probability_density
+  statement: dim=[L⁻³], class=quantum_probability_density
+  about: []
+  under:
+  - quantum_regime
+  layer: quantity
+  _from: []
+- id: qty.spin
+  statement: dim=[1], class=quantum_spin
+  about: []
+  under:
+  - quantum_regime
+  layer: quantity
+  _from: []
+- id: qty.quantum_number
+  statement: dim=[1], class=quantum_number
+  about: []
+  under:
+  - quantum_regime
+  layer: quantity
+  _from: []
+- id: qty.complex_amplitude
+  statement: dim=[1], class=quantum_complex_amplitude
+  about: []
+  under:
+  - quantum_regime
+  layer: quantity
+  _from: []
+- id: qty.spacetime_interval
+  statement: dim=[L²], class=spacetime_interval
+  about: []
+  under:
+  - relativistic_regime
+  layer: quantity
+  _from: []
+- id: qty.lorentz_factor
+  statement: dim=[1], class=lorentz_factor
+  about: []
+  under:
+  - relativistic_regime
+  layer: quantity
+  _from: []
+- id: qty.four_momentum
+  statement: dim=[M L T⁻¹], class=four_momentum
+  about: []
+  under:
+  - relativistic_regime
+  layer: quantity
+  _from: []
+- id: qty.stress_energy_tensor
+  statement: dim=[M L⁻¹ T⁻²], class=stress_energy_tensor
+  about: []
+  under:
+  - relativistic_regime
+  - macroscopic_limit
+  layer: quantity
+  _from: []
+- id: qty.einstein_tensor
+  statement: dim=[L⁻²], class=einstein_tensor
+  about: []
+  under:
+  - relativistic_regime
+  layer: quantity
+  _from: []
+- id: qty.metric_tensor
+  statement: dim=[1], class=metric_tensor
+  about: []
+  under:
+  - relativistic_regime
+  layer: quantity
+  _from: []
+- id: qty.ricci_scalar
+  statement: dim=[L⁻²], class=ricci_scalar
+  about: []
+  under:
+  - relativistic_regime
+  layer: quantity
+  _from: []
+- id: qty.cosmological_constant
+  statement: dim=[L⁻²], class=cosmological_constant
+  about: []
+  under:
+  - relativistic_regime
+  layer: quantity
+  _from: []
+- id: qty.weak_isospin
+  statement: dim=[1], class=weak_isospin
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.weak_hypercharge
+  statement: dim=[1], class=weak_hypercharge
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.color_charge
+  statement: dim=[1], class=color_charge
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.generation
+  statement: dim=[1], class=fermion_generation
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.higgs_vev
+  statement: dim=[M L^2 T^-2], class=higgs_vacuum_expectation_value
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: qty.weak_mixing_angle
+  statement: dim=[1], class=weinberg_angle
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: cst.speed_of_light
+  statement: dim=[L T⁻¹], class=physical_constant
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: cst.reduced_planck
+  statement: dim=[M L² T⁻¹], class=physical_constant
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: cst.boltzmann
+  statement: dim=[M L² T⁻² Θ⁻¹], class=physical_constant
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: cst.gravitational
+  statement: dim=[M⁻¹ L³ T⁻²], class=physical_constant
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: cst.elementary_charge
+  statement: dim=[T I], class=physical_constant
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: cst.vacuum_permittivity
+  statement: dim=[M⁻¹ L⁻³ T⁴ I²], class=physical_constant
+  about: []
+  under:
+  - vacuum
+  layer: quantity
+  _from: []
+- id: cst.vacuum_permeability
+  statement: dim=[M L T⁻² I⁻²], class=physical_constant
+  about: []
+  under:
+  - vacuum
+  layer: quantity
+  _from: []
+- id: cst.gas_constant
+  statement: dim=[M L² T⁻² Θ⁻¹ N⁻¹], class=physical_constant
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: cst.avogadro
+  statement: dim=[N⁻¹], class=physical_constant
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: cst.fine_structure
+  statement: dim=[1], class=physical_constant
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: cst.planck_length
+  statement: dim=[L], class=derived_physical_constant
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: cst.planck_mass
+  statement: dim=[M], class=derived_physical_constant
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: cst.planck_time
+  statement: dim=[T], class=derived_physical_constant
+  about: []
+  under: []
+  layer: quantity
+  _from: []
+- id: inertial_frame
+  statement: reference_frame
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: classical_limit
+  statement: quantum_classical_boundary
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: relativistic_regime
+  statement: velocity_regime
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: non_relativistic_limit
+  statement: velocity_regime
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: thermal_equilibrium
+  statement: physical_regime
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: isolated_system
+  statement: system_boundary
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: conservative_force
+  statement: force_type
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: electrostatic_regime
+  statement: electromagnetic_regime
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: magnetostatic_regime
+  statement: electromagnetic_regime
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: vacuum
+  statement: medium_condition
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: linear_medium
+  statement: medium_condition
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: macroscopic_limit
+  statement: scale_regime
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: point_particle_approximation
+  statement: model_approximation
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: quantum_regime
+  statement: quantum_classical_boundary
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: weak_field_limit
+  statement: gravitational_regime
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: continuous_medium
+  statement: model_approximation
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: steady_state
+  statement: temporal_condition
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: low_temperature_limit
+  statement: temperature_range
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: zero_temperature_limit
+  statement: temperature_range
+  about: []
+  under: []
+  layer: condition
+  _from: []
+- id: kernel.least_action
+  statement: 'The actual path taken by a physical system between two states extremizes the action integral: delta S = delta
+    integral L dt = 0'
+  about:
+  - qty.action
+  under:
+  - classical_limit
+  layer: kernel
+  _from: []
+- id: law.euler_lagrange
+  statement: 'The condition delta S = 0 yields the Euler-Lagrange equation: d/dt(partial L / partial q-dot) - partial L /
+    partial q = 0'
+  about:
+  - qty.action
+  under:
+  - classical_limit
+  - conservative_force
+  layer: kernel
+  _from: []
+- id: law.noether_theorem
+  statement: 'Every continuous symmetry of the action corresponds to a conserved current. For transformations q_i -> q_i +
+    epsilon*Q_i that leave the action invariant, Q = sum_i (partial L / partial q-dot_i)*Q_i - F is conserved: dQ/dt = 0'
+  about:
+  - qty.action
+  - qty.energy
+  - qty.momentum
+  - qty.angular_momentum
+  - qty.electric_charge
+  under: []
+  layer: law
+  _from:
+  - kernel.least_action
+  - kernel.spacetime_dimensionality
+- id: law.noether_conservation_examples
+  statement: Time-translation invariance -> energy conservation; Space-translation invariance -> momentum conservation; Rotational
+    invariance -> angular momentum conservation; U(1) gauge invariance -> electric charge conservation
+  about:
+  - qty.energy
+  - qty.momentum
+  - qty.angular_momentum
+  - qty.electric_charge
+  under: []
+  layer: law
+  _from:
+  - law.noether_theorem
+- id: kernel.gauge_interactions
+  statement: 'Gauge symmetry determines fundamental interactions: U(1) -> electromagnetism (photon); SU(2) -> weak force (W+,
+    W-, Z0); SU(3) -> strong force (gluons)'
+  about:
+  - qty.electric_charge
+  under: []
+  layer: kernel
+  _from: []
+- id: kernel.superposition_principle
+  statement: 'A quantum state is described by a complex vector in a Hilbert space: |psi> = alpha*|psi1> + beta*|psi2>. Any
+    linear combination of legal states is also a legal state'
+  about:
+  - qty.state_vector
+  - qty.complex_amplitude
+  under:
+  - quantum_regime
+  layer: kernel
+  _from: []
+- id: kernel.operator_observable
+  statement: Physical observables correspond to Hermitian operators. Measurement outcomes are eigenvalues of the corresponding
+    operator
+  about:
+  - qty.state_vector
+  - qty.quantum_number
+  under:
+  - quantum_regime
+  layer: kernel
+  _from: []
+- id: kernel.unitary_evolution
+  statement: 'The time evolution of an isolated quantum system is unitary: i*hbar*d(psi)/dt = H*psi (Schroedinger equation).
+    This preserves total probability: sum_i P_i = 1'
+  about:
+  - qty.state_vector
+  - cst.reduced_planck
+  - qty.time
+  under:
+  - quantum_regime
+  - isolated_system
+  layer: kernel
+  _from: []
+- id: kernel.canonical_commutation
+  statement: Canonically conjugate variables satisfy [x, p] = i*hbar. This is the structural divide between quantum and classical
+    physics
+  about:
+  - qty.length
+  - qty.momentum
+  - cst.reduced_planck
+  under:
+  - quantum_regime
+  layer: kernel
+  _from: []
+- id: kernel.born_rule
+  statement: 'The probability of a measurement outcome is given by the squared modulus of the state amplitude: P = |psi|^2'
+  about:
+  - qty.probability_density
+  - qty.state_vector
+  under:
+  - quantum_regime
+  layer: kernel
+  _from: []
+- id: kernel.pauli_exclusion
+  statement: 'A multi-fermion wave function is totally antisymmetric under particle exchange: psi(r1,s1; r2,s2) = -psi(r2,s2;
+    r1,s1). No two identical fermions can occupy the same quantum state simultaneously'
+  about:
+  - qty.spin
+  - qty.state_vector
+  under:
+  - quantum_regime
+  layer: kernel
+  _from: []
+- id: kernel.light_speed_invariance
+  statement: The speed of light in vacuum c = 2.99792458 x 10^8 m/s is the same in all inertial reference frames. It is the
+    maximum speed of causal influence
+  about:
+  - cst.speed_of_light
+  under: []
+  layer: kernel
+  _from: []
+- id: kernel.equivalence_principle
+  statement: 'Inertial mass equals gravitational mass: m_i = m_g. Locally, it is impossible to distinguish a gravitational
+    field from an accelerated reference frame'
+  about:
+  - qty.mass
+  - qty.gravitational_mass
+  under: []
+  layer: kernel
+  _from: []
+- id: kernel.general_covariance
+  statement: 'Physical laws take the same form in all coordinate systems. Consequence: gravity = spacetime curvature, described
+    by the Einstein field equations'
+  about:
+  - qty.metric_tensor
+  - qty.einstein_tensor
+  - qty.stress_energy_tensor
+  under:
+  - relativistic_regime
+  layer: kernel
+  _from: []
+- id: kernel.lorentz_invariance
+  statement: The spacetime interval Delta_s^2 = c^2*Delta_t^2 - |Delta_r|^2 is invariant under transformations between inertial
+    frames. This defines the causal structure of spacetime
+  about:
+  - qty.spacetime_interval
+  - cst.speed_of_light
+  - qty.time
+  - qty.length
+  under:
+  - relativistic_regime
+  layer: kernel
+  _from: []
+- id: kernel.second_law
+  statement: 'The entropy of an isolated system never decreases: Delta_S >= 0. All natural processes proceed in the direction
+    of increasing total entropy'
+  about:
+  - qty.entropy
+  under:
+  - isolated_system
+  - macroscopic_limit
+  layer: kernel
+  _from: []
+- id: kernel.boltzmann_entropy
+  statement: 'Entropy is proportional to the logarithm of the number of accessible microstates: S = k_B * ln(W). This provides
+    the statistical foundation for the second law'
+  about:
+  - qty.entropy
+  - cst.boltzmann
+  under:
+  - macroscopic_limit
+  - thermal_equilibrium
+  layer: kernel
+  _from: []
+  _from: []
+- id: kernel.spacetime_dimensionality
+  # Rationale: unverified extra-dimensional theories cannot demote this non-inferable kernel premise.
+  statement: spatial_dim(D)=3, temporal_dim=1; basic kernel premise/rule for dimension-specific formulas, not derived from later calculations
+  about:
+  - qty.time
+  - qty.length
+  under: []
+  layer: kernel
+  _from: []
+- id: contingent.sm_gauge_group
+  statement: gauge_group=SU(3)_C × SU(2)_L × U(1)_Y
+  about:
+  - qty.color_charge
+  - qty.weak_isospin
+  - qty.weak_hypercharge
+  under: []
+  layer: kernel
+  _from: []
+- id: contingent.sm_fermion_content
+  statement: '3 generations of chiral fermions: Q_L(3,2,1/6), u_R(3,1,2/3), d_R(3,1,-1/3), L_L(1,2,-1/2), e_R(1,1,-1). Antiparticles
+    form conjugate representations'
+  about:
+  - qty.generation
+  - qty.color_charge
+  - qty.weak_isospin
+  - qty.weak_hypercharge
+  under: []
+  layer: kernel
+  _from: []
+- id: contingent.sm_higgs_sector
+  statement: 'One complex scalar SU(2)_L doublet phi with Y=1. Spontaneous symmetry breaking: SU(2)_L × U(1)_Y → U(1)_EM at
+    v ~ 246 GeV. Three Goldstone bosons become longitudinal W^+/-, Z modes; one physical Higgs boson h remains'
+  about:
+  - qty.higgs_vev
+  - qty.weak_mixing_angle
+  - qty.electric_charge
+  under: []
+  layer: kernel
+  _from: []
+- id: rule.conservation_continuity
+  statement: 'Every conserved quantity has a local continuity equation of the form partial_mu*J^mu = 0. Energy: partial_mu*T^mu_nu
+    = 0; Charge: div(J) + partial_rho/partial_t = 0; Probability: div(j) + partial|psi|^2/partial_t = 0'
+  about:
+  - qty.energy
+  - qty.momentum
+  - qty.electric_charge
+  - qty.probability_density
+  under: []
+  layer: rule
+  _from: []
+- id: rule.empirical_verification_boundary
+  # Implication: such theories cannot override empirically established non-inferable kernel premises.
+  statement: Experimentally unconfirmed theories are not trusted adjudicators for kernel placement
+  about: []
+  under: []
+  layer: rule
+  _from: []
+- id: rule.dimensional_consistency
+  statement: 'Two quantities can appear in an equation, sum, or difference if and only if their dimension vectors are equal:
+    dim(A) = dim(B). Multiplication: dim(A*B) = dim(A) + dim(B). Division: dim(A/B) = dim(A) - dim(B)'
+  about: []
+  under: []
+  layer: rule
+  _from: []
+- id: law.newton_first
+  statement: 'In the absence of net external force, an object maintains its state of uniform motion: F = 0 implies dv/dt =
+    0'
+  about:
+  - qty.force
+  - qty.velocity
+  - qty.time
+  under:
+  - inertial_frame
+  - classical_limit
+  layer: law
+  _from:
+  - kernel.least_action
+- id: law.newton_second
+  statement: 'The net force on an object equals the rate of change of its momentum: F = dp/dt. For constant mass: F = ma'
+  about:
+  - qty.force
+  - qty.momentum
+  - qty.mass
+  - qty.acceleration
+  - qty.time
+  under:
+  - inertial_frame
+  - classical_limit
+  layer: law
+  _from:
+  - kernel.least_action
+  - law.euler_lagrange
+- id: law.newton_third
+  statement: F_12 = -F_21; weak form (equal opposite) universal; strong form (collinear) fails in EM
+  about:
+  - qty.force
+  - qty.momentum
+  under:
+  - inertial_frame
+  - classical_limit
+  layer: law
+  _from:
+  - law.noether_theorem
+  - law.noether_theorem
+- id: law.newton_gravitation
+  statement: F_12 = -G*m1*m2/r^2 * r-hat
+  about:
+  - qty.force
+  - qty.gravitational_mass
+  - cst.gravitational
+  - qty.length
+  under:
+  - classical_limit
+  - weak_field_limit
+  - point_particle_approximation
+  layer: law
+  _from:
+  - kernel.equivalence_principle
+  - kernel.general_covariance
+- id: law.gauss_electric
+  statement: div(E) = rho_q / epsilon0
+  about:
+  - qty.electric_field
+  - qty.charge_density
+  - cst.vacuum_permittivity
+  under:
+  - electrostatic_regime
+  layer: law
+  _from:
+  - kernel.gauge_interactions
+  - kernel.least_action
+  - kernel.lorentz_invariance
+- id: law.gauss_magnetic
+  statement: div(B) = 0
+  about:
+  - qty.magnetic_field
+  under: []
+  layer: law
+  _from:
+  - kernel.gauge_interactions
+- id: law.faraday_induction
+  statement: curl(E) = -dB/dt
+  about:
+  - qty.electric_field
+  - qty.magnetic_field
+  - qty.time
+  under: []
+  layer: law
+  _from:
+  - kernel.gauge_interactions
+- id: law.ampere_maxwell
+  statement: curl(B) = mu0*J + mu0*epsilon0*dE/dt
+  about:
+  - qty.magnetic_field
+  - qty.current_density
+  - qty.electric_field
+  - cst.vacuum_permeability
+  - cst.vacuum_permittivity
+  - qty.time
+  under: []
+  layer: law
+  _from:
+  - kernel.gauge_interactions
+  - rule.conservation_continuity
+- id: law.lorentz_force
+  statement: F = q*(E + v x B)
+  about:
+  - qty.force
+  - qty.electric_charge
+  - qty.electric_field
+  - qty.magnetic_field
+  - qty.velocity
+  under:
+  - classical_limit
+  - point_particle_approximation
+  layer: law
+  _from:
+  - kernel.gauge_interactions
+- id: law.schroedinger_equation
+  statement: i*hbar*d(psi)/dt = -(hbar^2/(2m))*del^2(psi) + V*psi
+  about:
+  - qty.wave_function
+  - cst.reduced_planck
+  - qty.time
+  - qty.mass
+  - qty.energy
+  under:
+  - quantum_regime
+  - non_relativistic_limit
+  layer: law
+  _from:
+  - kernel.unitary_evolution
+  - kernel.canonical_commutation
+- id: law.energy_frequency
+  statement: E = h*nu
+  about:
+  - qty.energy
+  - cst.reduced_planck
+  under:
+  - quantum_regime
+  layer: law
+  _from:
+  - kernel.canonical_commutation
+- id: law.de_broglie_wavelength
+  statement: lambda = h/p
+  about:
+  - qty.length
+  - qty.momentum
+  - cst.reduced_planck
+  under:
+  - quantum_regime
+  layer: law
+  _from:
+  - law.energy_frequency
+- id: law.uncertainty_principle
+  statement: sigma_x*sigma_p >= hbar/2; Delta_E*Delta_t >= hbar/2
+  about:
+  - qty.length
+  - qty.momentum
+  - cst.reduced_planck
+  - qty.energy
+  - qty.time
+  under:
+  - quantum_regime
+  layer: law
+  _from:
+  - kernel.canonical_commutation
+- id: law.zeroth_law
+  statement: T_A = T_B and T_B = T_C implies T_A = T_C
+  about:
+  - qty.temperature
+  under:
+  - thermal_equilibrium
+  layer: law
+  _from:
+  - kernel.second_law
+  - kernel.boltzmann_entropy
+- id: law.first_law_thermo
+  statement: dU = T*dS - P*dV + mu*dN
+  about:
+  - qty.internal_energy
+  - qty.heat
+  - qty.work
+  - qty.temperature
+  - qty.entropy
+  - qty.pressure
+  - qty.volume
+  under:
+  - thermal_equilibrium
+  layer: law
+  _from:
+  - law.noether_theorem
+  - kernel.boltzmann_entropy
+- id: law.third_law_thermo
+  statement: S -> 0 as T -> 0 (perfect crystal, non-degenerate ground state)
+  about:
+  - qty.entropy
+  - qty.temperature
+  under:
+  - zero_temperature_limit
+  layer: law
+  _from:
+  - kernel.boltzmann_entropy
+  - kernel.superposition_principle
+- id: law.ideal_gas
+  statement: PV = nRT
+  about:
+  - qty.pressure
+  - qty.volume
+  - qty.amount_of_substance
+  - cst.gas_constant
+  - qty.temperature
+  under:
+  - thermal_equilibrium
+  - macroscopic_limit
+  - classical_limit
+  layer: law
+  _from:
+  - law.first_law_thermo
+  - kernel.boltzmann_entropy
+- id: law.lorentz_transform
+  statement: t' = gamma*(t - v*x/c^2), x' = gamma*(x - v*t), gamma = 1/sqrt(1 - v^2/c^2)
+  about:
+  - qty.time
+  - qty.length
+  - qty.velocity
+  - cst.speed_of_light
+  - qty.lorentz_factor
+  under:
+  - inertial_frame
+  - relativistic_regime
+  layer: law
+  _from:
+  - kernel.light_speed_invariance
+  - kernel.lorentz_invariance
+- id: law.mass_energy
+  statement: 'E^2 = p^2*c^2 + m^2*c^4; rest frame: E = m*c^2'
+  about:
+  - qty.energy
+  - qty.mass
+  - qty.momentum
+  - cst.speed_of_light
+  under:
+  - relativistic_regime
+  layer: law
+  _from:
+  - kernel.lorentz_invariance
+- id: law.einstein_field
+  statement: G_munu + Lambda*g_munu = (8*pi*G/c^4)*T_munu
+  about:
+  - qty.einstein_tensor
+  - qty.stress_energy_tensor
+  - cst.gravitational
+  - cst.speed_of_light
+  - qty.cosmological_constant
+  - qty.metric_tensor
+  under:
+  - relativistic_regime
+  - macroscopic_limit
+  layer: law
+  _from:
+  - kernel.equivalence_principle
+  - kernel.general_covariance
+  - kernel.least_action
+- id: law.energy_conservation
+  statement: 'dE/dt = 0 (isolated); locally: partial_mu*T^munu = 0'
+  about:
+  - qty.energy
+  under:
+  - isolated_system
+  layer: law
+  _from:
+  - law.noether_theorem
+  - law.noether_theorem
+- id: law.momentum_conservation
+  statement: 'dP/dt = 0 (isolated); locally: partial_mu*T^mui = 0'
+  about:
+  - qty.momentum
+  under:
+  - isolated_system
+  - inertial_frame
+  layer: law
+  _from:
+  - law.noether_theorem
+  - law.noether_theorem
+- id: law.angular_momentum_conservation
+  statement: dL/dt = 0 (isolated, central forces)
+  about:
+  - qty.angular_momentum
+  under:
+  - isolated_system
+  layer: law
+  _from:
+  - law.noether_theorem
+  - law.noether_theorem
+- id: law.charge_conservation
+  statement: 'partial_mu*J^mu = 0; globally: dQ/dt = 0'
+  about:
+  - qty.electric_charge
+  - qty.charge_density
+  - qty.current_density
+  - qty.time
+  under: []
+  layer: law
+  _from:
+  - law.noether_theorem
+  - kernel.gauge_interactions
+- id: law.em_wave_equation
+  statement: del^2(E) = (1/c^2)*d^2(E)/dt^2; del^2(B) = (1/c^2)*d^2(B)/dt^2; c = 1/sqrt(epsilon0*mu0)
+  about:
+  - qty.electric_field
+  - qty.magnetic_field
+  - cst.speed_of_light
+  - cst.vacuum_permittivity
+  - cst.vacuum_permeability
+  - qty.time
+  - qty.length
+  under:
+  - vacuum
+  layer: law
+  _from:
+  - law.gauss_electric
+  - law.gauss_magnetic
+  - law.faraday_induction
+  - law.ampere_maxwell
+- id: cor.kepler_third
+  statement: T^2 ∝ r^3
+  about:
+  - qty.time
+  - qty.length
+  under:
+  - classical_limit
+  - point_particle_approximation
+  - conservative_force
+  layer: law
+  _from:
+  - law.newton_second
+  - law.newton_gravitation
+- id: cor.fermi_dirac
+  statement: f(E) = 1/(exp((E - mu)/(k_B*T)) + 1)
+  about:
+  - qty.energy
+  - qty.temperature
+  - cst.boltzmann
+  under:
+  - thermal_equilibrium
+  - quantum_regime
+  layer: law
+  _from:
+  - kernel.pauli_exclusion
+  - kernel.boltzmann_entropy
+- id: cor.bose_einstein
+  statement: f(E) = 1/(exp((E - mu)/(k_B*T)) - 1)
+  about:
+  - qty.energy
+  - qty.temperature
+  - cst.boltzmann
+  under:
+  - thermal_equilibrium
+  - quantum_regime
+  layer: law
+  _from:
+  - kernel.superposition_principle
+  - kernel.boltzmann_entropy

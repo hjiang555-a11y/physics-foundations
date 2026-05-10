@@ -1,0 +1,839 @@
+derivations:
+- id: deriv.euler_lagrange
+  premise:
+  - kernel.least_action
+  - kernel.spacetime_dimensionality
+  steps:
+  - Start from the action functional S = ∫L(q, q-dot, t) dt.
+  - Apply δS = 0 for variations with fixed endpoints.
+  - Integrate by parts to move derivatives off δq.
+  - Because δq is arbitrary, the integrand must vanish.
+  - Therefore d/dt(dL/dq-dot) - dL/dq = 0.
+  conclusion: law.euler_lagrange
+  mathematical_link: δ∫Ldt = 0 => d/dt(dL/dq-dot) - dL/dq = 0
+  validity_scope:
+  - classical_limit
+  - conservative_force
+  sources:
+  - Euler (1744)
+  - Lagrange (1788)
+  - Goldstein §2.1
+  reversible: true
+- id: deriv.noether_theorem
+  premise:
+  - kernel.least_action
+  - kernel.spacetime_dimensionality
+  steps:
+  - Start from an action S whose value is invariant under a continuous one-parameter
+    transformation.
+  - Apply the least-action condition to the transformed path and keep first-order
+    terms in the transformation parameter.
+  - Use integration by parts and the Euler-Lagrange on-shell condition to isolate
+    a total divergence or total time derivative.
+  - The total derivative defines the Noether current or charge associated with the
+    continuous symmetry.
+  - Therefore every continuous symmetry of the action corresponds to a conserved
+    current within the stated spacetime structure.
+  conclusion: law.noether_theorem
+  mathematical_link: continuous symmetry of S + delta S = 0 => conserved Noether current
+  validity_scope: []
+  sources:
+  - Noether (1918)
+  - Goldstein §12.7
+  reversible: true
+- id: deriv.newton_second
+  premise:
+  - kernel.least_action
+  - law.euler_lagrange
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Define Lagrangian L = T - U for classical particle: L = (1/2)*m*v^2 - V(r)'
+  - 'Apply Euler-Lagrange equation: d/dt(dL/dq-dot) - dL/dq = 0'
+  - 'For coordinate q = r: dL/dr-dot = m*v, dL/dr = -grad(V)'
+  - Therefore d(m*v)/dt = -grad(V)
+  - Define force F = -grad(V), yielding F = dp/dt
+  conclusion: law.newton_second
+  mathematical_link: d/dt(dL/dq-dot) - dL/dq = 0 => d(m*v)/dt = -grad(V)
+  validity_scope:
+  - classical_limit
+  - inertial_frame
+  - conservative_force
+  sources:
+  - Goldstein §1.4, §2.1
+  - Landau & Lifshitz §1, §2
+  reversible: true
+- id: deriv.newton_first
+  premise:
+  - kernel.least_action
+  - kernel.spacetime_dimensionality
+  steps:
+  - In the absence of external forces, V(r) = constant, so grad(V) = 0
+  - Lagrangian reduces to L = (1/2)*m*v^2 (free particle)
+  - Euler-Lagrange gives d(m*v)/dt = 0
+  - Therefore v = constant -> uniform rectilinear motion
+  conclusion: law.newton_first
+  mathematical_link: grad(V) = 0 => d(m*v)/dt = 0 => v = const
+  validity_scope:
+  - classical_limit
+  - inertial_frame
+  sources:
+  - Goldstein §1.1
+  - Landau & Lifshitz §3
+  reversible: true
+- id: deriv.newton_third
+  premise:
+  - law.noether_theorem
+  - kernel.spacetime_dimensionality
+  steps:
+  - Space-translation invariance of the action => momentum conservation via Noether's
+    theorem
+  - 'For two-body interaction: dP_total/dt = 0 => p1 + p2 = constant'
+  - 'Differentiating: dp1/dt + dp2/dt = 0 => F12 + F21 = 0'
+  - Therefore F_12 = -F_21 (equal magnitude, opposite direction)
+  conclusion: law.newton_third
+  mathematical_link: Space-translation symmetry -> d(m1*v1 + m2*v2)/dt = 0 -> F12
+    + F21 = 0
+  validity_scope:
+  - classical_limit
+  - inertial_frame
+  sources:
+  - Goldstein §12.7
+  - Noether (1918)
+  reversible: true
+- id: deriv.newton_gravitation
+  premise:
+  - kernel.equivalence_principle
+  - kernel.general_covariance
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Start from Einstein field equations: G_munu = (8*pi*G/c^4)*T_munu'
+  - 'Take weak-field limit: g_munu = eta_munu + h_munu with |h_munu| << 1'
+  - 'Low-velocity limit: v << c'
+  - 'Static field: time derivatives vanish'
+  - 'The (0,0) component reduces to Poisson equation: del^2(phi) = 4*pi*G*rho'
+  - 'Spherically symmetric solution: phi = -G*M/r'
+  - 'Force on test particle: F = -m*grad(phi) = -G*m*M/r^2'
+  conclusion: law.newton_gravitation
+  mathematical_link: 'GR weak-field limit: G_00 = (8*pi*G/c^4)*T_00 => del^2(phi)
+    = 4*pi*G*rho => F = -G*m*M/r^2'
+  validity_scope:
+  - weak_field_limit
+  - non_relativistic_limit
+  sources:
+  - Weinberg Gravitation and Cosmology §3.1
+  - Misner, Thorne & Wheeler §17.4
+  reversible: false
+- id: deriv.maxwell_from_gauge
+  premise:
+  - kernel.gauge_interactions
+  - kernel.least_action
+  - kernel.lorentz_invariance
+  - kernel.spacetime_dimensionality
+  steps:
+  - Define U(1) gauge field A_mu with field strength F_munu = partial_mu*A_nu - partial_nu*A_mu
+  - 'Construct gauge-invariant Lagrangian: L = -(1/4)*F_munu*F^munu (Maxwell Lagrangian)'
+  - Apply least action principle to Lagrangian + matter coupling term J^mu*A_mu
+  - 'Varying A_mu yields Euler-Lagrange form: partial_mu*F^munu = J^nu'
+  - 'The nu=0 component gives Gauss law: div(E) = rho_q'
+  - 'The nu=1,2,3 components give Ampere-Maxwell law: curl(B) = J + partial(E)/partial(t)'
+  - 'Bianchi identity on F_munu gives the homogeneous pair: div(B) = 0, curl(E) =
+    -partial(B)/partial(t)'
+  conclusion: law.ampere_maxwell
+  mathematical_link: delta_S/delta_A_mu = 0 => partial_mu*F^munu = J^nu => div(E)=rho,
+    curl(B)=J+E-dot
+  validity_scope:
+  - classical_limit
+  sources:
+  - Jackson §12.2
+  - Peskin & Schroeder §15.1
+  - Gross PNAS 93, 14256 (1996)
+  reversible: true
+- id: deriv.lorentz_force
+  premise:
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Minimal coupling prescription: p_mu -> p_mu - q*A_mu in particle Lagrangian'
+  - 'Classical particle Lagrangian with EM coupling: L = (1/2)*m*v^2 - q*phi + q*v·A'
+  - 'Euler-Lagrange yields canonical momentum: p_can = m*v + q*A'
+  - 'Force: F = dp_can/dt = -q*grad(phi) - q*partial(A)/partial(t) + q*v×curl(A)'
+  - Recognizing E = -grad(phi) - partial(A)/partial(t) and B = curl(A)
+  - Therefore F = q*(E + v×B)
+  conclusion: law.lorentz_force
+  mathematical_link: Euler-Lagrange + minimal coupling => F = q*(E + v×B)
+  validity_scope:
+  - classical_limit
+  sources:
+  - Jackson §12.1
+  - Goldstein §1.5
+  reversible: true
+- id: deriv.gauss_electric
+  premise:
+  - kernel.gauge_interactions
+  - kernel.least_action
+  - kernel.lorentz_invariance
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Maxwell Lagrangian: L = -(1/4)*F_munu*F^munu + J^mu*A_mu'
+  - 'Euler-Lagrange for A_mu: partial_mu*F^munu = J^nu'
+  - 'Take nu=0 component: partial_i*F^{i0} = J^0 = rho_q'
+  - F^{i0} = -E^i, so -partial_i*E^i = rho_q
+  - 'In vector notation: div(E) = rho_q/epsilon0'
+  conclusion: law.gauss_electric
+  mathematical_link: partial_mu*F^{mu 0} = J^0 => div(E) = rho_q/epsilon0
+  validity_scope:
+  - electrostatic_regime
+  sources:
+  - Jackson §12.2
+  - Griffiths §2.2
+  reversible: true
+- id: deriv.gauss_magnetic
+  premise:
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality
+  steps:
+  - F_munu = partial_mu*A_nu - partial_nu*A_mu (definition of field strength)
+  - 'Bianchi identity: partial_lambda*F_munu + partial_mu*F_nulambda + partial_nu*F_lambdamu
+    = 0'
+  - Take spatial components only (lambda,mu,nu = 1,2,3)
+  - partial_i*F_jk + partial_j*F_ki + partial_k*F_ij = 0
+  - F_ij = epsilon_ijk*B^k, so partial_i*B^i = 0
+  - 'In vector notation: div(B) = 0'
+  conclusion: law.gauss_magnetic
+  mathematical_link: F = dA => dF = 0 (Bianchi) => div(B) = 0
+  validity_scope: []
+  sources:
+  - Jackson §5.7
+  - Nakahara §10.1.2
+  - Geometric identity from F = dA
+  reversible: true
+- id: deriv.faraday_induction
+  premise:
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Bianchi identity: partial_lambda*F_munu + partial_mu*F_nulambda + partial_nu*F_lambdamu
+    = 0'
+  - Take one time and two spatial indices (0,i,j)
+  - partial_0*F_ij + partial_i*F_j0 + partial_j*F_0i = 0
+  - F_ij = epsilon_ijk*B^k, F_i0 = E^i
+  - partial(epsilon_ijk*B^k)/partial_t + partial_i*E_j - partial_j*E_i = 0
+  - 'In vector notation: curl(E) = -partial(B)/partial(t)'
+  conclusion: law.faraday_induction
+  mathematical_link: dF = 0 (Bianchi) => curl(E) = -dB/dt
+  validity_scope: []
+  sources:
+  - Jackson §5.15
+  - Feynman II Ch.17
+  - Geometric identity from F = dA
+  reversible: true
+- id: deriv.schroedinger_equation
+  premise:
+  - kernel.operator_observable
+  - kernel.unitary_evolution
+  - kernel.canonical_commutation
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Unitary evolution postulate: i*hbar*d|psi>/dt = H|psi>'
+  - 'Position representation: |psi> -> psi(r) = <r|psi>'
+  - Energy operator H = p^2/(2m) + V(r)
+  - 'Momentum representation in position basis: p -> -i*hbar*grad (from [x,p] = i*hbar)'
+  - Therefore H = -(hbar^2/(2m))*del^2 + V(r)
+  - 'Yields: i*hbar*partial(psi)/partial(t) = [-(hbar^2/(2m))*del^2 + V(r)]*psi(r,t)'
+  conclusion: law.schroedinger_equation
+  mathematical_link: i*hbar*d/dt|psi> = H|psi>, p -> -i*hbar*grad => i*hbar*psi-dot
+    = -(hbar^2/2m)*del^2(psi) + V*psi
+  validity_scope:
+  - quantum_regime
+  - non_relativistic_limit
+  sources:
+  - Dirac Principles of QM §22
+  - Feynman Lectures Vol.III Ch.16
+  reversible: true
+- id: deriv.uncertainty_principle
+  premise:
+  - kernel.canonical_commutation
+  - kernel.born_rule
+  - kernel.operator_observable
+  - kernel.spacetime_dimensionality
+  steps:
+  - Start with [x, p] = i*hbar
+  - 'Robertson-Schroedinger inequality: sigma_A*sigma_B >= |<[A,B]>|/2'
+  - 'For A = x, B = p: sigma_x*sigma_p >= hbar/2'
+  - Equality holds for Gaussian wave packets (coherent states — minimum uncertainty
+    states)
+  - 'Energy-time form: from [H, t] not well-defined (time is parameter, not operator);
+    instead use d<A>/dt relation'
+  - 'For energy: Delta_E*Delta_t >= hbar/2 (Mandelstam-Tamm bound)'
+  conclusion: law.uncertainty_principle
+  mathematical_link: '[x,p]=i*hbar -> sigma_x*sigma_p >= hbar/2 (Kennard 1927)'
+  validity_scope:
+  - quantum_regime
+  sources:
+  - Heisenberg Z.Phys. 43, 172 (1927)
+  - Kennard Z.Phys. 44, 326 (1927)
+  - Griffiths QM §3.5
+  reversible: false
+- id: deriv.energy_frequency
+  premise:
+  - kernel.canonical_commutation
+  steps:
+  - 'Quantize the harmonic oscillator: H = p^2/(2m) + (1/2)*m*omega^2*x^2'
+  - 'Define ladder operators: a = sqrt(m*omega/(2*hbar))*x + i*sqrt(1/(2*m*hbar*omega))*p'
+  - From [x,p]=i*hbar -> [a, a-dagger] = 1
+  - 'Hamiltonian: H = hbar*omega*(a-dagger*a + 1/2)'
+  - 'Eigenvalues: E_n = hbar*omega*(n + 1/2) = h*nu*(n + 1/2)'
+  - 'Photon energy quantum: E = h*nu'
+  conclusion: law.energy_frequency
+  mathematical_link: '[a, a-dagger]=1 => E_n = hbar*omega*(n+1/2) => E = h*nu'
+  validity_scope:
+  - quantum_regime
+  sources:
+  - Dirac Principles of QM §34
+  - Griffiths QM §2.3
+  reversible: true
+- id: deriv.de_broglie_wavelength
+  premise:
+  - law.energy_frequency
+  steps:
+  - 'Photon: E = h*nu, p = E/c => p = h*nu/c = h/lambda'
+  - Therefore lambda = h/p for photons
+  - 'de Broglie hypothesis (1924): this relation holds for ALL matter, not just photons'
+  - 'Experimental verification: Davisson-Germer (1927) electron diffraction'
+  - The generalization is empirical — it is not logically forced by E=h*nu alone
+  conclusion: law.de_broglie_wavelength
+  mathematical_link: E=h*nu, p=E/c (photon) => lambda = h/p => generalized to all
+    matter
+  validity_scope:
+  - quantum_regime
+  sources:
+  - de Broglie (1924)
+  - Davisson & Germer (1927)
+  - Eisberg & Resnick §3.1
+  reversible: true
+- id: deriv.energy_conservation
+  premise:
+  - law.noether_theorem
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Time-translation symmetry of the action: S[q(t+epsilon)] = S[q(t)]'
+  - 'Noether''s theorem: continuous symmetry -> conserved charge'
+  - 'Generator of time translations: Hamiltonian H = p*dq/dt - L'
+  - dH/dt = -(partial L / partial t)
+  - 'If L has no explicit time dependence: dH/dt = 0'
+  - Therefore energy E = H = constant for isolated systems
+  conclusion: law.energy_conservation
+  mathematical_link: dL/dt = 0 => dH/dt = 0 => E = constant
+  validity_scope:
+  - isolated_system
+  - conservative_force
+  sources:
+  - Noether (1918)
+  - Goldstein §12.7
+  reversible: true
+- id: deriv.momentum_conservation
+  premise:
+  - law.noether_theorem
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Space-translation symmetry: S[r+epsilon] = S[r] for uniform translation'
+  - 'Noether charge for translations: P = dL/dr-dot = sum_i m_i*v_i'
+  - dP/dt = sum_i d(m_i*v_i)/dt = sum_i F_i
+  - 'For isolated system, zero net external force: dP/dt = 0'
+  - Therefore total momentum P = constant
+  conclusion: law.momentum_conservation
+  mathematical_link: delta(r) = epsilon => Q = p => dp/dt = 0 for isolated system
+  validity_scope:
+  - isolated_system
+  - inertial_frame
+  sources:
+  - Noether (1918)
+  - Goldstein §12.7
+  reversible: true
+- id: deriv.angular_momentum_conservation
+  premise:
+  - law.noether_theorem
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Rotational symmetry: S[theta+epsilon] = S[theta]'
+  - 'Noether charge for rotations: L = r × p'
+  - dL/dt = r × dp/dt + dr/dt × p = r × F + v × (m*v) = r × F
+  - 'For central forces (F parallel to r): r × F = 0'
+  - Therefore angular momentum L = constant for isolated systems with central forces
+  conclusion: law.angular_momentum_conservation
+  mathematical_link: Rotation invariance -> Q = r×p => dL/dt = tau; zero net torque
+    => L = constant
+  validity_scope:
+  - isolated_system
+  sources:
+  - Noether (1918)
+  - Goldstein §12.7
+  reversible: true
+- id: deriv.charge_conservation
+  premise:
+  - law.noether_theorem
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'The Lagrangian for a charged field psi is invariant under U(1) gauge transformation:
+    psi -> exp(i*alpha)*psi'
+  - The conserved Noether current is J^mu = i*e*(psi-dagger*partial^mu*psi - psi*partial^mu*psi-dagger)
+  - Noether's theorem => partial_mu*J^mu = 0
+  - 'Integrate over spatial volume: integral div(J)*d^3r = -integral partial_rho/partial(t)*d^3r'
+  - 'Using Gauss theorem: surface integral of J·dA = -dQ/dt'
+  - 'For isolated system (no flux through surface at infinity): dQ/dt = 0 -> Q = constant'
+  conclusion: law.charge_conservation
+  mathematical_link: U(1) gauge symmetry -> partial_mu*J^mu = 0 -> dQ/dt = 0
+  validity_scope: []
+  sources:
+  - Jackson §5.2
+  - Noether (1918)
+  - Peskin & Schroeder §2.2
+  reversible: true
+- id: deriv.thermo_first_law
+  premise:
+  - law.energy_conservation
+  - kernel.boltzmann_entropy
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Energy conservation: dU = dQ - dW (total energy change = heat in - work out)'
+  - 'Reversible process: dQ_rev = T*dS (definition of thermodynamic entropy)'
+  - 'Mechanical work on simple fluid: dW = P*dV'
+  - 'Substituting: dU = T*dS - P*dV'
+  - 'Generalization with chemical potential and particle number: dU = T*dS - P*dV
+    + mu*dN'
+  - U is a state function => dU is an exact differential
+  conclusion: law.first_law_thermo
+  mathematical_link: dU = dQ - dW, dQ_rev = TdS, dW = PdV => dU = TdS - PdV
+  validity_scope:
+  - thermal_equilibrium
+  - macroscopic_limit
+  sources:
+  - Clausius (1850)
+  - Pathria & Beale §1.3
+  - Fermi Thermodynamics Ch.2
+  reversible: true
+- id: deriv.ideal_gas
+  premise:
+  - law.first_law_thermo
+  - kernel.boltzmann_entropy
+  - kernel.spacetime_dimensionality
+  steps:
+  - Start with a dilute gas in thermal equilibrium and the thermodynamic state variables P, V, n, T.
+  - Boltzmann counting gives the entropy of the dilute gas up to constants.
+  - Apply the first law and equation-of-state definitions to connect pressure and temperature derivatives.
+  - In the classical dilute limit, the resulting equation of state is P·V = n·R·T.
+  conclusion: law.ideal_gas
+  mathematical_link: first law + Boltzmann entropy + dilute classical limit => PV = nRT
+  validity_scope:
+  - thermal_equilibrium
+  - macroscopic_limit
+  - classical_limit
+  sources:
+  - Pathria & Beale §1.4
+  - Fermi Thermodynamics
+  reversible: false
+- id: deriv.thermo_third_law
+  premise:
+  - kernel.boltzmann_entropy
+  - kernel.superposition_principle
+  steps:
+  - 'Boltzmann entropy: S = k_B*ln(W), where W = number of accessible microstates'
+  - At T->0, a perfect crystal occupies its quantum ground state
+  - 'If ground state is non-degenerate: exactly 1 microstate => W = 1'
+  - Therefore S = k_B*ln(1) = 0 as T -> 0
+  - 'Degenerate ground state: if g ground states are degenerate, S -> k_B*ln(g) >
+    0'
+  - This residual entropy is observed in systems with frustrated ground states (e.g.
+    water ice)
+  - Non-degenerate ground state requires quantum mechanics (discrete spectrum) — classical
+    systems would have S -> -infinity (Gibbs paradox avoidance)
+  conclusion: law.third_law_thermo
+  mathematical_link: S = k_B*ln(W), T->0 => W->1 => S->0 (non-degenerate ground state)
+  validity_scope:
+  - zero_temperature_limit
+  - quantum_regime
+  sources:
+  - Nernst (1906)
+  - Planck (1911)
+  - Pathria & Beale §3.6
+  - Simon (1937)
+  reversible: false
+- id: deriv.zeroth_law
+  premise:
+  - kernel.second_law
+  - kernel.boltzmann_entropy
+  steps:
+  - Two systems A and B in thermal contact reach equilibrium when their temperatures
+    equalize
+  - 'Temperature equality defines thermal equilibrium: T_A = T_B'
+  - If T_A = T_B and T_B = T_C, then T_A = T_C by transitivity of equality
+  - This transitivity is the zeroth law — it makes thermometry possible
+  - Zeroth law is logically prior to the first and second laws, hence the name
+  conclusion: law.zeroth_law
+  mathematical_link: T_A = T_B and T_B = T_C => T_A = T_C (transitivity of thermal
+    equilibrium)
+  validity_scope:
+  - thermal_equilibrium
+  - macroscopic_limit
+  sources:
+  - Fowler (1931, named retroactively)
+  - Zemansky §1.3
+  - Pathria & Beale §1.1
+  reversible: true
+- id: deriv.lorentz_transformation
+  premise:
+  - kernel.light_speed_invariance
+  - kernel.lorentz_invariance
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Postulate: c is invariant -> s^2 = c^2*t^2 - x^2 is Lorentz invariant'
+  - 'Linear transformation between inertial frames: x'' = A*x + B*t, t'' = C*x + D*t'
+  - 'Impose invariance of s^2: c^2*t''^2 - x''^2 = c^2*t^2 - x^2 for all x, t'
+  - Solve for coefficients A, B, C, D using standard configuration (origins coincide
+    at t=0)
+  - 'Result: t'' = gamma*(t - v*x/c^2), x'' = gamma*(x - v*t), with gamma = 1/sqrt(1
+    - v^2/c^2)'
+  conclusion: law.lorentz_transform
+  mathematical_link: c^2*t'^2 - x'^2 = c^2*t^2 - x^2 => t'=gamma*(t-v*x/c^2), x'=gamma*(x-v*t)
+  validity_scope:
+  - inertial_frame
+  - relativistic_regime
+  sources:
+  - Einstein Ann.Phys. 17, 891 (1905)
+  - French Special Relativity Ch.4
+  reversible: true
+- id: deriv.mass_energy_equivalence
+  premise:
+  - kernel.lorentz_invariance
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Define four-momentum: p^mu = (E/c, p) from the relativistic action'
+  - 'Lorentz invariant norm: p_mu*p^mu = m^2*c^2'
+  - 'Expand: (E/c)^2 - p^2 = m^2*c^2'
+  - 'Rearrange: E^2 = p^2*c^2 + m^2*c^4'
+  - 'In rest frame (p = 0): E = m*c^2'
+  conclusion: law.mass_energy
+  mathematical_link: p_mu*p^mu = m^2*c^2 => E^2 = p^2*c^2 + m^2*c^4 => E = m*c^2 (rest
+    frame)
+  validity_scope:
+  - relativistic_regime
+  sources:
+  - Einstein Ann.Phys. 18, 639 (1905)
+  - French Special Relativity Ch.7
+  reversible: true
+- id: deriv.einstein_field_equations
+  premise:
+  - kernel.equivalence_principle
+  - kernel.general_covariance
+  - kernel.least_action
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Einstein-Hilbert action: S = integral [R/(2*kappa) + L_matter]*sqrt(-g)*d^4x,
+    with kappa = 8*pi*G/c^4'
+  - 'Vary with respect to g^munu: delta(S) = 0'
+  - 'Variation of Ricci scalar: delta(sqrt(-g)*R) = sqrt(-g)*(R_munu - (1/2)*R*g_munu)*delta(g^munu)'
+  - 'Define Einstein tensor: G_munu = R_munu - (1/2)*R*g_munu'
+  - 'Define stress-energy tensor: T_munu = -(2/sqrt(-g))*delta(sqrt(-g)*L_matter)/delta(g^munu)'
+  - 'Result: G_munu = kappa*T_munu = (8*pi*G/c^4)*T_munu'
+  - 'Bianchi identity ensures: nabla_mu*G^munu = 0 -> automatic energy-momentum conservation'
+  conclusion: law.einstein_field
+  mathematical_link: delta(S_EH)/delta(g^munu) = 0 => G_munu = (8*pi*G/c^4)*T_munu
+  validity_scope:
+  - relativistic_regime
+  - macroscopic_limit
+  sources:
+  - Einstein (1915)
+  - Hilbert (1915)
+  - Weinberg Gravitation and Cosmology §7.1
+  reversible: true
+- id: deriv.em_wave_equation
+  premise:
+  - law.gauss_electric
+  - law.gauss_magnetic
+  - law.faraday_induction
+  - law.ampere_maxwell
+  - kernel.spacetime_dimensionality
+  steps:
+  - Start from Maxwell equations in vacuum (rho_q = 0, J = 0)
+  - 'Curl of Faraday law: curl(curl(E)) = -curl(partial(B)/partial(t))'
+  - 'Vector identity: curl(curl(E)) = grad(div(E)) - del^2(E)'
+  - Divergence of E is zero in vacuum (Gauss law with rho_q = 0)
+  - 'Right side: -partial(curl(B))/partial(t) = -partial(mu0*epsilon0*partial(E)/partial(t))/partial(t)
+    = -mu0*epsilon0*partial^2(E)/partial(t)^2'
+  - 'Therefore: del^2(E) = mu0*epsilon0*partial^2(E)/partial(t)^2'
+  - 'Identifying c = 1/sqrt(mu0*epsilon0): del^2(E) = (1/c^2)*partial^2(E)/partial(t)^2'
+  - Same derivation for B yields del^2(B) = (1/c^2)*partial^2(B)/partial(t)^2
+  conclusion: law.em_wave_equation
+  mathematical_link: curl(curl(E)) = -mu0*epsilon0*E-ddot => del^2(E) = (1/c^2)*E-ddot,
+    c = 1/sqrt(mu0*epsilon0)
+  validity_scope:
+  - vacuum
+  sources:
+  - Maxwell (1865)
+  - Feynman II Ch.18
+  - Griffiths §9.2
+  reversible: true
+- id: deriv.kepler_third
+  premise:
+  - law.newton_second
+  - law.newton_gravitation
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'For circular orbit: centripetal acceleration a = v^2/r'
+  - 'Newton second: F = m*a = m*v^2/r'
+  - 'Newton gravitation: F = G*m*M/r^2'
+  - 'Equate: m*v^2/r = G*m*M/r^2 => v^2 = G*M/r'
+  - 'Orbital period: T = 2*pi*r/v'
+  - Therefore T^2 = 4*pi^2*r^2/v^2 = 4*pi^2*r^2/(G*M/r) = (4*pi^2/(G*M))*r^3
+  - 'Result: T^2 proportional to r^3'
+  conclusion: cor.kepler_third
+  mathematical_link: v^2/r = G*M/r^2, T = 2*pi*r/v => T^2 = (4*pi^2/(G*M))*r^3
+  validity_scope:
+  - classical_limit
+  - point_particle_approximation
+  - conservative_force
+  sources:
+  - Newton Principia Book I Sect.III
+  - Goldstein §3.7
+  reversible: true
+- id: deriv.fermi_dirac_distribution
+  premise:
+  - kernel.pauli_exclusion
+  - kernel.boltzmann_entropy
+  steps:
+  - Start from Boltzmann entropy S = k_B*ln(W)
+  - 'Count microstates for fermions: each single-particle state can be occupied by
+    at most 1 particle (Pauli)'
+  - The occupation number n_i ∈ {0,1} (Pauli exclusion constraint)
+  - Maximize entropy subject to fixed N, E constraints using Lagrange multipliers
+  - 'Result: f(E) = 1/(exp((E - mu)/(k_B*T)) + 1)'
+  - The +1 in denominator is the direct consequence of the {0,1} occupation constraint
+  conclusion: cor.fermi_dirac
+  mathematical_link: n_i ∈ {0,1} => f(E) = 1/(exp(beta*(E-mu)) + 1)
+  validity_scope:
+  - thermal_equilibrium
+  - quantum_regime
+  sources:
+  - Fermi (1926)
+  - Dirac (1926)
+  - Pathria & Beale Statistical Mechanics §8.2
+  reversible: true
+- id: deriv.bose_einstein_distribution
+  premise:
+  - kernel.superposition_principle
+  - kernel.boltzmann_entropy
+  steps:
+  - Start from Boltzmann entropy S = k_B*ln(W)
+  - 'Count microstates for bosons: no restriction on occupation number (superposition
+    allows arbitrary n_i)'
+  - The occupation number n_i ∈ {0, 1, 2, ...}
+  - Maximize entropy subject to fixed N, E constraints using Lagrange multipliers
+  - 'Result: f(E) = 1/(exp((E - mu)/(k_B*T)) - 1)'
+  - The -1 in denominator leads to Bose-Einstein condensation when mu approaches the
+    ground-state energy at low T
+  conclusion: cor.bose_einstein
+  mathematical_link: n_i ∈ {0,1,2,...} => f(E) = 1/(exp(beta*(E-mu)) - 1)
+  validity_scope:
+  - thermal_equilibrium
+  - quantum_regime
+  sources:
+  - Bose (1924)
+  - Einstein (1925)
+  - Pathria & Beale Statistical Mechanics §8.1
+  reversible: true
+- id: deriv.inverse_square_law
+  premise:
+  - kernel.spacetime_dimensionality
+  - rule.dimensional_consistency
+  steps:
+  - 'Gauss law in D spatial dimensions: flux through (D-1)-sphere ∝ r^(D-1)'
+  - 'Force = gradient of potential: F ∝ 1/r^(D-1)'
+  - D=3 => F ∝ 1/r^2
+  conclusion: contingent.inverse_square_law
+  mathematical_link: D=3 => flux ∝ r^2 => F ∝ 1/r^2
+  validity_scope:
+  - classical_limit
+  sources:
+  - Ehrenfest (1917)
+  - Gauss law in D dimensions
+  reversible: false
+- id: deriv.so3_rotation_group
+  premise:
+  - kernel.spacetime_dimensionality
+  steps:
+  - In D spatial dimensions, rotation group is SO(D) with D(D-1)/2 generators
+  - 'D=3 => SO(3) with 3 generators: L_x, L_y, L_z'
+  - The Lie algebra so(3) has commutation [L_i, L_j] = i*epsilon_ijk*L_k
+  - 'Angular momentum quantization: L_z = m_l*hbar with (2l+1) eigenstates'
+  conclusion: contingent.so3_rotation_group
+  mathematical_link: D=3 => dim(SO(3)) = 3 => angular momentum has 3 components
+  validity_scope: []
+  sources:
+  - SO(D) group theory
+  - Goldstein §4.10
+  reversible: false
+- id: deriv.volume_dimension
+  premise:
+  - kernel.spacetime_dimensionality
+  - rule.dimensional_consistency
+  steps:
+  - 'Volume in D spatial dimensions: V ∝ r^D'
+  - D=3 => dim(V) = [L^3]
+  - Therefore pressure P = F/A has dimension [M L^(-1) T^(-2)]
+  - Therefore PV = nRT is dimensionally consistent
+  conclusion: contingent.volume_dimension
+  mathematical_link: D=3 => [V]=[L^3] => dim(PV) = [M L^2 T^(-2)] = dim(nRT)
+  validity_scope: []
+  sources:
+  - BIPM SI Brochure §2.3.3
+  - Dimensional analysis
+  reversible: false
+- id: deriv.minkowski_signature
+  premise:
+  - kernel.spacetime_dimensionality
+  - kernel.lorentz_invariance
+  steps:
+  - 'Spacetime interval: ds^2 = g_munu*dx^mu*dx^nu'
+  - In 3+1, the metric has 1 positive (time) and 3 negative (space) eigenvalues
+  - 'Signature: (+, -, -, -) or equivalently (-, +, +, +)'
+  - This determines the light-cone structure and causal order
+  conclusion: contingent.minkowski_signature
+  mathematical_link: 3+1 => metric signature (+, -, -, -) => ds^2 = c^2*dt^2 - dx^2
+    - dy^2 - dz^2
+  validity_scope:
+  - relativistic_regime
+  sources:
+  - Minkowski (1908)
+  - Einstein (1905)
+  reversible: false
+- id: deriv.gw_polarizations
+  premise:
+  - kernel.spacetime_dimensionality
+  - kernel.general_covariance
+  steps:
+  - 'Linearized GR: g_munu = eta_munu + h_munu'
+  - Gauge-fixing reduces 10 components of h_munu to 6 physical
+  - 'D=4 spacetime: TT gauge leaves D(D-3)/2 = 2 independent components'
+  - These are the h_+ and h_x (plus and cross) polarizations of gravitational waves
+  conclusion: contingent.gw_polarizations
+  mathematical_link: D=4 => D(D-3)/2 = 2 => helicity +/-2 GW polarizations
+  validity_scope:
+  - relativistic_regime
+  sources:
+  - Misner, Thorne & Wheeler §35.4
+  - Weinberg GR §10.2
+  reversible: false
+- id: deriv.stable_kepler_orbits
+  premise:
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Effective potential: V_eff = -k/r^(D-2) + L^2/(2*m*r^2)'
+  - 'For D>3: the centrifugal barrier L^2/r^2 dominates at small r less strongly than
+    1/r^(D-2)'
+  - 'Result: no stable minimum in V_eff for D>3'
+  - D=3 is the only dimension where stable closed orbits exist
+  conclusion: contingent.stable_kepler_orbits
+  mathematical_link: V_eff = -k/r^(D-2) + L^2/(2mr^2) => stable minimum only for D=3
+  validity_scope:
+  - classical_limit
+  - conservative_force
+  sources:
+  - Ehrenfest (1917)
+  - Tangherlini (1963)
+  - Barrow & Tipler §4.8
+  reversible: false
+- id: deriv.huygens_principle
+  premise:
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'Wave equation in D spatial dimensions: (del^2 - (1/c^2)*partial^2/partial_t^2)*phi
+    = 0'
+  - 'Green function: G(r,t) ∝ delta(t - r/c) for D=3 (odd) -> sharp wavefront'
+  - 'For even D: G(r,t) has tail -> signal smears, echoes follow main pulse'
+  - D=3 (odd) is necessary for clean signal propagation (Huygens principle)
+  conclusion: contingent.huygens_principle
+  mathematical_link: D=3 (odd) => Green function has sharp delta-function wavefront
+    => Huygens principle holds
+  validity_scope:
+  - vacuum
+  sources:
+  - Hadamard (1923)
+  - Courant & Hilbert §VI.12
+  - Baker & Copson (1939)
+  reversible: false
+dependencies:
+- dependent: law.newton_third
+  depends_on:
+  - law.momentum_conservation
+  dependency_type: derived_from
+  is_strict: true
+  bridge_condition: null
+  sources:
+  - Goldstein §12.7
+- dependent: law.zeroth_law
+  depends_on:
+  - law.first_law_thermo
+  dependency_type: requires
+  is_strict: true
+  bridge_condition: null
+  sources:
+  - Pathria §1.2
+- dependent: law.third_law_thermo
+  depends_on:
+  - kernel.boltzmann_entropy
+  - kernel.superposition_principle
+  dependency_type: derived_from
+  is_strict: true
+  bridge_condition: null
+  sources:
+  - Pathria §3.6
+- dependent: law.ideal_gas
+  depends_on:
+  - law.first_law_thermo
+  - kernel.boltzmann_entropy
+  dependency_type: derived_from
+  is_strict: true
+  bridge_condition: null
+  sources:
+  - Pathria §1.4
+  - Fermi Thermodynamics
+- dependent: law.de_broglie_wavelength
+  depends_on:
+  - law.energy_frequency
+  dependency_type: derived_from
+  is_strict: true
+  bridge_condition: p = E/c holds for photons; de Broglie generalized to all matter
+  sources:
+  - de Broglie (1924)
+  - Davisson & Germer (1927)
+- dependent: law.newton_gravitation
+  depends_on:
+  - law.einstein_field
+  dependency_type: limit_of
+  is_strict: true
+  bridge_condition: weak_field_limit
+  sources:
+  - Weinberg §3.1
+  - MTW §17.4
+- dependent: law.em_wave_equation
+  depends_on:
+  - law.ampere_maxwell
+  - law.faraday_induction
+  - law.gauss_electric
+  - law.gauss_magnetic
+  dependency_type: derived_from
+  is_strict: true
+  bridge_condition: null
+  sources:
+  - Maxwell (1865)
+  - Feynman II Ch.18
+- dependent: law.schroedinger_equation
+  depends_on:
+  - law.uncertainty_principle
+  dependency_type: requires
+  is_strict: false
+  bridge_condition: Uncertainty principle is a consequence of Schroedinger equation
+    (Kennard bound), not a prerequisite
+  sources:
+  - Griffiths QM §3.5

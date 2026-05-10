@@ -1,0 +1,214 @@
+# ─────────────────────────────────────────────────────────────────
+# Sci-hf 经验事实 — Contingent Facts
+# ─────────────────────────────────────────────────────────────────
+#
+# 经验层 (contingent)：描述"我们这个宇宙"的经验事实。
+# 与内核层不同，这些不是任何物理宇宙都必然成立的原理，
+# 而是我们这个特定宇宙的观测数据。
+#
+#   contingent          — 经验事实，不可从内核推导
+#   contingent.derived  — 从 contingent + kernel 推导的结构
+# ─────────────────────────────────────────────────────────────────
+
+contingent_facts:
+
+  # ═════════════════════════════════════════════════════════════
+  # C1: 3+1 时空维度的结构后果  Consequences of 3+1 Spacetime
+  # ═════════════════════════════════════════════════════════════
+  # spatial_dim(D)=3, temporal_dim=1 本身位于 frameworks.yaml 的
+  # kernel.spacetime_dimensionality。这里仅保留从该内核前提出发的
+  # 我们宇宙结构后果。未经实验证实的高维理论（例如 10/11 维弦/M 理论
+  # 候选）不能作为把 3+1 时空维度降出 kernel 的判据。
+
+  # Consequences derived from D=3+1 + kernel
+  - id: contingent.inverse_square_law
+    relation: >
+      Gauss law in D spatial dimensions: flux ∝ r^(D−1) → F ∝ 1/r^(D−1).
+      D=3 → F ∝ 1/r². This applies to both gravity and electrostatics.
+    quantities:
+      - qty.force
+      - qty.length
+    scope:
+      - classical_limit
+    provenance: "Ehrenfest (1917); Gauss law in D dimensions"
+    hardness: contingent.derived
+    layer: contingent
+    derived_from:
+      - kernel.spacetime_dimensionality
+      - rule.dimensional_consistency
+
+  - id: contingent.so3_rotation_group
+    relation: >
+      In D spatial dimensions, rotation group SO(D) has D(D−1)/2 generators.
+      D=3 → SO(3) with 3 generators: L_x, L_y, L_z.
+      The Lie algebra: [Lᵢ, Lⱼ] = iεᵢⱼₖLₖ.
+    quantities:
+      - qty.angular_momentum
+    scope: []
+    provenance: "SO(D) group theory; Goldstein §4.10"
+    hardness: contingent.derived
+    layer: contingent
+    derived_from:
+      - kernel.spacetime_dimensionality
+
+  - id: contingent.huygens_principle
+    relation: >
+      Wave equation Green function has sharp delta-function wavefront
+      only for odd D ≥ 3. D=3 (odd) → clean signal propagation.
+      Even D → signal smears, echoes follow main pulse.
+    quantities:
+      - qty.time
+      - qty.length
+    scope:
+      - vacuum
+    provenance: "Hadamard (1923); Courant & Hilbert §VI.12"
+    hardness: contingent.derived
+    layer: contingent
+    derived_from:
+      - kernel.spacetime_dimensionality
+
+  - id: contingent.stable_kepler_orbits
+    relation: >
+      Effective potential: V_eff = −k/r^(D−2) + L²/(2mr²).
+      For D>3, centrifugal barrier at small r is too weak → no stable minimum.
+      D=3 is the only dimension allowing stable closed orbits.
+    quantities:
+      - qty.energy
+      - qty.angular_momentum
+      - qty.length
+    scope:
+      - classical_limit
+      - conservative_force
+    provenance: "Ehrenfest (1917); Tangherlini (1963)"
+    hardness: contingent.derived
+    layer: contingent
+    derived_from:
+      - kernel.spacetime_dimensionality
+
+  - id: contingent.volume_dimension
+    relation: >
+      In D spatial dimensions, volume has dimension [L^D].
+      D=3 fixes volume as [L³] and supports pressure-volume dimensional checks.
+    quantities:
+      - qty.volume
+      - qty.pressure
+      - qty.length
+    scope:
+      - macroscopic_limit
+    provenance: "BIPM SI Brochure §2.3.3; dimensional analysis in D spatial dimensions"
+    hardness: contingent.derived
+    layer: contingent
+    derived_from:
+      - kernel.spacetime_dimensionality
+      - rule.dimensional_consistency
+
+  - id: contingent.minkowski_signature
+    relation: >
+      In 3+1 spacetime, Lorentz-invariant intervals use one time-like and
+      three space-like signs: ds² = c²dt² − dx² − dy² − dz².
+    quantities:
+      - qty.spacetime_interval
+      - cst.speed_of_light
+      - qty.time
+      - qty.length
+    scope:
+      - relativistic_regime
+    provenance: "Minkowski (1908); Einstein (1905)"
+    hardness: contingent.derived
+    layer: contingent
+    derived_from:
+      - kernel.spacetime_dimensionality
+      - kernel.lorentz_invariance
+
+  - id: contingent.gw_polarizations
+    relation: >
+      In four spacetime dimensions, linearized general covariance leaves two
+      transverse-traceless gravitational wave polarizations.
+    quantities:
+      - qty.metric_tensor
+    scope:
+      - relativistic_regime
+    provenance: "Misner, Thorne & Wheeler §35.4; Weinberg GR §10.2"
+    hardness: contingent.derived
+    layer: contingent
+    derived_from:
+      - kernel.spacetime_dimensionality
+      - kernel.general_covariance
+
+  # ═════════════════════════════════════════════════════════════
+  # C2: 标准模型规范群  Standard Model Gauge Group
+  # ═════════════════════════════════════════════════════════════
+  # 为什么是 contingent：规范群 SU(3)×SU(2)×U(1) 是我们宇宙的
+  # 实验事实。理论上可以有不同的规范群（如 SU(5) 大统一）。
+  # 规范对称性的存在是 kernel（来自 gauge_interactions），
+  # 但具体哪个群是经验数据。
+
+  - id: contingent.sm_gauge_group
+    relation: "gauge_group = SU(3)_C × SU(2)_L × U(1)_Y"
+    quantities:
+      - qty.color_charge
+      - qty.weak_isospin
+      - qty.weak_hypercharge
+    scope: []
+    provenance: "Glashow (1961); Weinberg (1967); Salam (1968); Gross, Wilczek, Politzer (1973)"
+    hardness: contingent
+    layer: contingent
+
+  # ═════════════════════════════════════════════════════════════
+  # C3: 费米子内容  Standard Model Fermion Content
+  # ═════════════════════════════════════════════════════════════
+
+  - id: contingent.sm_fermion_content
+    relation: >
+      3 generations of chiral fermions:
+      Q_L(3,2,1/6), u_R(3,1,2/3), d_R(3,1,−1/3),
+      L_L(1,2,−1/2), e_R(1,1,−1).
+      Antiparticles form conjugate representations.
+    quantities:
+      - qty.generation
+      - qty.color_charge
+      - qty.weak_isospin
+      - qty.weak_hypercharge
+    scope: []
+    provenance: "Particle Data Group; experimental fact — not derivable from gauge group alone"
+    hardness: contingent
+    layer: contingent
+
+  # ═════════════════════════════════════════════════════════════
+  # C4: Higgs 机制  Higgs Mechanism
+  # ═════════════════════════════════════════════════════════════
+
+  - id: contingent.sm_higgs_sector
+    relation: >
+      One complex scalar SU(2)_L doublet φ with Y=1.
+      Spontaneous symmetry breaking: SU(2)_L × U(1)_Y → U(1)_EM
+      at v ≈ 246 GeV. Three Goldstone bosons → longitudinal W^±, Z modes;
+      one physical Higgs boson h remains.
+    quantities:
+      - qty.higgs_vev
+      - qty.weak_mixing_angle
+      - qty.electric_charge
+    scope: []
+    provenance: "Higgs (1964); Englert & Brout (1964); Guralnik, Hagen & Kibble (1964); ATLAS/CMS (2012)"
+    hardness: contingent
+    layer: contingent
+
+  # ═════════════════════════════════════════════════════════════
+  # C5: 标准模型自由参数  Free Parameters
+  # ═════════════════════════════════════════════════════════════
+  # SM 有 19 个自由参数（加上中微子质量 → 26 个）。
+  # 这些数值不由理论决定，是实验输入。
+
+  - id: contingent.sm_free_parameters
+    relation: >
+      The Standard Model has 19 free parameters (26 with neutrino masses):
+      3 gauge couplings (g₁, g₂, g₃), Higgs vev v and quartic λ,
+      6 quark masses, 3 charged lepton masses, 4 CKM parameters,
+      θ_QCD, (+ 3 neutrino masses, 4 PMNS parameters, 2 Majorana phases).
+      None are derivable from kernel principles alone.
+    quantities:
+      - qty.higgs_vev
+    scope: []
+    provenance: "Particle Data Group 2024; experimental measurements"
+    hardness: contingent
+    layer: contingent

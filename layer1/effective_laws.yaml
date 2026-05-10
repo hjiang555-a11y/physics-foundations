@@ -1,0 +1,490 @@
+effective_laws:
+- id: law.euler_lagrange
+  relation: 'The condition δS = 0 yields the Euler-Lagrange equation: d/dt(∂L/∂q̇)
+    − ∂L/∂q = 0. This is a mathematical identity of the calculus of variations, not
+    a physical axiom. It bridges kernel.least_action to all of classical mechanics.
+
+    '
+  quantities:
+  - qty.action
+  scope:
+  - classical_limit
+  - conservative_force
+  provenance: Euler (1744); Lagrange (1788); Goldstein §2.1
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.least_action
+  - kernel.spacetime_dimensionality
+- id: law.noether_theorem
+  relation: >
+    Every continuous symmetry of the action corresponds to a conserved current.
+    Time translation yields energy conservation; space translation yields momentum
+    conservation; rotation yields angular momentum conservation; gauge symmetry
+    yields charge conservation when the corresponding local gauge premise is present.
+  quantities:
+  - qty.action
+  - qty.energy
+  - qty.momentum
+  - qty.angular_momentum
+  - qty.electric_charge
+  scope: []
+  provenance: Noether (1918); Goldstein §12.7; Gross PNAS 93, 14256 (1996)
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.least_action
+  - kernel.spacetime_dimensionality
+- id: law.newton_first
+  relation: 'In the absence of net external force, an object maintains its state of
+    uniform motion: F = 0 → dv/dt = 0.
+
+    '
+  quantities:
+  - qty.force
+  - qty.velocity
+  - qty.time
+  scope:
+  - inertial_frame
+  - classical_limit
+  provenance: Newton Principia Book I; Goldstein §1.1
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.least_action
+  - kernel.spacetime_dimensionality
+- id: law.newton_second
+  relation: 'The net force on an object equals the rate of change of its momentum:
+    F = dp/dt. For constant mass: F = m·a.
+
+    '
+  quantities:
+  - qty.force
+  - qty.momentum
+  - qty.mass
+  - qty.acceleration
+  - qty.time
+  scope:
+  - inertial_frame
+  - classical_limit
+  provenance: Newton Principia Book I; Goldstein §1.1
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.least_action
+  - law.euler_lagrange
+  - kernel.spacetime_dimensionality
+- id: law.newton_third
+  relation: 'F₁₂ = −F₂₁. Weak form (equal opposite) universal; strong form (collinear)
+    fails in EM.
+
+    '
+  quantities:
+  - qty.force
+  - qty.momentum
+  scope:
+  - inertial_frame
+  - classical_limit
+  provenance: Follows from momentum conservation (space-translation symmetry → Noether)
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - law.noether_theorem
+  - kernel.spacetime_dimensionality
+- id: law.newton_gravitation
+  relation: F₁₂ = −(G·m₁·m₂/r²)·r̂
+  quantities:
+  - qty.force
+  - qty.gravitational_mass
+  - cst.gravitational
+  - qty.length
+  scope:
+  - classical_limit
+  - weak_field_limit
+  - point_particle_approximation
+  provenance: Newton Principia Book III; GR weak-field, low-velocity limit
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.equivalence_principle
+  - kernel.general_covariance
+  - kernel.spacetime_dimensionality
+- id: law.gauss_electric
+  relation: ∇·E = ρ_q / ε₀
+  quantities:
+  - qty.electric_field
+  - qty.charge_density
+  - cst.vacuum_permittivity
+  scope:
+  - electrostatic_regime
+  provenance: Maxwell (1861-62); Derivable from U(1) gauge symmetry + least action
+    + Lorentz invariance
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.gauge_interactions
+  - kernel.least_action
+  - kernel.lorentz_invariance
+  - kernel.spacetime_dimensionality
+- id: law.gauss_magnetic
+  relation: ∇·B = 0
+  quantities:
+  - qty.magnetic_field
+  scope: []
+  provenance: Maxwell; Geometric necessity from F_μν = ∂_μ A_ν − ∂_ν A_μ
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality
+- id: law.faraday_induction
+  relation: ∇×E = −∂B/∂t
+  quantities:
+  - qty.electric_field
+  - qty.magnetic_field
+  - qty.time
+  scope: []
+  provenance: Faraday (1831); Maxwell (1861-62); Feynman II Ch.17
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality
+- id: law.ampere_maxwell
+  relation: ∇×B = μ₀·J + μ₀·ε₀·∂E/∂t
+  quantities:
+  - qty.magnetic_field
+  - qty.current_density
+  - qty.electric_field
+  - cst.vacuum_permeability
+  - cst.vacuum_permittivity
+  - qty.time
+  scope: []
+  provenance: Ampere (1820s); Maxwell (1861-62) displacement current correction
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.gauge_interactions
+  - kernel.least_action
+  - kernel.lorentz_invariance
+  - kernel.spacetime_dimensionality
+- id: law.lorentz_force
+  relation: F = q·(E + v×B)
+  quantities:
+  - qty.force
+  - qty.electric_charge
+  - qty.electric_field
+  - qty.magnetic_field
+  - qty.velocity
+  scope:
+  - classical_limit
+  - point_particle_approximation
+  provenance: Lorentz (1895); Jackson §1.1; Feynman II Table 18-1
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality
+- id: law.schroedinger_equation
+  relation: 'iℏ·∂ψ/∂t = −(ℏ²/2m)·∇²ψ + V·ψ
+
+    '
+  quantities:
+  - qty.wave_function
+  - cst.reduced_planck
+  - qty.time
+  - qty.mass
+  - qty.energy
+  scope:
+  - quantum_regime
+  - non_relativistic_limit
+  provenance: Schrödinger Ann.Phys. 79, 361 (1926)
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.unitary_evolution
+  - kernel.canonical_commutation
+  - kernel.operator_observable
+  - kernel.spacetime_dimensionality
+- id: law.energy_frequency
+  relation: E = h·ν
+  quantities:
+  - qty.energy
+  - cst.reduced_planck
+  scope:
+  - quantum_regime
+  provenance: Planck (1900); Einstein Ann.Phys. 17, 132 (1905)
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.canonical_commutation
+- id: law.de_broglie_wavelength
+  relation: λ = h / p
+  quantities:
+  - qty.length
+  - qty.momentum
+  - cst.reduced_planck
+  scope:
+  - quantum_regime
+  provenance: de Broglie (1924); Davisson-Germer (1927)
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - law.energy_frequency
+- id: law.uncertainty_principle
+  relation: σ_x·σ_p ≥ ℏ/2; ΔE·Δt ≥ ℏ/2
+  quantities:
+  - qty.length
+  - qty.momentum
+  - cst.reduced_planck
+  - qty.energy
+  - qty.time
+  scope:
+  - quantum_regime
+  provenance: Heisenberg Z.Phys. 43, 172 (1927); Kennard Z.Phys. 44, 326 (1927)
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.canonical_commutation
+  - kernel.born_rule
+  - kernel.operator_observable
+  - kernel.spacetime_dimensionality
+- id: law.zeroth_law
+  relation: T_A = T_B, T_B = T_C → T_A = T_C
+  quantities:
+  - qty.temperature
+  scope:
+  - thermal_equilibrium
+  provenance: Fowler (1931); Transitivity of thermal equilibrium
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.second_law
+  - kernel.boltzmann_entropy
+- id: law.first_law_thermo
+  relation: dU = T·dS − P·dV + μ·dN
+  quantities:
+  - qty.internal_energy
+  - qty.heat
+  - qty.work
+  - qty.temperature
+  - qty.entropy
+  - qty.pressure
+  - qty.volume
+  scope:
+  - thermal_equilibrium
+  provenance: Joule (1843); Clausius (1850); Energy conservation + thermodynamic definitions
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - law.energy_conservation
+  - kernel.boltzmann_entropy
+  - kernel.spacetime_dimensionality
+- id: law.third_law_thermo
+  relation: S → 0 as T → 0 (perfect crystal, non-degenerate ground state)
+  quantities:
+  - qty.entropy
+  - qty.temperature
+  scope:
+  - zero_temperature_limit
+  provenance: Nernst (1906); Planck (1911); Quantum statistical mechanics
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.boltzmann_entropy
+  - kernel.superposition_principle
+- id: law.ideal_gas
+  relation: P·V = n·R·T
+  quantities:
+  - qty.pressure
+  - qty.volume
+  - qty.amount_of_substance
+  - cst.gas_constant
+  - qty.temperature
+  scope:
+  - thermal_equilibrium
+  - macroscopic_limit
+  - classical_limit
+  provenance: Clapeyron (1834); Mendeleev (1874)
+  hardness: firm
+  layer: effective_law
+  derived_from:
+  - law.first_law_thermo
+  - kernel.boltzmann_entropy
+  - kernel.spacetime_dimensionality
+- id: law.lorentz_transform
+  relation: 't'' = γ·(t − v·x/c²), x'' = γ·(x − v·t), γ = 1/√(1 − v²/c²)
+
+    '
+  quantities:
+  - qty.time
+  - qty.length
+  - qty.velocity
+  - cst.speed_of_light
+  - qty.lorentz_factor
+  scope:
+  - inertial_frame
+  - relativistic_regime
+  provenance: Lorentz (1904); Einstein (1905)
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.light_speed_invariance
+  - kernel.lorentz_invariance
+  - kernel.spacetime_dimensionality
+- id: law.mass_energy
+  relation: 'E² = p²·c² + m²·c⁴; rest frame: E = m·c²'
+  quantities:
+  - qty.energy
+  - qty.mass
+  - qty.momentum
+  - cst.speed_of_light
+  scope:
+  - relativistic_regime
+  provenance: Einstein Ann.Phys. 18, 639 (1905)
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.lorentz_invariance
+  - kernel.spacetime_dimensionality
+- id: law.einstein_field
+  relation: G_μν + Λ·g_μν = (8πG/c⁴)·T_μν
+  quantities:
+  - qty.einstein_tensor
+  - qty.stress_energy_tensor
+  - cst.gravitational
+  - cst.speed_of_light
+  - qty.cosmological_constant
+  - qty.metric_tensor
+  scope:
+  - relativistic_regime
+  - macroscopic_limit
+  provenance: Einstein (1915); Hilbert (1915)
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.equivalence_principle
+  - kernel.general_covariance
+  - kernel.least_action
+  - kernel.spacetime_dimensionality
+- id: law.energy_conservation
+  relation: 'dE/dt = 0 (isolated); locally: ∂_μ T^μν = 0'
+  quantities:
+  - qty.energy
+  scope:
+  - isolated_system
+  provenance: Noether (1918); Time-translation invariance
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - law.noether_theorem
+  - kernel.spacetime_dimensionality
+- id: law.momentum_conservation
+  relation: 'dP/dt = 0 (isolated); locally: ∂_μ T^μi = 0'
+  quantities:
+  - qty.momentum
+  scope:
+  - isolated_system
+  - inertial_frame
+  provenance: Noether (1918); Space-translation invariance
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - law.noether_theorem
+  - kernel.spacetime_dimensionality
+- id: law.angular_momentum_conservation
+  relation: dL/dt = 0 (isolated, central forces)
+  quantities:
+  - qty.angular_momentum
+  scope:
+  - isolated_system
+  provenance: Noether (1918); Rotational invariance
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - law.noether_theorem
+  - kernel.spacetime_dimensionality
+- id: law.charge_conservation
+  relation: '∂_μ J^μ = 0; globally: dQ/dt = 0'
+  quantities:
+  - qty.electric_charge
+  - qty.charge_density
+  - qty.current_density
+  - qty.time
+  scope: []
+  provenance: Noether (1918); U(1) gauge invariance
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - law.noether_theorem
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality
+- id: law.em_wave_equation
+  relation: '∇²E = (1/c²)·∂²E/∂t², ∇²B = (1/c²)·∂²B/∂t², c = 1/√(ε₀·μ₀)
+
+    '
+  quantities:
+  - qty.electric_field
+  - qty.magnetic_field
+  - cst.speed_of_light
+  - cst.vacuum_permittivity
+  - cst.vacuum_permeability
+  - qty.time
+  - qty.length
+  scope:
+  - vacuum
+  provenance: Maxwell (1865); Feynman II Ch.18
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - law.gauss_electric
+  - law.gauss_magnetic
+  - law.faraday_induction
+  - law.ampere_maxwell
+  - kernel.spacetime_dimensionality
+- id: cor.kepler_third
+  relation: T² ∝ r³
+  quantities:
+  - qty.time
+  - qty.length
+  scope:
+  - classical_limit
+  - point_particle_approximation
+  - conservative_force
+  provenance: Kepler (1619, empirical); Newton Principia Book I Sect.III
+  hardness: firm
+  layer: effective_law
+  derived_from:
+  - law.newton_second
+  - law.newton_gravitation
+  - kernel.spacetime_dimensionality
+- id: cor.fermi_dirac
+  relation: f(E) = 1 / (exp((E − μ)/(k_B·T)) + 1)
+  quantities:
+  - qty.energy
+  - qty.temperature
+  - cst.boltzmann
+  scope:
+  - thermal_equilibrium
+  - quantum_regime
+  provenance: Fermi (1926); Dirac (1926); Pauli exclusion + Boltzmann statistics
+  hardness: firm
+  layer: effective_law
+  derived_from:
+  - kernel.pauli_exclusion
+  - kernel.boltzmann_entropy
+- id: cor.bose_einstein
+  relation: f(E) = 1 / (exp((E − μ)/(k_B·T)) − 1)
+  quantities:
+  - qty.energy
+  - qty.temperature
+  - cst.boltzmann
+  scope:
+  - thermal_equilibrium
+  - quantum_regime
+  provenance: Bose (1924); Einstein (1925); Superposition + Boltzmann statistics
+  hardness: firm
+  layer: effective_law
+  derived_from:
+  - kernel.superposition_principle
+  - kernel.boltzmann_entropy

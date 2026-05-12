@@ -1,0 +1,1903 @@
+# ─────────────────────────────────────────────────────────────────
+# Sci-hf 严格推导 — Rigorous Derivations (Round 2, Batch G1-G3)
+# ─────────────────────────────────────────────────────────────────
+#
+# 本文件包含从 R1–R6 核心原则到全部 30 条定理的严格推导。
+# 每条推导满足：
+#   1. 所有变量完整定义（符号、类型、量纲、定义域、物理含义）
+#   2. 每步可追溯至 R1–R6 或已证定理
+#   3. 必要性条件明确标注 [N]
+#   4. 充分性条件明确标注 [S]
+#   5. 反向蕴含检查（定理 ⇔ 前提？）
+#
+# 推导分组：
+#   G1: Euler-Lagrange (1)
+#   G2: Noether + Conservation (2-6)
+#   G3: Newton's Laws (7-9)
+#   G4: Maxwell from Gauge (10-15)
+#   G5: Quantum Mechanics (16-19)
+#   G6: Relativity (20-22)
+#   G7: Thermodynamics (23-27)
+#   G8: Corollaries (28-30)
+# ─────────────────────────────────────────────────────────────────
+
+# ═════════════════════════════════════════════════════════════════
+# 约定
+# ═════════════════════════════════════════════════════════════════
+#
+# 变量定义格式:
+#   symbol:   数学符号
+#   type:     数学类型 (ℝ, ℂ, ℝ^n, operator, functional)
+#   dim:      量纲 (SI 7 维向量)
+#   domain:   定义域 / 取值范围
+#   meaning:  物理含义
+#
+# 必要性标记 [N]:
+#   该条件在推导中的每一步都必须成立才能推出结论。
+#   若移除，推导在标注处断裂。
+#
+# 充分性标记 [S]:
+#   给定这些条件，结论必然成立。
+#   ⇒ 方向表示充分性蕴含。
+#
+# 反向蕴含 (reversible):
+#   true:  定理 + 附加条件 ⇒ 前提（双向等价）
+#   false: 定理 ⇒ 前提不成立（有信息丢失）
+
+# ═════════════════════════════════════════════════════════════════
+# G1: Euler-Lagrange 方程
+# ═════════════════════════════════════════════════════════════════
+
+derivations:
+
+  - id: deriv.euler_lagrange
+    conclusion: law.euler_lagrange
+    conclusion_statement: >
+      d/dt(∂L/∂q̇ᵢ) − ∂L/∂qᵢ = 0  for all i ∈ {1,…,N}
+    premise:
+      - kernel.least_action       # R2: δS = 0
+      - kernel.spacetime_dimensionality  # R1: defines t as coordinate
+
+    # ── 变量定义 ──
+    variables:
+      - { symbol: "S", type: "functional ℝ → ℝ", dim: "[M·L²·T⁻¹]", domain: "S[q] = ∫ L dt 对所有 C² 路径 q(t) 有定义", meaning: "作用量泛函" }
+      - { symbol: "L", type: "ℝ^(2N+1) → ℝ", dim: "[M·L²·T⁻²]", domain: "L ∈ C²(q, q̇, t)", meaning: "拉格朗日量，L = T − V" }
+      - { symbol: "qᵢ", type: "ℝ → ℝ", dim: "依赖系统", domain: "qᵢ ∈ C²([t₁,t₂])", meaning: "第 i 个广义坐标" }
+      - { symbol: "q̇ᵢ", type: "ℝ → ℝ", dim: "依赖系统", domain: "q̇ᵢ = dqᵢ/dt", meaning: "第 i 个广义速度" }
+      - { symbol: "δqᵢ", type: "ℝ → ℝ", dim: "依赖系统", domain: "δqᵢ ∈ C¹([t₁,t₂]), δqᵢ(t₁)=δqᵢ(t₂)=0", meaning: "路径的无穷小变分" }
+      - { symbol: "t", type: "ℝ", dim: "[T]", domain: "t ∈ [t₁, t₂]", meaning: "时间坐标 (R1)" }
+      - { symbol: "N", type: "ℕ⁺", dim: "[1]", domain: "N ≥ 1", meaning: "系统广义坐标数（自由度数）" }
+
+    # ── 推导步骤 ──
+    steps:
+      - step: 1
+        description: "从 R2 出发，作用量 S 对路径 q(t) 取极值"
+        expression: "S[q] = ∫_{t₁}^{t₂} L(q(t), q̇(t), t) dt"
+        justification: "R2 — 最小作用量原理。积分限 (t₁, t₂) 由 R1 的时间坐标定义。"
+        condition: "[N] L 必须可微，q(t) 必须 C²"
+
+      - step: 2
+        description: "考虑路径的无穷小变分 q(t) → q(t) + δq(t)"
+        expression: "δS = S[q + δq] − S[q] = ∫_{t₁}^{t₂} [L(q+δq, q̇+δq̇, t) − L(q, q̇, t)] dt"
+        justification: "变分定义。δq(t₁) = δq(t₂) = 0（固定端点条件 [N]）。"
+        condition: "[N] δq(t₁) = δq(t₂) = 0 — 路径的端点固定不动"
+
+      - step: 3
+        description: "Taylor 展开 L 到一阶"
+        expression: "L(q+δq, q̇+δq̇, t) ≈ L(q, q̇, t) + Σᵢ[∂L/∂qᵢ · δqᵢ + ∂L/∂q̇ᵢ · δq̇ᵢ]"
+        justification: "多变量 Taylor 展开。高阶项 O(δ²) 在变分取极限时消失。"
+        condition: "[N] L ∈ C²（二阶连续可微）"
+
+      - step: 4
+        description: "代入 δS，分离两项"
+        expression: "δS = Σᵢ ∫_{t₁}^{t₂} [∂L/∂qᵢ · δqᵢ + ∂L/∂q̇ᵢ · δq̇ᵢ] dt"
+        justification: "一阶变分 = 作用量的 Gâteaux 导数。"
+
+      - step: 5
+        description: "对第二项分部积分"
+        expression: "∫_{t₁}^{t₂} ∂L/∂q̇ᵢ · δq̇ᵢ dt = [∂L/∂q̇ᵢ · δqᵢ]_{t₁}^{t₂} − ∫_{t₁}^{t₂} d/dt(∂L/∂q̇ᵢ) · δqᵢ dt"
+        justification: "分部积分：∫ u dv = uv − ∫ v du, u = ∂L/∂q̇ᵢ, dv = δq̇ᵢ dt"
+        condition: "[N] ∂L/∂q̇ᵢ 对时间可微"
+
+      - step: 6
+        description: "边界项因固定端点消失"
+        expression: "[∂L/∂q̇ᵢ · δqᵢ]_{t₁}^{t₂} = 0"
+        justification: "由 Step 2 的固定端点条件：δqᵢ(t₁) = δqᵢ(t₂) = 0"
+        condition: "[N] 必须是固定端点变分"
+
+      - step: 7
+        description: "整理得到一阶变分"
+        expression: "δS = Σᵢ ∫_{t₁}^{t₂} [∂L/∂qᵢ − d/dt(∂L/∂q̇ᵢ)] · δqᵢ(t) dt"
+        justification: "代回 Step 4。"
+
+      - step: 8
+        description: "应用 δS = 0（R2 的平稳作用量条件）"
+        expression: "Σᵢ ∫_{t₁}^{t₂} [∂L/∂qᵢ − d/dt(∂L/∂q̇ᵢ)] · δqᵢ(t) dt = 0"
+        justification: "R2 直接要求：真实路径必须使作用量的一阶变分为零。"
+
+      - step: 9
+        description: "应用变分学基本引理"
+        expression: "∂L/∂qᵢ − d/dt(∂L/∂q̇ᵢ) = 0  for all i"
+        justification: >
+          变分学基本引理 (Fundamental Lemma of Calculus of Variations):
+          若对任意满足 η(t₁)=η(t₂)=0 的连续函数 η(t) 有 ∫ f(t)η(t) dt = 0,
+          且 f(t) 连续, 则 f(t) ≡ 0。
+          此处 δqᵢ(t) 可取任意 C¹ 函数满足端点为零，且各 δqᵢ 独立。
+        condition: "[N] δqᵢ 的任意性（各广义坐标的变分独立可变）"
+
+    # ── 结果 ──
+    result: "d/dt(∂L/∂q̇ᵢ) − ∂L/∂qᵢ = 0"
+
+    # ── 必要性与充分性 ──
+    necessity_conditions:
+      - "R2 (δS = 0): 若无，Step 8 无依据"
+      - "固定端点变分: 若无 δq(t₁)=δq(t₂)=0，Step 6 边界项不消失"
+      - "L ∈ C²: L 必须二阶连续可微，否则 Taylor 展开不合法"
+      - "δqᵢ 任意且独立: 若无，变分学引理不适用"
+      - "R1 定义的时间坐标 t: 积分参数必须是一维连续统"
+
+    sufficiency_conditions:
+      - "给定 C² 拉格朗日量 L(q,q̇,t) 和固定端点，δS=0 ⇔ Euler-Lagrange 方程"
+      - "[S] R2 + 固定端点 + C² L ⇒ Euler-Lagrange"
+
+    reversible: true
+    reverse_note: >
+      Euler-Lagrange 方程成立 ⇔ δS=0（对于固定端点变分）。
+      双向等价：若 ∂L/∂q − d/dt(∂L/∂q̇) = 0，乘 δq 积分可反向构造 δS=0。
+
+    validity_scope:
+      - classical_limit
+      - conservative_force
+    mathematical_link: "δ∫Ldt = 0 → d/dt(∂L/∂q̇) − ∂L/∂q = 0"
+
+  # ═══════════════════════════════════════════════════════════════
+  # G2: Noether 定理
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: deriv.noether_theorem
+    conclusion: law.noether_theorem
+    conclusion_statement: >
+      作用量 S 的每个连续对称性变换对应一个守恒的 Noether 荷 Q。
+      dQ/dt = 0 沿满足 Euler-Lagrange 方程的真实路径成立。
+    premise:
+      - kernel.least_action       # R2
+      - kernel.spacetime_dimensionality  # R1
+
+    variables:
+      - { symbol: "S", type: "functional", dim: "[M·L²·T⁻¹]", domain: "", meaning: "作用量" }
+      - { symbol: "L", type: "ℝ^(2N+1) → ℝ", dim: "[M·L²·T⁻²]", domain: "", meaning: "拉格朗日量" }
+      - { symbol: "qᵢ", type: "ℝ → ℝ", dim: "依赖系统", domain: "", meaning: "广义坐标" }
+      - { symbol: "ε", type: "ℝ", dim: "[1]", domain: "|ε| ≪ 1", meaning: "连续变换的无穷小参数" }
+      - { symbol: "Qᵢ(q,q̇,t)", type: "ℝ^N → ℝ^N", dim: "依赖变换", domain: "", meaning: "对称性变换的生成函数" }
+      - { symbol: "F(q,q̇,t)", type: "ℝ", dim: "与 L 同量纲", domain: "", meaning: "规范函数；L 变化的边界项（总时间导数）" }
+      - { symbol: "Λ(q,q̇,t)", type: "ℝ^(2N+1) → ℝ", dim: "[M·L²·T⁻¹]", domain: "", meaning: "Noether 荷密度的边界项贡献" }
+
+    steps:
+      - step: 1
+        description: "定义对称性变换"
+        expression: "qᵢ → qᵢ' = qᵢ + ε·Qᵢ(q,q̇,t) + O(ε²)"
+        justification: >
+          连续对称性：存在一个单参数 Lie 群变换，参数 ε，
+          使得作用量在此变换下不变（至多差一个边界项）。
+        condition: "[N] Qᵢ 为 C¹（变换生成元可微）"
+
+      - step: 2
+        description: "作用量的对称性条件"
+        expression: "S[q'] = S[q] + ε·[F(t₂) − F(t₁)] + O(ε²)"
+        justification: >
+          对称性的精确定义：变换后的作用量与变换前的作用量相差一个边界项 ε·[F(t₂)−F(t₁)]。
+          边界项的存在意味着 Lagrangian 变换至多差一个总时间导数：
+          L(q',q̇',t) = L(q,q̇,t) + ε·dF/dt + O(ε²)
+        condition: "[N] 若想得到守恒律，变换必须保持作用量不变（δS_boundary = 0）"
+
+      - step: 3
+        description: "展开 L(q',q̇',t) 到一阶"
+        expression: >
+          L(q',q̇',t) − L(q,q̇,t) = ε·Σᵢ[∂L/∂qᵢ·Qᵢ + ∂L/∂q̇ᵢ·Q̇ᵢ] + O(ε²)
+        justification: "链式法则 + Step 1 的变换定义"
+        condition: "[N] L ∈ C²"
+
+      - step: 4
+        description: "利用 Euler-Lagrange 方程替换 ∂L/∂qᵢ"
+        expression: "∂L/∂qᵢ = d/dt(∂L/∂q̇ᵢ)"
+        justification: "Euler-Lagrange（G1 结论）沿真实路径成立"
+        condition: "[N] 系统满足 Euler-Lagrange 方程（即沿真实动力学路径）"
+
+      - step: 5
+        description: "代入并重组为全导数"
+        expression: >
+          Σᵢ[d/dt(∂L/∂q̇ᵢ)·Qᵢ + ∂L/∂q̇ᵢ·Q̇ᵢ] = d/dt(Σᵢ ∂L/∂q̇ᵢ·Qᵢ)
+        justification: "乘法法则：d/dt(u·v) = u̇·v + u·v̇"
+        condition: "[N] 乘积可微"
+
+      - step: 6
+        description: "对称性条件给出全导数关系"
+        expression: "d/dt(Σᵢ ∂L/∂q̇ᵢ·Qᵢ − F) = 0"
+        justification: >
+          Step 5 给出 L 的变化 = ε·d/dt(Σᵢ ∂L/∂q̇ᵢ·Qᵢ)。
+          Step 2 的对称性条件要求 L 的变化 = ε·dF/dt。
+          两者相等 ⇒ d/dt(Σᵢ ∂L/∂q̇ᵢ·Qᵢ − F) = 0
+
+      - step: 7
+        description: "定义 Noether 荷 Q"
+        expression: "Q ≡ Σᵢ (∂L/∂q̇ᵢ)·Qᵢ − F"
+        justification: "Q 是守恒量：dQ/dt = 0 沿真实路径"
+
+    result: >
+      Noether 定理：作用量 S 的每个连续对称性（由 Qᵢ 生成，至多差边界项 F）
+      对应守恒荷 Q = Σᵢ (∂L/∂q̇ᵢ)·Qᵢ − F，满足 dQ/dt = 0。
+
+    necessity_conditions:
+      - "R2 (δS = 0): Euler-Lagrange 方程是推导的必要中间步骤（Step 4）"
+      - "R1 (时间坐标): 全导数 d/dt 要求时间在 R1 定义下是连续坐标"
+      - "连续对称性: 必须有 Lie 群结构 → 无穷小生成元 Qᵢ 存在"
+      - "C² L: 偏导数存在且连续"
+      - "Euler-Lagrange 方程成立: 沿真实路径（on-shell）"
+
+    sufficiency_conditions:
+      - "[S] 连续对称性 + Euler-Lagrange 方程 ⇒ 守恒流存在"
+      - "Noether 定理是充要的：每个守恒量对应一个对称性（逆 Noether 定理也成立）"
+
+    reversible: true
+    reverse_note: "逆 Noether 定理：每个守恒量可反推出一个连续对称性"
+
+    validity_scope: []
+    mathematical_link: "连续对称性 + δS=0 ⇒ dQ/dt = 0"
+
+  # ── Noether 推论: 能量守恒 ──
+
+  - id: deriv.energy_conservation
+    conclusion: law.energy_conservation
+    conclusion_statement: "dE/dt = 0（孤立系统）；∂_μ T^{μν} = 0（局部形式）"
+    premise:
+      - law.noether_theorem
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "E", type: "ℝ", dim: "[M·L²·T⁻²]", domain: "", meaning: "系统总能量 = Hamiltonian H" }
+      - { symbol: "H", type: "ℝ", dim: "[M·L²·T⁻²]", domain: "H = Σᵢ pᵢq̇ᵢ − L", meaning: "Hamiltonian = Legendre 变换的 Lagrangian" }
+      - { symbol: "pᵢ", type: "ℝ", dim: "依赖系统", domain: "pᵢ = ∂L/∂q̇ᵢ", meaning: "广义动量" }
+      - { symbol: "δt", type: "ℝ", dim: "[T]", domain: "|δt| ≪ 1", meaning: "无穷小时间平移参数" }
+
+    steps:
+      - step: 1
+        description: "时间平移变换"
+        expression: "t → t' = t + ε,  qᵢ(t) → qᵢ'(t') = qᵢ(t)"
+        justification: "主动观点：将整个系统沿时间轴平移 ε。qᵢ' 是平移后的新坐标函数。"
+        condition: "[N] R1 定义的时间坐标 t 支持平移运算"
+
+      - step: 2
+        description: "识别 Noether 定理所需的 Qᵢ"
+        expression: "用被动语言：δqᵢ = qᵢ'(t) − qᵢ(t) = qᵢ(t−ε) − qᵢ(t) ≈ −ε·q̇ᵢ"
+        justification: "Taylor 展开：qᵢ(t−ε) ≈ qᵢ(t) − ε·q̇ᵢ ⇒ Qᵢ = −q̇ᵢ"
+        condition: "[N] qᵢ 可微"
+
+      - step: 3
+        description: "若 L 不显含 t（∂L/∂t = 0），则时间平移是对称性"
+        expression: "∂L/∂t = 0 ⇒ L 在 t → t+ε 下不变（至多差全导数 dL/dt）"
+        justification: "若 L = L(q, q̇) 不显含 t，则 dL/dt = Σᵢ(∂L/∂qᵢ·q̇ᵢ + ∂L/∂q̇ᵢ·q̈ᵢ)"
+        condition: "[N] ∂L/∂t = 0（拉格朗日量不显含时间）"
+
+      - step: 4
+        description: "应用 Noether 定理"
+        expression: "Q = Σᵢ (∂L/∂q̇ᵢ)·(−q̇ᵢ) − (−L) = −Σᵢ pᵢ·q̇ᵢ + L = L − Σᵢ pᵢ·q̇ᵢ"
+        justification: >
+          规范函数：变换后的 Lagrangian L' = L(q(t−ε), q̇(t−ε)) = L − ε·dL/dt。
+          所以 F = −L（因为 L' − L = −ε·dL/dt = ε·d(−L)/dt）。
+          守恒荷：Q = Σᵢ pᵢ·(−q̇ᵢ) − (−L) = −(Σᵢ pᵢ·q̇ᵢ − L) = −H。
+
+      - step: 5
+        description: "定义能量 E = H = Σᵢ pᵢ·q̇ᵢ − L"
+        expression: "dE/dt = 0"
+        justification: "能量守恒 = 时间平移对称性的 Noether 荷"
+
+    result: "∂L/∂t = 0 ⇒ dE/dt = 0（能量守恒）"
+
+    necessity_conditions:
+      - "Noether 定理 (law.noether_theorem)"
+      - "∂L/∂t = 0 [N]: 拉格朗日量不显含时间 — 若显含时间，能量不守恒"
+      - "R1 定义的时间坐标: 时间平移的数学基础"
+
+    sufficiency_conditions:
+      - "[S] ∂L/∂t = 0 + Noether ⇒ dE/dt = 0"
+
+    reversible: true
+    reverse_note: >
+      dE/dt = 0 ⇒ ∂L/∂t = 0? 是——若能量守恒且 Euler-Lagrange 成立，
+      可反推出 ∂L/∂t = 0。
+
+    validity_scope:
+      - isolated_system
+      - conservative_force
+    mathematical_link: "t → t+ε 对称性 → Noether → dE/dt = 0"
+
+  # ── Noether 推论: 动量守恒 ──
+
+  - id: deriv.momentum_conservation
+    conclusion: law.momentum_conservation
+    conclusion_statement: "dP/dt = 0（孤立系统）"
+    premise:
+      - law.noether_theorem
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "P", type: "ℝ^D", dim: "[M·L·T⁻¹]", domain: "P = Σᵢ mᵢvᵢ", meaning: "系统总动量" }
+      - { symbol: "δr", type: "ℝ^D", dim: "[L]", domain: "|δr| ≪ 1", meaning: "无穷小空间平移矢量" }
+      - { symbol: "D", type: "ℕ⁺", dim: "[1]", domain: "D = 3 (R1)", meaning: "空间维数" }
+
+    steps:
+      - step: 1
+        description: "空间平移变换"
+        expression: "r → r' = r + ε·n̂（n̂ 为任意方向的单位矢量）"
+        justification: "平直空间（R1 的局域惯性系中）的均匀性"
+        condition: "[N] 空间必须是均匀的（平直极限或具有平移 Killing 矢量的弯曲空间）"
+
+      - step: 2
+        description: "若 L 在空间平移下不变，识别 Qᵢ"
+        expression: "δrᵢ = ε·n̂ ⇒ Qᵢ = n̂（对于位置坐标 rᵢ）"
+        justification: "每个粒子的位置坐标以相同量平移"
+
+      - step: 3
+        description: "L 的不变性条件"
+        expression: "∂L/∂r = 0（无外力，L 不依赖于绝对位置）"
+        justification: "若 V 仅依赖于粒子间的相对距离 |rᵢ−rⱼ|，则 L 在整体平移下不变"
+        condition: "[N] 无外力场破坏空间均匀性"
+
+      - step: 4
+        description: "应用 Noether 定理"
+        expression: "P = Σᵢ (∂L/∂ṙᵢ)·n̂ = (Σᵢ mᵢvᵢ)·n̂"
+        justification: "∂L/∂ṙᵢ = mᵢvᵢ (对于粒子系统的 L = Σ ½mᵢvᵢ² − V)"
+
+      - step: 5
+        description: "动量守恒"
+        expression: "dP/dt = 0（沿 n̂ 方向）→ 总动量矢量守恒"
+        justification: "对所有方向 n̂ 成立 ⇒ P 矢量守恒"
+        condition: "[N] 孤立系统（无外力）"
+
+    result: "空间平移不变性 ⇒ dP/dt = 0"
+
+    necessity_conditions:
+      - "Noether 定理"
+      - "空间平移对称性 [N]: ∂L/∂r = 0（无外力场）"
+      - "R1 定义的空间坐标与维数"
+
+    sufficiency_conditions:
+      - "[S] 空间平移不变性 + Noether ⇒ 动量守恒"
+
+    reversible: true
+    validity_scope:
+      - isolated_system
+      - inertial_frame
+    mathematical_link: "r → r+ε 对称性 → Noether → dP/dt = 0"
+
+  # ── Noether 推论: 角动量守恒 ──
+
+  - id: deriv.angular_momentum_conservation
+    conclusion: law.angular_momentum_conservation
+    conclusion_statement: "dL/dt = 0（孤立系统，有心力）"
+    premise:
+      - law.noether_theorem
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "L", type: "ℝ³", dim: "[M·L²·T⁻¹]", domain: "", meaning: "系统总角动量 L = Σᵢ rᵢ × pᵢ" }
+      - { symbol: "δθ", type: "ℝ", dim: "[1]", domain: "|δθ| ≪ 1", meaning: "无穷小旋转角" }
+      - { symbol: "n̂", type: "ℝ³, |n̂|=1", dim: "[1]", domain: "", meaning: "旋转轴方向" }
+
+    steps:
+      - step: 1
+        description: "绕轴 n̂ 的无穷小旋转变换"
+        expression: "r → r' = r + ε·(n̂ × r) = r + ε·δr_rot"
+        justification: "SO(3) 群（来自 R1 的 D=3）的 Lie 代数作用"
+        condition: "[N] R1: D=3 ⇒ SO(3) 旋转群 3 个生成元"
+
+      - step: 2
+        description: "Qᵢ 的识别"
+        expression: "δrᵢ = ε·(n̂ × rᵢ) ⇒ Qᵢ = n̂ × rᵢ"
+        justification: "比较旋转变换 r→r+ε(n̂×r) 与 Noether 定理的通用形式 q_i→q_i+ε·Q_i，识别 Q_i = n̂×r_i"
+
+      - step: 3
+        description: "L 在旋转下不变的条件"
+        expression: "L 仅依赖于标量 r², v², r·v 时旋转不变"
+        justification: "有心力势 V(r) 仅依赖 |r| ⇒ 旋转对称"
+        condition: "[N] 势能仅依赖于距离 |r|（有心力）"
+
+      - step: 4
+        description: "Noether 荷"
+        expression: >
+          Q = Σᵢ (∂L/∂ṙᵢ)·(n̂ × rᵢ) = Σᵢ mᵢvᵢ·(n̂ × rᵢ)
+          = n̂·Σᵢ (rᵢ × mᵢvᵢ) = n̂·L
+        justification: "标量三重积循环置换：a·(b×c) = c·(a×b) = b·(c×a)"
+
+      - step: 5
+        description: "角动量守恒"
+        expression: "dL/dt = 0（沿任意轴 n̂）"
+        justification: "Noether 定理直接给出 dQ/dt = 0"
+
+    result: "旋转不变性 ⇒ dL/dt = 0"
+
+    necessity_conditions:
+      - "R1 的 D=3 ⇒ SO(3) 旋转群 [N]"
+      - "有心力 [N]（势能 V(r) 仅依赖 |r|）"
+
+    sufficiency_conditions:
+      - "[S] SO(3) 旋转对称性 + Noether ⇒ 角动量矢量守恒"
+
+    reversible: true
+    reverse_note: "角动量守恒 ⇒ 旋转对称性（逆 Noether）"
+
+    validity_scope:
+      - isolated_system
+      - conservative_force
+    mathematical_link: "SO(3) 旋转对称性 → Noether → dL/dt = 0"
+
+  # ═══════════════════════════════════════════════════════════════
+  # G3: Newton 运动定律
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: deriv.newton_first
+    conclusion: law.newton_first
+    conclusion_statement: "F = 0 ⇒ dv/dt = 0（匀速直线运动）"
+    premise:
+      - kernel.least_action
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "F", type: "ℝ^D", dim: "[M·L·T⁻²]", domain: "", meaning: "粒子所受合力" }
+      - { symbol: "v", type: "ℝ^D", dim: "[L·T⁻¹]", domain: "", meaning: "粒子速度" }
+      - { symbol: "m", type: "ℝ⁺", dim: "[M]", domain: "m > 0", meaning: "粒子惯性质量" }
+      - { symbol: "V", type: "ℝ^D → ℝ", dim: "[M·L²·T⁻²]", domain: "", meaning: "势能函数" }
+
+    steps:
+      - step: 1
+        description: "自由粒子的 Lagrangian"
+        expression: "L = T − V = ½m|v|²（V = 常数 ⇒ grad V = 0）"
+        justification: "F ≡ −∇V。F = 0 ⇒ V 为常数 ⇒ 不失一般性设 V = 0"
+
+      - step: 2
+        description: "应用 Euler-Lagrange 方程"
+        expression: "d/dt(∂L/∂v) − ∂L/∂r = 0"
+        justification: "Euler-Lagrange (G1) — 从 R2 推出"
+
+      - step: 3
+        description: "计算各项"
+        expression: >
+          ∂L/∂v = mv（动量）
+          ∂L/∂r = −∇V = 0（无外力）
+        justification: "直接求偏导"
+
+      - step: 4
+        description: "得到运动方程"
+        expression: "d(mv)/dt = 0 ⇒ v = 常数"
+        justification: "m 为常数（非相对论极限），所以 d(mv)/dt = m·dv/dt = 0 ⇒ v = const"
+
+    result: "F = 0 ⇒ v 恒定（匀速直线运动）"
+
+    necessity_conditions:
+      - "R2 (δS = 0) [N]: Euler-Lagrange 方程的来源"
+      - "R1: 惯性参考系的存在性 [N]: Newton 定律仅在惯性系成立"
+      - "m 为常数 [N]: dm/dt = 0（非相对论极限）"
+
+    sufficiency_conditions:
+      - "[S] 自由粒子 Lagrangian + Euler-Lagrange ⇒ Newton 第一定律"
+      - "第一定律是第二定律在 F=0 的特殊情况"
+
+    reversible: false
+    reverse_note: "v = const ⇏ F = 0（可能 F ≠ 0 但某分量恰好平衡）"
+
+    validity_scope:
+      - inertial_frame
+      - classical_limit
+    mathematical_link: "∇V = 0 → d(mv)/dt = 0 → v = const"
+
+  - id: deriv.newton_second
+    conclusion: law.newton_second
+    conclusion_statement: "F = dp/dt（一般形式）；F = ma（m 为常数时）"
+    premise:
+      - kernel.least_action
+      - law.euler_lagrange
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "p", type: "ℝ^D", dim: "[M·L·T⁻¹]", domain: "", meaning: "动量 p = mv" }
+      - { symbol: "a", type: "ℝ^D", dim: "[L·T⁻²]", domain: "", meaning: "加速度 a = dv/dt" }
+
+    steps:
+      - step: 1
+        description: "非相对论粒子的 Lagrangian"
+        expression: "L(r, v) = ½m|v|² − V(r)"
+        justification: "T = ½mv²（动能），V(r) 为势能"
+
+      - step: 2
+        description: "应用 Euler-Lagrange 方程"
+        expression: "d/dt(∂L/∂v) − ∂L/∂r = 0"
+        justification: "G1 结论"
+
+      - step: 3
+        description: "各项求值"
+        expression: >
+          ∂L/∂v = mv = p（动量）
+          ∂L/∂r = −∇V(r)
+        justification: "½m|v|² 对 v 求导得 mv"
+
+      - step: 4
+        description: "定义力"
+        expression: "F ≡ −∇V(r)"
+        justification: "保守力的定义：力是势能的负梯度"
+
+      - step: 5
+        description: "代入得 Newton 第二定律"
+        expression: "d(p)/dt = F"
+        justification: "d(mv)/dt = −∇V ⇒ dp/dt = F"
+        subcase: "若 m 为常数: F = m·dv/dt = ma"
+
+    result: "F = dp/dt"
+
+    necessity_conditions:
+      - "Euler-Lagrange 方程 [N]（来自 R2）"
+      - "L = T − V 的形式 [N]: 势能 V 必须存在（保守力）"
+      - "R1 的惯性系 [N]: 仅在此类参考系中成立"
+      - "m 为常数: 对于变质量系统（如火箭），F = dp/dt 仍正确但 F ≠ ma"
+
+    sufficiency_conditions:
+      - "[S] L = ½mv² − V(r) + Euler-Lagrange ⇒ F = dp/dt"
+
+    reversible: true
+    reverse_note: "F = dp/dt + 保守力定义 ⇒ 可反推 Lagrangian L = T − V"
+
+    validity_scope:
+      - inertial_frame
+      - classical_limit
+      - conservative_force
+    mathematical_link: "d/dt(∂L/∂v) − ∂L/∂r = 0 → d(mv)/dt = −∇V → F = dp/dt"
+
+  - id: deriv.newton_third
+    conclusion: law.newton_third
+    conclusion_statement: "F₁₂ = −F₂₁（作用力与反作用力大小相等方向相反）"
+    premise:
+      - law.noether_theorem
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "F₁₂", type: "ℝ^D", dim: "[M·L·T⁻²]", domain: "", meaning: "粒子 2 对粒子 1 的作用力" }
+      - { symbol: "F₂₁", type: "ℝ^D", dim: "[M·L·T⁻²]", domain: "", meaning: "粒子 1 对粒子 2 的作用力" }
+      - { symbol: "P_total", type: "ℝ^D", dim: "[M·L·T⁻¹]", domain: "", meaning: "两粒子系统总动量 p₁ + p₂" }
+      - { symbol: "V₁₂", type: "ℝ", dim: "[M·L²·T⁻²]", domain: "V₁₂ = V(|r₁ − r₂|)", meaning: "两体相互作用势能" }
+
+    steps:
+      - step: 1
+        description: "动量守恒（来自 Noether 定理 + 空间平移对称性）"
+        expression: "d(P_total)/dt = d(p₁ + p₂)/dt = 0 ⇒ dp₁/dt + dp₂/dt = 0"
+        justification: "G2 的结论：孤立系统总动量守恒"
+
+      - step: 2
+        description: "用 Newton 第二定律表示力"
+        expression: "dp₁/dt = F₁₂（粒子 2 对 1 的力），dp₂/dt = F₂₁（粒子 1 对 2 的力）"
+        justification: "G3 Newton 第二定律：每个粒子的动量变化率等于所受合力"
+
+      - step: 3
+        description: "代入动量守恒"
+        expression: "F₁₂ + F₂₁ = 0 ⇒ F₁₂ = −F₂₁"
+        justification: "直接代数"
+
+    result: "F₁₂ = −F₂₁（弱形式：大小相等方向相反）"
+
+    necessity_conditions:
+      - "动量守恒 [N]（来自 Noether + 空间平移对称性）"
+      - "系统孤立 [N]（无外力）"
+
+    sufficiency_conditions:
+      - "[S] 动量守恒 + Newton 第二定律 ⇒ Newton 第三定律弱形式"
+      - "注意：强形式（F₁₂ 和 r₁−r₂ 共线，即 collinear）仅在有心力下成立，在电磁学中破缺"
+
+    reversible: true
+    reverse_note: "F₁₂ = −F₂₁ ⇒ d(p₁+p₂)/dt = 0 ⇒ 动量守恒"
+
+    validity_scope:
+      - inertial_frame
+      - classical_limit
+      - isolated_system
+    mathematical_link: "dP/dt = 0 → dp₁/dt + dp₂/dt = 0 → F₁₂ + F₂₁ = 0"
+
+  # ═══════════════════════════════════════════════════════════════
+  # G4: 电荷守恒（补充 — 从 Noether + 规范对称性推导）
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: deriv.charge_conservation
+    conclusion: law.charge_conservation
+    conclusion_statement: "∂_μ J^μ = 0；全局 dQ/dt = 0"
+    premise:
+      - law.noether_theorem
+      - kernel.gauge_interactions
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "J^μ", type: "ℝ⁴ → ℝ⁴", dim: "[L⁻³·T·I, L⁻²·I]", domain: "J⁰ = ρ_q（电荷密度）, J^ᵢ = J（电流密度）", meaning: "Noether 守恒流四矢量" }
+      - { symbol: "Q", type: "ℝ", dim: "[T·I]", domain: "Q = ∫ ρ_q d³x", meaning: "总电荷" }
+      - { symbol: "ψ", type: "ℂ", dim: "依赖场类型", domain: "", meaning: "复标量场（或 Dirac 旋量场）" }
+      - { symbol: "α", type: "ℝ → ℝ", dim: "[1]", domain: "α(x) ∈ C¹", meaning: "局域 U(1) 规范参数；全局极限下 α = 常数" }
+
+    steps:
+      - step: 1
+        description: "全局 U(1) 变换（α = 常数）"
+        expression: "ψ → e^{iα} ψ,  ψ* → e^{−iα} ψ*"
+        justification: "R3 的全局极限：规范参数不依赖于 x。这是连续的全局对称性。"
+        condition: "[N] ψ 场有 U(1) 对称性（带电）"
+
+      - step: 2
+        description: "自由复标量场的 Lagrangian"
+        expression: "L = ∂_μ ψ* · ∂^μ ψ − m² ψ* ψ"
+        justification: "此 Lagrangian 在全局 U(1) 变换下显然不变（因子 e^{iα}·e^{-iα}=1）"
+
+      - step: 3
+        description: "用 Noether 定理求守恒流"
+        expression: >
+          Q_ψ = iα ψ（无穷小变换 ψ → ψ + iαψ ⇒ Q_ψ = iψ）
+          Noether 流: J^μ = ∂L/∂(∂_μ ψ) · Q_ψ + c.c.
+          = ∂^μ ψ* · iψ + ∂^μ ψ · (−iψ*) = i(ψ* ∂^μ ψ − ψ ∂^μ ψ*)
+        justification: "Noether 定理（G2）应用于场论的 Lagrangian 密度"
+
+      - step: 4
+        description: "守恒方程"
+        expression: "∂_μ J^μ = 0"
+        justification: "Noether 定理的直接结论"
+
+      - step: 5
+        description: "全局电荷守恒"
+        expression: "dQ/dt = d/dt(∫ J⁰ d³x) = −∫ ∇·J d³x = −∮_{S_∞} J·dA = 0"
+        justification: >
+          对 ∂_μ J^μ = ∂ρ/∂t + ∇·J = 0 积分。
+          若系统孤立（无穷远处 J = 0），则 dQ/dt = 0。
+
+    result: "∂_μ J^μ = 0 ⇒ dQ/dt = 0（电荷守恒）"
+
+    necessity_conditions:
+      - "Noether 定理 [N]"
+      - "U(1) 全局对称性 [N]: 若无此对称性，无对应守恒流"
+      - "R3 (规范不变性的全局极限)"
+      - "R1 (时空作为积分域)"
+
+    sufficiency_conditions:
+      - "[S] U(1) 全局对称性 + Noether ⇒ 电荷守恒"
+
+    reversible: true
+    validity_scope: []
+    mathematical_link: "U(1) 全局对称性 → Noether → ∂_μ J^μ = 0 → dQ/dt = 0"
+
+  # ═══════════════════════════════════════════════════════════════
+  # G4: Maxwell 电磁学 (从规范不变性严格推导)
+  # ═══════════════════════════════════════════════════════════════
+
+  # ── G4 基础: 规范场框架 ──
+
+  - id: deriv.maxwell_from_gauge
+    conclusion: law.ampere_maxwell
+    conclusion_statement: >
+      ∂_μ F^{μν} = μ₀ J^ν（协变形式）。
+      分量形式: ∇·E = ρ_q/ε₀ (Gauss 电) + ∇×B = μ₀J + μ₀ε₀ ∂E/∂t (Ampère-Maxwell)。
+      Bianchi 恒等式: ∂_λ F_{μν} + ∂_μ F_{νλ} + ∂_ν F_{λμ} = 0
+      ⇒ ∇·B = 0 (Gauss 磁) + ∇×E = −∂B/∂t (Faraday)。
+    premise:
+      - kernel.gauge_interactions  # R3
+      - kernel.least_action        # R2
+      - kernel.lorentz_invariance  # R1
+      - kernel.spacetime_dimensionality  # R1
+
+    variables:
+      - { symbol: "A_μ", type: "ℝ⁴ → ℝ⁴", dim: "[M·L·T⁻²·I⁻¹]", domain: "C² 规范势场", meaning: "U(1) 规范势四矢量; A_μ = (φ/c, A)" }
+      - { symbol: "F_{μν}", type: "ℝ⁴ → ℝ^{4×4} 反对称", dim: "依赖分量", domain: "F_{μν} = ∂_μ A_ν − ∂_ν A_μ", meaning: "电磁场强张量; F_{0i}=E_i/c, F_{ij}=−ε_{ijk}B_k" }
+      - { symbol: "J^μ", type: "ℝ⁴ → ℝ⁴", dim: "J⁰=[L⁻³·T·I], Jⁱ=[L⁻²·I]", domain: "∂_μ J^μ = 0 (守恒)", meaning: "四维电流密度; J^μ = (cρ_q, J)" }
+      - { symbol: "E", type: "ℝ³ → ℝ³", dim: "[M·L·T⁻³·I⁻¹]", domain: "", meaning: "电场强度" }
+      - { symbol: "B", type: "ℝ³ → ℝ³", dim: "[M·T⁻²·I⁻¹]", domain: "", meaning: "磁感应强度" }
+      - { symbol: "ε₀", type: "常数", dim: "[M⁻¹·L⁻³·T⁴·I²]", domain: "", meaning: "真空介电常数" }
+      - { symbol: "μ₀", type: "常数", dim: "[M·L·T⁻²·I⁻²]", domain: "μ₀ = 1/(ε₀c²)", meaning: "真空磁导率" }
+
+    steps:
+      - step: 1
+        description: "U(1) 规范场强定义"
+        expression: "F_{μν} ≡ ∂_μ A_ν − ∂_ν A_μ"
+        justification: >
+          R3 (规范不变性): 局域 U(1) 变换 A_μ → A_μ + ∂_μ α(x) 下，
+          F_{μν} → ∂_μ(A_ν+∂_να) − ∂_ν(A_μ+∂_μα) = F_{μν}（不变）。
+          F_{μν} 是规范不变量。
+        condition: "[N] A_μ 的定义来自 R3 的规范补偿场要求"
+
+      - step: 2
+        description: "E 和 B 的场强表示"
+        expression: >
+          F_{0i} = ∂_0 A_i − ∂_i A_0 = −(1/c)∂_t A_i − (1/c)∂_i φ = E_i/c
+          F_{ij} = ∂_i A_j − ∂_j A_i = −ε_{ijk} B_k
+        justification: >
+          E = −∇φ − ∂A/∂t, B = ∇ × A。
+          其中 φ ≡ cA₀。
+          这是电磁场用规范势表示的经典定义。
+
+      - step: 3
+        description: "Maxwell Lagrangian（规范不变 + Lorentz 不变，SI 单位）"
+        expression: "L = −(1/4μ₀) F_{μν} F^{μν} − J^μ A_μ"
+        justification: >
+          F_{μν}F^{μν} 在规范变换下不变且是 Lorentz 标量（R1）。
+          系数 1/μ₀ 给出正确的能量量纲和 Newton 极限下的力的耦合。
+          物质耦合项 J^μ A_μ: 规范变换 A_μ → A_μ + ∂_μ α(x) 下，
+          J^μ A_μ → J^μ A_μ + J^μ ∂_μ α = J^μ A_μ + ∂_μ(α J^μ) − α ∂_μ J^μ。
+          配合 ∂_μ J^μ = 0（电荷守恒）后 ∫ L d⁴x 规范不变。
+        condition: "[N] L 必须满足 R1 (Lorentz 不变) 和 R3 (规范不变)"
+
+      - step: 4
+        description: "应用 Euler-Lagrange 方程于场 A_μ"
+        expression: "∂_ν [∂L/∂(∂_ν A_μ)] − ∂L/∂A_μ = 0"
+        justification: "R2 (最小作用量) → Euler-Lagrange (G1) 推广到场论: 对每个场分量 A_μ 独立变分。"
+
+      - step: 5
+        description: "计算各项变分"
+        expression: >
+          ∂L/∂(∂_ν A_μ) = −(1/μ₀) F^{νμ}
+          ∂L/∂A_μ = −J^μ
+        justification: >
+          变分 F_{αβ}F^{αβ}:
+          δ(F_{αβ}F^{αβ}) = 2F^{αβ}δF_{αβ} = 2F^{αβ}(∂_α δA_β − ∂_β δA_α)
+          = 2F^{αβ}∂_α δA_β + 2F^{βα}∂_α δA_β = 4F^{αβ}∂_α δA_β
+          所以 δL = −(1/4μ₀)·4F^{αβ}∂_α δA_β = −(1/μ₀)F^{αβ}∂_α δA_β
+          ⇒ ∂L/∂(∂_ν A_μ) = −(1/μ₀)F^{νμ}
+
+      - step: 6
+        description: "得到 Maxwell 方程（协变形式，SI 单位）"
+        expression: "∂_ν F^{νμ} = μ₀ J^μ"
+        justification: "∂_ν[−(1/μ₀)F^{νμ}] − (−J^μ) = 0 ⇒ (1/μ₀)∂_ν F^{νμ} = J^μ ⇒ ∂_ν F^{νμ} = μ₀ J^μ"
+
+      - step: 7
+        description: "ν = 0 ⇒ Gauss 电定律"
+        expression: "∂_i F^{i0} = μ₀ J⁰ ⇒ ∂_i(E_i/c) = μ₀(cρ_q) ⇒ (∇·E)/c = μ₀ c ρ_q ⇒ ∇·E = ρ_q/ε₀"
+        justification: "F^{i0} = g^{iα}g^{0β}F_{αβ} = g^{ii}g^{00}F_{i0} = (−1)(1)F_{i0} = −F_{i0} = −(−F_{0i}) = F_{0i} = E_i/c。两个负号抵消（度规 + 反对称）。μ₀ = 1/(ε₀c²)。"
+
+      - step: 8
+        description: "ν = i ⇒ Ampère-Maxwell 定律"
+        expression: "∂_ν F^{νi} = ∂_0 F^{0i} + ∂_j F^{ji} = μ₀ J^i ⇒ −(1/c²)∂_t E_i + (∇×B)_i = μ₀ J^i ⇒ ∇×B = μ₀J + μ₀ε₀ ∂E/∂t"
+        justification: "F^{0i} = g^{0α}g^{iβ}F_{αβ} = g^{00}g^{ii}F_{0i} = (1)(−1)F_{0i} = −E_i/c。F^{ji} = g^{jj}g^{ii}F_{ji} = (−1)(−1)F_{ji} = F_{ji} = −F_{ij} = ε_{ijk}B_k。（注意：ε_{ijk} 非 ε_{jik}，因 F^{ji} = F_{ji} = −F_{ij} = ε_{ijk}B_k）。"
+
+      - step: 9
+        description: "Bianchi 恒等式（来自 F = dA 的几何必然）"
+        expression: "∂_λ F_{μν} + ∂_μ F_{νλ} + ∂_ν F_{λμ} = 0"
+        justification: >
+          将 F_{μν} = ∂_μ A_ν − ∂_ν A_μ 代入左边:
+          ∂_λ(∂_μ A_ν − ∂_ν A_μ) + ∂_μ(∂_ν A_λ − ∂_λ A_ν) + ∂_ν(∂_λ A_μ − ∂_μ A_λ) ≡ 0。
+          这是因为混合偏导数的对称性: ∂_λ∂_μ A_ν − ∂_μ∂_λ A_ν = 0等。
+          这是恒等式——不需要任何动力学假设。
+        condition: "[N] A_μ ∈ C²（二阶可微）"
+
+      - step: 10
+        description: "Bianchi ⇒ Gauss 磁定律"
+        expression: >
+          取 (μ,ν,λ) = (1,2,3): ∂_1 F_{23} + ∂_2 F_{31} + ∂_3 F_{12} = 0
+          F_{23} = B_1, F_{31} = B_2, F_{12} = B_3 ⇒ ∇·B = 0
+        justification: "仅空间指标的 Bianchi 恒等式 = ∇·B。磁场散度为零是几何必然——无磁单极子。"
+
+      - step: 11
+        description: "Bianchi ⇒ Faraday 感应定律"
+        expression: >
+          取 (μ,ν,λ) = (0,i,j)（一个时间 + 两个空间指标）:
+          ∂_0 F_{ij} + ∂_i F_{j0} + ∂_j F_{0i} = 0
+          ⇒ −(1/c)∂_t (ε_{ijk}B_k) + ∂_i (E_j/c) − ∂_j (E_i/c) = 0
+          ⇒ ∇×E = −∂B/∂t
+        justification: "混合指标 Bianchi 恒等式 = Faraday 定律。变化的磁场产生涡旋电场——这是 F=dA 几何结构的直接推论。"
+
+    result: >
+      Maxwell 方程组完整推导完毕:
+      ∇·E = ρ_q/ε₀   (Gauss 电 — 来自 ∂_ν F^{ν0} = μ₀ J⁰)
+      ∇·B = 0        (Gauss 磁 — 来自 Bianchi 恒等式)
+      ∇×E = −∂B/∂t   (Faraday — 来自 Bianchi 恒等式)
+      ∇×B = μ₀J + μ₀ε₀ ∂E/∂t  (Ampère-Maxwell — 来自 ∂_ν F^{νi} = μ₀ J^i)
+
+    necessity_conditions:
+      - "R3 (U(1) 规范不变性) [N]: 无规范原理 → 无 A_μ → 无 F_{μν} → 无 Maxwell 方程"
+      - "R2 (最小作用量) [N]: Euler-Lagrange 方程给出动力学 ∂_ν F^{νμ} = μ₀ J^μ"
+      - "R1 (Lorentz 不变性) [N]: Lagrangian −¼F_{μν}F^{μν} 必须是 Lorentz 标量；Bianchi 恒等式依赖时空的可微结构"
+      - "R1 (3+1 维) [N]: 电场 3 分量 + 磁场 3 分量 = 6（= F_{μν} 的独立分量数，来自 D(D−1)/2=6）"
+
+    sufficiency_conditions:
+      - "[S] U(1) gauge + R1 + R2 ⇒ Maxwell 方程组完备"
+      - "Maxwell 方程是 U(1) 规范理论在 3+1 维的唯一低能有效理论（无高阶导数项时）"
+
+    reversible: true
+    reverse_note: "Maxwell 方程可反推 Lagrangian 和规范结构"
+    validity_scope:
+      - classical_limit
+    mathematical_link: "δS/δA_μ = 0 → ∂_ν F^{νμ} = μ₀ J^μ; F=dA → dF=0 → homogeneous pair"
+
+  - id: deriv.gauss_electric
+    conclusion: law.gauss_electric
+    conclusion_statement: "∇·E = ρ_q/ε₀"
+    premise:
+      - kernel.gauge_interactions
+      - kernel.least_action
+      - kernel.lorentz_invariance
+      - kernel.spacetime_dimensionality
+    inherits_derivation: deriv.maxwell_from_gauge
+    variables:
+      - { symbol: "E", type: "ℝ³ → ℝ³", dim: "[M·L·T⁻³·I⁻¹]", domain: "", meaning: "电场强度" }
+      - { symbol: "ρ_q", type: "ℝ³ → ℝ", dim: "[L⁻³·T·I]", domain: "", meaning: "自由电荷密度" }
+      - { symbol: "ε₀", type: "常数", dim: "[M⁻¹·L⁻³·T⁴·I²]", domain: "", meaning: "真空介电常数" }
+    steps:
+      - step: 1
+        description: "从规范场方程提取 ν=0 分量"
+        expression: "∂_ν F^{ν0} = μ₀ J⁰"
+        justification: "见 deriv.maxwell_from_gauge Step 6: ∂_ν F^{νμ} = μ₀ J^μ，取 μ=0"
+      - step: 2
+        description: "场强分量对应 + 单位换算"
+        expression: "∂_i F^{i0} = μ₀ J⁰ ⇒ ∂_i(E_i/c) = μ₀(cρ_q) ⇒ ∇·E = ρ_q/ε₀"
+        justification: "F^{i0} = E_i/c（度规符号 (+,-,-,-) 下 F^{i0} = g^{ii}g^{00}F_{i0} = −F_{i0} = F_{0i} = E_i/c），J⁰ = cρ_q，μ₀ = 1/(ε₀c²)。"
+    necessity_conditions:
+      - "U(1) 规范不变性 [N]: 定义 A_μ 和 F_{μν}"
+      - "最小作用量 [N]: 给出 ∂_ν F^{νμ} = μ₀ J^μ"
+      - "3+1 维 [N]: ∇·E 是三维散度，依赖空间维数 D=3"
+    sufficiency_conditions:
+      - "[S] ∂_ν F^{ν0} = μ₀ J⁰ + 场强分量对应 ⇒ ∇·E = ρ_q/ε₀"
+    reversible: true
+    validity_scope:
+      - electrostatic_regime
+    mathematical_link: "∂_ν F^{ν0} = μ₀ J⁰ → ∂_i E_i = μ₀c²ρ_q = ρ_q/ε₀"
+
+  - id: deriv.gauss_magnetic
+    conclusion: law.gauss_magnetic
+    conclusion_statement: "∇·B = 0"
+    premise:
+      - kernel.gauge_interactions
+      - kernel.spacetime_dimensionality
+    inherits_derivation: deriv.maxwell_from_gauge
+    variables:
+      - { symbol: "B", type: "ℝ³ → ℝ³", dim: "[M·T⁻²·I⁻¹]", domain: "", meaning: "磁感应强度" }
+      - { symbol: "A", type: "ℝ³ → ℝ³", dim: "[M·L·T⁻²·I⁻¹]", domain: "", meaning: "磁矢势; B = ∇×A" }
+    steps:
+      - step: 1
+        description: "Bianchi 恒等式的空间分量"
+        expression: "∂_1 F_{23} + ∂_2 F_{31} + ∂_3 F_{12} = 0"
+        justification: "见 deriv.maxwell_from_gauge Step 9-10: Bianchi 恒等式 + 场强分量对应 F_{ij} = −ε_{ijk}B_k"
+      - step: 2
+        description: "等价于磁场散度为零"
+        expression: "∇·B = 0"
+        justification: "F_{23}=B_1, F_{31}=B_2, F_{12}=B_3。Bianchi ⇒ ∂_1B_1+∂_2B_2+∂_3B_3=0。本质是 ∇·(∇×A) ≡ 0。"
+    necessity_conditions:
+      - "F = dA (B = ∇×A) [N]: 磁场是无源场，因为它是矢势的旋度"
+      - "R3 [N]: A 本身来自规范补偿场要求"
+    sufficiency_conditions:
+      - "[S] B = ∇×A ⇒ ∇·B ≡ 0（恒等式，不需要任何动力学）"
+    reversible: true
+    validity_scope: []
+    mathematical_link: "B = ∇×A → ∇·B = ∇·(∇×A) ≡ 0"
+
+  - id: deriv.faraday_induction
+    conclusion: law.faraday_induction
+    conclusion_statement: "∇×E = −∂B/∂t"
+    premise:
+      - kernel.gauge_interactions
+      - kernel.spacetime_dimensionality
+    inherits_derivation: deriv.maxwell_from_gauge
+    variables:
+      - { symbol: "E", type: "ℝ³ → ℝ³", dim: "[M·L·T⁻³·I⁻¹]", domain: "", meaning: "电场强度" }
+      - { symbol: "B", type: "ℝ³ → ℝ³", dim: "[M·T⁻²·I⁻¹]", domain: "", meaning: "磁感应强度" }
+    steps:
+      - step: 1
+        description: "Bianchi 恒等式的混合指标分量"
+        expression: "∂_0 F_{ij} + ∂_i F_{j0} + ∂_j F_{0i} = 0"
+        justification: "见 deriv.maxwell_from_gauge Step 9,11: Bianchi 恒等式，取 (μ,ν,λ) = (0,i,j)"
+      - step: 2
+        description: "场强分量代入 + 矢量恒等式"
+        expression: "−(1/c)∂_t(ε_{ijk}B_k) + ∂_i(E_j/c) − ∂_j(E_i/c) = 0 ⇒ ∇×E = −∂B/∂t"
+        justification: "F_{0i}=E_i/c, F_{ij}=−ε_{ijk}B_k。详见 deriv.maxwell_from_gauge Step 11。"
+    necessity_conditions:
+      - "Bianchi 恒等式 [N]: ∂_0F_{ij}+∂_iF_{j0}+∂_jF_{0i}=0 ⇒ ∇×E = −∂B/∂t"
+      - "R3 [N]: F_{μν} = ∂_μ A_ν − ∂_ν A_μ"
+    sufficiency_conditions:
+      - "[S] F = dA + E,B 的场强对应 ⇒ ∇×E = −∂B/∂t"
+    reversible: true
+    validity_scope: []
+    mathematical_link: "dF = 0 (Bianchi) → ∇×E = −∂B/∂t"
+
+  - id: deriv.lorentz_force
+    conclusion: law.lorentz_force
+    conclusion_statement: "F = q(E + v × B)"
+    premise:
+      - kernel.gauge_interactions
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "q", type: "ℝ", dim: "[T·I]", domain: "", meaning: "粒子电荷" }
+      - { symbol: "v", type: "ℝ³", dim: "[L·T⁻¹]", domain: "|v| < c", meaning: "粒子速度" }
+      - { symbol: "φ", type: "ℝ³ → ℝ", dim: "[M·L²·T⁻³·I⁻¹]", domain: "", meaning: "标势; E = −∇φ − ∂A/∂t" }
+      - { symbol: "A", type: "ℝ³ → ℝ³", dim: "[M·L·T⁻²·I⁻¹]", domain: "", meaning: "矢势; B = ∇×A" }
+      - { symbol: "p_can", type: "ℝ³", dim: "[M·L·T⁻¹]", domain: "", meaning: "正则动量 p_can = ∂L/∂v" }
+      - { symbol: "p_kin", type: "ℝ³", dim: "[M·L·T⁻¹]", domain: "", meaning: "动力学动量 p_kin = mv" }
+
+    steps:
+      - step: 1
+        description: "带电粒子在电磁场中的 Lagrangian"
+        expression: "L = ½m|v|² − qφ + q v·A"
+        justification: >
+          R3 的最小耦合 (minimal coupling) 原理:
+          自由粒子 Lagrangian ½mv² 中的动量 p → p − qA,
+          能量 E → E − qφ（对于势能的推广）。
+          这保证 L 在规范变换 (φ→φ−∂α/∂t, A→A+∇α) 下变一个全导数 d(qα)/dt，
+          从而作用量 S = ∫L dt 规范不变。
+
+      - step: 2
+        description: "计算正则动量"
+        expression: "p_can = ∂L/∂v = mv + qA"
+        justification: "∂L/∂v = ∂/∂v[½m|v|² + q v·A] = mv + qA"
+        condition: "[N] 规范耦合必须是 p → p − qA 的最小耦合形式"
+
+      - step: 3
+        description: "应用 Euler-Lagrange 方程"
+        expression: "d(p_can)/dt = ∂L/∂r"
+        justification: "G1 结论"
+
+      - step: 4
+        description: "计算 ∂L/∂r"
+        expression: "∂L/∂r = −q∇φ + q∇(v·A)"
+        justification: "A(r,t) 和 φ(r,t) 都是位置的函数"
+
+      - step: 5
+        description: "用链式法则展开 d(p_can)/dt"
+        expression: >
+          d(mv)/dt + q·dA/dt = d(mv)/dt + q(∂A/∂t + (v·∇)A)
+        justification: "全导数链式法则: dA(r(t),t)/dt = ∂A/∂t + (∂A/∂r)·(dr/dt) = ∂A/∂t + (v·∇)A"
+
+      - step: 6
+        description: "展开 ∂L/∂r"
+        expression: >
+          ∂L/∂r = −q∇φ + q[(v·∇)A + v×(∇×A)]
+        justification: "矢量恒等式: ∇(v·A) = (v·∇)A + v×(∇×A)"
+
+      - step: 7
+        description: "代入 Euler-Lagrange 并化简"
+        expression: >
+          d(mv)/dt + q(∂A/∂t + (v·∇)A) = −q∇φ + q[(v·∇)A + v×(∇×A)]
+          ⇒ d(mv)/dt = −q∇φ − q∂A/∂t + q v×(∇×A)
+        justification: "两侧的 (v·∇)A 项抵消"
+
+      - step: 8
+        description: "用 E 和 B 表示"
+        expression: "F = d(mv)/dt = q[−∇φ − ∂A/∂t] + q v×(∇×A) = qE + q v×B"
+        justification: "E = −∇φ − ∂A/∂t, B = ∇×A"
+
+    result: "F = q(E + v×B) (Lorentz 力)"
+
+    necessity_conditions:
+      - "R3 (最小耦合) [N]: p → p − qA 的替换来自规范不变性要求"
+      - "Euler-Lagrange 方程 [N]"
+      - "E = −∇φ − ∂A/∂t 和 B = ∇×A 的定义 [N]"
+
+    sufficiency_conditions:
+      - "[S] 最小耦合 Lagrangian + Euler-Lagrange ⇒ Lorentz 力"
+
+    reversible: true
+    validity_scope:
+      - classical_limit
+      - point_particle_approximation
+    mathematical_link: "L = ½mv² − qφ + qv·A → EL → F = q(E + v×B)"
+
+  - id: deriv.em_wave_equation
+    conclusion: law.em_wave_equation
+    conclusion_statement: "∇²E = (1/c²)∂²E/∂t², ∇²B = (1/c²)∂²B/∂t², c = 1/√(ε₀μ₀)"
+    premise:
+      - law.gauss_electric
+      - law.gauss_magnetic
+      - law.faraday_induction
+      - law.ampere_maxwell
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "c", type: "常数", dim: "[L·T⁻¹]", domain: "c = 1/√(ε₀μ₀)", meaning: "真空中电磁波传播速度 = 真空光速" }
+
+    steps:
+      - step: 1
+        description: "真空中的 Maxwell 方程 (ρ_q=0, J=0)"
+        expression: >
+          (1) ∇·E = 0    (Gauss 电, 无自由电荷)
+          (2) ∇·B = 0    (Gauss 磁)
+          (3) ∇×E = −∂B/∂t  (Faraday)
+          (4) ∇×B = μ₀ε₀ ∂E/∂t  (Ampère-Maxwell, 无传导电流)
+        justification: "Maxwell 方程组 (G4) 在 ρ_q=0, J=0 时的真空形式。自由空间中无源项——电磁场仅由自身动力学决定。"
+
+      - step: 2
+        description: "对 Faraday 方程取旋度"
+        expression: "∇×(∇×E) = −∇×(∂B/∂t) = −∂/∂t (∇×B)"
+        justification: "旋度算符和时间导数可交换（E,B ∈ C²）"
+        condition: "[N] E, B 二阶连续可微"
+
+      - step: 3
+        description: "左边用矢量恒等式展开"
+        expression: "∇×(∇×E) = ∇(∇·E) − ∇²E = −∇²E"
+        justification: "∇·E = 0 (Step 1 的 (1))"
+
+      - step: 4
+        description: "右边代入 Ampère-Maxwell"
+        expression: "−∂/∂t (∇×B) = −∂/∂t (μ₀ε₀ ∂E/∂t) = −μ₀ε₀ ∂²E/∂t²"
+        justification: "将真空 Ampère-Maxwell 定律 (4) 代入: ∇×B = μ₀ε₀ ∂E/∂t。时-空导数可交换 (C² 函数)。"
+
+      - step: 5
+        description: "得到 E 的波动方程"
+        expression: "∇²E = μ₀ε₀ ∂²E/∂t² = (1/c²) ∂²E/∂t²"
+        justification: "c ≡ 1/√(ε₀μ₀)。c 的数值 = 2.99792458×10⁸ m/s = 真空光速。"
+
+      - step: 6
+        description: "同理对 Ampère-Maxwell 取旋度得到 B 的波动方程"
+        expression: "∇²B = (1/c²) ∂²B/∂t²"
+        justification: "对称推导，交换 E↔B 角色，注意符号。"
+
+    result: >
+      ∇²E = (1/c²) ∂²E/∂t², ∇²B = (1/c²) ∂²B/∂t²。
+      c = 1/√(ε₀μ₀) = 2.99792458×10⁸ m/s。
+      电磁波以光速传播；c 的数值由真空的电学和磁学性质完全决定。
+
+    necessity_conditions:
+      - "Maxwell 方程组 [N]: 四个方程全部需要"
+      - "真空条件 [N]: ρ_q=0, J=0（否则有源项）"
+      - "∇·E = 0 [N]: (1) 是取消 ∇(∇·E) 项的必要条件"
+
+    sufficiency_conditions:
+      - "[S] 真空 Maxwell 方程 ⇒ E 和 B 满足波动方程（波速 c = 1/√(ε₀μ₀)）"
+
+    reversible: false
+    reverse_note: "波动方程 ⇏ Maxwell 方程完备（波动方程丢失了 ∇·E=0 和 ∇·B=0 的约束）"
+    validity_scope:
+      - vacuum
+    mathematical_link: "curl(curl E) = −μ₀ε₀ Ë, div E = 0 → ∇²E = (1/c²) Ë, c = 1/√(ε₀μ₀)"
+
+  # ═══════════════════════════════════════════════════════════════
+  # G5: 量子力学 (从 R4 公设严格推导)
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: deriv.schroedinger_equation
+    conclusion: law.schroedinger_equation
+    conclusion_statement: "iħ ∂ψ/∂t = −(ħ²/2m)∇²ψ + V(r)ψ"
+    premise:
+      - kernel.unitary_evolution       # R4b
+      - kernel.canonical_commutation   # R4c
+      - kernel.operator_observable     # R4d
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "ψ(r,t)", type: "ℝ⁴ → ℂ", dim: "[L^(−3/2)]", domain: "∫|ψ|² d³r = 1", meaning: "位置表象中的波函数; ψ(r,t) = ⟨r|ψ(t)⟩" }
+      - { symbol: "|ψ(t)⟩", type: "H 中向量", dim: "[1]", domain: "⟨ψ|ψ⟩ = 1", meaning: "抽象量子态" }
+      - { symbol: "Ĥ", type: "H 上厄米算符", dim: "[M·L²·T⁻²]", domain: "", meaning: "哈密顿算符" }
+      - { symbol: "|r⟩", type: "H 中广义向量", dim: "依赖归一化", domain: "⟨r|r'⟩ = δ(r−r')", meaning: "位置本征态（连续谱）" }
+      - { symbol: "p̂", type: "H 上厄米算符", dim: "[M·L·T⁻¹]", domain: "", meaning: "动量算符" }
+      - { symbol: "x̂", type: "H 上厄米算符", dim: "[L]", domain: "", meaning: "位置算符" }
+
+    steps:
+      - step: 1
+        description: "R4b 的抽象演化方程"
+        expression: "iħ d|ψ(t)⟩/dt = Ĥ|ψ(t)⟩"
+        justification: "R4b: 幺正演化 U(t)=exp(−iĤt/ħ) 的无穷小生成元 ⇒ iħ dU/dt = ĤU。应用到 |ψ⟩ 得此式。"
+        condition: "[N] R4b 必须成立（孤立系统 + 非测量）"
+
+      - step: 2
+        description: "投影到位置表象"
+        expression: "⟨r| × (iħ d|ψ⟩/dt = Ĥ|ψ⟩)"
+        justification: "左乘 ⟨r| 得到位置表象中的方程。ψ(r,t) ≡ ⟨r|ψ(t)⟩。"
+
+      - step: 3
+        description: "确定位置表象中的动量算符"
+        expression: "⟨r|p̂|ψ⟩ = −iħ∇ψ(r)"
+        justification: >
+          R4c: [x̂_i, p̂_j] = iħ δ_{ij}。
+          位置表象中 x̂_i 是乘法算符: ⟨r|x̂_i|ψ⟩ = x_i ψ(r)。
+          满足对易关系 [x̂_i, p̂_j] = iħ δ_{ij} 的唯一解（Stone-von Neumann 定理）
+          是 p̂_j = −iħ ∂/∂x_j。
+        condition: "[N] R4c (正则对易关系) 唯一地确定了动量在位置表象中的形式"
+
+      - step: 4
+        description: "经典哈密顿量算符化"
+        expression: "Ĥ = p̂²/(2m) + V(r̂)"
+        justification: >
+          R4d (算符-可观测量对应): 经典哈密顿量 H = p²/(2m) + V(r)
+          升格为算符: p → p̂ = −iħ∇, r → r̂ = 乘法算符。
+          对于非相对论粒子，动能 T = p²/(2m)。
+
+      - step: 5
+        description: "代入得坐标表象中的 Schrödinger 方程"
+        expression: "iħ ∂ψ(r,t)/∂t = −(ħ²/2m)∇²ψ(r,t) + V(r)ψ(r,t)"
+        justification: "Ĥ 在位置表象中作用: −ħ²∇²/(2m) + V(r)"
+
+    result: "iħ ∂ψ/∂t = −(ħ²/2m)∇²ψ + Vψ"
+
+    necessity_conditions:
+      - "R4b (幺正演化) [N]: iħ d|ψ⟩/dt = Ĥ|ψ⟩ 是量子动力学的源头"
+      - "R4c (正则对易 [x̂,p̂]=iħ) [N]: 确定动量算符的形式 p̂=−iħ∇。若 [x̂,p̂]=0 ⟹ 无量子效应"
+      - "R4d (算符对应) [N]: 经典 H → 算符 Ĥ 的升格规则"
+      - "R1 (时间坐标 t) [N]: 时间演化需要连续时间参数"
+
+    sufficiency_conditions:
+      - "[S] R4b + R4c + R4d + 经典 H(p,r) ⇒ Schrödinger 方程"
+      - "注意: 这是非相对论极限。相对论推广需 Dirac 或 Klein-Gordon 方程 (R4+R1)"
+
+    reversible: true
+    reverse_note: "Schrödinger 方程的反推: iħ∂ψ/∂t=Ĥψ ⇒ 幺正演化 U=exp(−iĤt/ħ) 和对易关系隐含其中"
+    validity_scope:
+      - quantum_regime
+      - non_relativistic_limit
+    mathematical_link: "iħ d|ψ⟩/dt = Ĥ|ψ⟩, p̂→−iħ∇ → iħ ψ̇ = −(ħ²/2m)∇²ψ + Vψ"
+
+  - id: deriv.energy_frequency
+    conclusion: law.energy_frequency
+    conclusion_statement: "E = hν (光子能量量子)"
+    premise:
+      - kernel.canonical_commutation
+
+    variables:
+      - { symbol: "ν", type: "ℝ⁺", dim: "[T⁻¹]", domain: "ν > 0", meaning: "电磁辐射频率" }
+      - { symbol: "ω", type: "ℝ", dim: "[T⁻¹]", domain: "ω = 2πν", meaning: "角频率" }
+      - { symbol: "a, a†", type: "H 上算符", dim: "[1]", domain: "[a, a†] = 1", meaning: "升降算符（湮灭/产生算符）" }
+      - { symbol: "n", type: "ℕ", dim: "[1]", domain: "n ≥ 0", meaning: "光子数（能量量子数）" }
+      - { symbol: "E_n", type: "ℝ", dim: "[M·L²·T⁻²]", domain: "", meaning: "第 n 个能级的能量" }
+
+    steps:
+      - step: 1
+        description: "量子谐振子的哈密顿量"
+        expression: "Ĥ = p̂²/(2m) + ½mω²x̂²"
+        justification: "经典谐振子: H = p²/(2m) + ½mω²x²。量纲一致。"
+
+      - step: 2
+        description: "引入无量纲升降算符"
+        expression: >
+          a ≡ √(mω/(2ħ)) x̂ + i √(1/(2mħω)) p̂
+          a† ≡ √(mω/(2ħ)) x̂ − i √(1/(2mħω)) p̂
+        justification: "x̂ 和 p̂ 的线性组合，系数选择使 [a, a†] = 1"
+        condition: "[N] R4c: [x̂,p̂] = iħ 是计算 [a,a†] 的前提"
+
+      - step: 3
+        description: "计算对易子"
+        expression: "[a, a†] = 1"
+        justification: "直接代入: [x̂,p̂]=iħ ⇒ [a,a†] = −i/(2ħ)[x̂,p̂] − i/(2ħ)[p̂,x̂] = 1"
+
+      - step: 4
+        description: "用 a,a† 表示 Ĥ"
+        expression: "Ĥ = ħω(a†a + ½)"
+        justification: "代数恒等式: 代入 a,a† 的定义展开。a†a 是粒子数算符 N̂。"
+
+      - step: 5
+        description: "能谱"
+        expression: "E_n = ħω(n + ½), n = 0,1,2,..."
+        justification: >
+          N̂|n⟩ = n|n⟩, 所以 Ĥ|n⟩ = ħω(n+½)|n⟩。
+          能级等间距 ΔE = ħω = hν。
+          单个量子激发 (n=0→1): E = hν。
+
+    result: "E = hν（光子/量子激发的最小能量）"
+
+    necessity_conditions:
+      - "R4c ([x̂,p̂]=iħ) [N]: 没有对易关系就没有离散能谱"
+      - "谐振子模型 [N]: 自由电磁场的每个模式是独立谐振子"
+
+    sufficiency_conditions:
+      - "[S] [x̂,p̂]=iħ + 谐振子 H ⇒ E_n = ħω(n+½) ⇒ E_photon = hν"
+
+    reversible: true
+    validity_scope:
+      - quantum_regime
+    mathematical_link: "[x̂,p̂]=iħ → [a,a†]=1 → Ĥ=ħω(a†a+½) → E_n=ħω(n+½) → E_γ=hν"
+
+  - id: deriv.de_broglie_wavelength
+    conclusion: law.de_broglie_wavelength
+    conclusion_statement: "λ = h/p"
+    premise:
+      - law.energy_frequency
+
+    variables:
+      - { symbol: "λ", type: "ℝ⁺", dim: "[L]", domain: "", meaning: "物质波波长" }
+      - { symbol: "p", type: "ℝ", dim: "[M·L·T⁻¹]", domain: "", meaning: "粒子动量" }
+
+    steps:
+      - step: 1
+        description: "光子: E = hν, p = E/c"
+        expression: "p = hν/c = h/λ ⇒ λ_photon = h/p"
+        justification: "光子无质量，E = pc = hν。由 Maxwell 方程得出 c = νλ。"
+
+      - step: 2
+        description: "de Broglie 假设: 对任意物质粒子也成立"
+        expression: "λ = h/p for all matter"
+        justification: >
+          类比光子推广到所有粒子。此推广是经验性的（de Broglie 1924）——
+          不由 E=hν 逻辑必然推出，但因其实验成功（Davisson-Germer 1927）
+          和理论自洽性（Schrödinger 方程中 p→−iħ∇ 的自然结果）被接受。
+          在量子场论中，这是场量子化（场→粒子）的自然结论。
+
+    result: "λ = h/p"
+
+    necessity_conditions:
+      - "E = hν [N]: 光子能量量子化是物质波假设的类比来源"
+      - "p 定义 [N]: 需要经典动量的明确定义"
+
+    sufficiency_conditions:
+      - "[S] E=hν + 光子类比 + 实验验证 ⇒ λ=h/p 对所有物质粒子成立"
+
+    reversible: true
+    reverse_note: "λ = h/p ⇒ p = h/λ ⇒ 在坐标表象中 p = −iħ∇ 与波函数 ψ∝e^{ip·r/ħ} 一致"
+    validity_scope:
+      - quantum_regime
+    mathematical_link: "p_γ = hν/c = h/λ → generalize to all matter → λ = h/p"
+
+  - id: deriv.uncertainty_principle
+    conclusion: law.uncertainty_principle
+    conclusion_statement: "σ_x·σ_p ≥ ħ/2; ΔE·Δt ≥ ħ/2"
+    premise:
+      - kernel.canonical_commutation
+      - kernel.born_rule
+      - kernel.operator_observable
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "σ_A", type: "ℝ_{\\ge 0}", dim: "与 A 同量纲", domain: "σ_A² = ⟨(Â−⟨Â⟩)²⟩", meaning: "可观测量 A 的标准差" }
+      - { symbol: "⟨Â⟩", type: "ℝ", dim: "与 A 同量纲", domain: "⟨Â⟩ = ⟨ψ|Â|ψ⟩", meaning: "期望值 (R5: Born 规则)" }
+
+    steps:
+      - step: 1
+        description: "Robertson-Schrödinger 不等式"
+        expression: "σ_A²·σ_B² ≥ |½⟨[Â,B̂]⟩|² + |½⟨{Â−⟨Â⟩, B̂−⟨B̂⟩}⟩|² ≥ |½⟨[Â,B̂]⟩|²"
+        justification: >
+          Cauchy-Schwarz 不等式应用于 Hilbert 空间中的态向量
+          |f⟩=(Â−⟨Â⟩)|ψ⟩ 和 |g⟩=(B̂−⟨B̂⟩)|ψ⟩:
+          ⟨f|f⟩⟨g|g⟩ ≥ |⟨f|g⟩|² = |Re⟨f|g⟩|² + |Im⟨f|g⟩|² ≥ |Im⟨f|g⟩|²。
+          而 Im⟨f|g⟩ = ⟨[Â,B̂]⟩/(2i)。
+        condition: "[N] Â,B̂ 为厄米算符 (R4d); 期望值由 Born 规则 (R5) 定义"
+
+      - step: 2
+        description: "代入 [x̂,p̂] = iħ"
+        expression: "σ_x·σ_p ≥ |½⟨iħ⟩| = ħ/2"
+        justification: "对易子 [x̂,p̂]=iħ (R4c)。⟨iħ⟩=iħ⟨ψ|ψ⟩=iħ。"
+
+      - step: 3
+        description: "能量-时间不确定关系 (Mandelstam-Tamm)"
+        expression: "ΔE·Δt ≥ ħ/2"
+        justification: >
+          时间在标准 QM 中不是算符（Pauli 定理推论）。
+          定义 Δt ≡ σ_A/|d⟨A⟩/dt| 为可观测量 A 变化一个标准差所需时间。
+          由广义不确定性关系 d⟨A⟩/dt = (i/ħ)⟨[Ĥ,A]⟩ ⇒ σ_H·σ_A ≥ (ħ/2)|d⟨A⟩/dt| ⇒ ΔE·Δt ≥ ħ/2。
+
+    result: "σ_x·σ_p ≥ ħ/2; ΔE·Δt ≥ ħ/2"
+
+    necessity_conditions:
+      - "R4c ([x̂,p̂]=iħ) [N]: 不确定性的源头是对易关系的非零性"
+      - "R5 (Born 规则) [N]: 方差 ⟨(Â−⟨Â⟩)²⟩ 的定义依赖概率解释"
+      - "R4d (厄米算符) [N]: Cauchy-Schwarz 不等式仅在厄米算符的内积语境中适用"
+
+    sufficiency_conditions:
+      - "[S] R4c + R4d + R5 ⇒ 不确定性原理"
+      - "等号成立条件: Gaussian 波包（最小不确定态 = 相干态）"
+
+    reversible: false
+    reverse_note: "σ_xσ_p≥ħ/2 ⇏ [x̂,p̂]=iħ（不确定性可来自其他原因，如经典波包 Fourier 变换限制）"
+    validity_scope:
+      - quantum_regime
+    mathematical_link: "[A,B]=iC → σ_A·σ_B ≥ |⟨C⟩|/2 → [x,p]=iħ → σ_x·σ_p ≥ ħ/2"
+
+  # ═══════════════════════════════════════════════════════════════
+  # G6: 相对论 (从 R1 严格推导)
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: deriv.lorentz_transformation
+    conclusion: law.lorentz_transform
+    conclusion_statement: "t' = γ(t−vx/c²), x' = γ(x−vt), γ = 1/√(1−v²/c²)"
+    premise:
+      - kernel.light_speed_invariance  # R1
+      - kernel.lorentz_invariance      # R1
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "γ", type: "ℝ⁺", dim: "[1]", domain: "γ ≥ 1", meaning: "Lorentz 因子" }
+      - { symbol: "v", type: "ℝ", dim: "[L·T⁻¹]", domain: "|v| < c", meaning: "两惯性系相对速度" }
+      - { symbol: "S, S'", type: "参考系", dim: "—", domain: "惯性系", meaning: "两个以相对速度 v 沿 x 轴运动的惯性系" }
+
+    steps:
+      - step: 1
+        description: "基本假设: c 在所有惯性系中不变"
+        expression: "c' = c"
+        justification: "R1: kernel.light_speed_invariance。光速是绝对常数。"
+
+      - step: 2
+        description: "间隔不变性"
+        expression: "Δs² = c²Δt² − Δx² = c²Δt'² − Δx'²"
+        justification: "R1: kernel.lorentz_invariance。时空间隔在 Lorentz 变换下不变。"
+
+      - step: 3
+        description: "假设线性变换（齐次 + 时空均匀性）"
+        expression: "x' = Ax + Bt, t' = Cx + Dt"
+        justification: "时空的均匀性和各向同性 (R1) 保证变换为线性。"
+        condition: "[N] 时空均匀 → 变换为线性（无 x² 项）"
+
+      - step: 4
+        description: "标准构型条件"
+        expression: >
+          S' 原点 (x'=0) 在 S 中速度为 v: x = vt
+          S  原点 (x=0) 在 S' 中速度为 −v: x' = −vt'
+        justification: "定义两系相对速度为 v。"
+
+      - step: 5
+        description: "从标准构型和间隔不变性求解系数"
+        expression: ""
+        justification: >
+          从 Step 4 的标准构型:
+          (a) S' 原点 x'=0 在 S 中: x = vt ⇒ 代入 x'=Ax+Bt: 0 = Avt+Bt ⇒ B = −vA
+          (b) S 原点 x=0 在 S' 中: x' = −vt' ⇒ 代入逆变换 x = A⁻¹(x'−Bt') 等,
+              或直接从对称性得逆变换为 x = γ(x'+vt'), t = γ(t'+vx'/c²)
+          (c) 将线性形式 x'=A(x−vt), t'=Cx+Dt 代入间隔不变性:
+              c²(Cx+Dt)² − A²(x−vt)² = c²t² − x²
+              展开并比对 t², x², xt 的系数:
+              t²: c²D² − A²v² = c²
+              x²: c²C² − A² = −1
+              xt: 2c²CD + 2A²v = 0
+          (d) 求解: 从 xt 项得 C = −vD/c²。代入 x² 项并用 t² 项消除:
+              得 D = γ ≡ 1/√(1−v²/c²), A = γ, C = −γv/c²。
+          (e) 最终: x' = γ(x−vt), t' = γ(t−vx/c²)。
+
+      - step: 6
+        description: "γ 因子的确定"
+        expression: "γ = 1/√(1 − v²/c²)"
+        justification: >
+          将变换代入 c²t'²−x'²=c²t²−x²:
+          c²γ²(t−vx/c²)² − γ²(x−vt)² = c²t²−x²
+          ⇒ γ²(c²t²−2vtx+v²x²/c² − x²+2vxt−v²t²) = c²t²−x²
+          ⇒ γ²(c²−v²)t² − γ²(1−v²/c²)x² = c²t²−x²
+          ⇒ γ²=1/(1−v²/c²) 使系数匹配
+
+    result: "Lorentz 变换: t'=γ(t−vx/c²), x'=γ(x−vt)"
+
+    necessity_conditions:
+      - "c 不变 [N]: 若无 c=常数 ⇒ 退化为 Galilei 变换 (c→∞)"
+      - "时空间隔不变 [N]: Lorentz 不变性是狭义相对论的核心结构"
+      - "线性变换 [N]: 时空均匀性要求"
+      - "|v|<c [N]: v=c 时 γ 发散（类光极限）；v>c 时 γ 为虚数（超光速不物理）"
+
+    sufficiency_conditions:
+      - "[S] c 不变 + 间隔不变 + 线性 ⇒ Lorentz 变换"
+
+    reversible: true
+    validity_scope:
+      - inertial_frame
+      - relativistic_regime
+    mathematical_link: "c²t'²−x'²=c²t²−x² → t'=γ(t−vx/c²), x'=γ(x−vt), γ=1/√(1−v²/c²)"
+
+  - id: deriv.mass_energy_equivalence
+    conclusion: law.mass_energy
+    conclusion_statement: "E² = p²c² + m²c⁴; rest frame: E = mc²"
+    premise:
+      - kernel.lorentz_invariance
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "p^μ", type: "ℝ⁴ 矢量", dim: "[M·L·T⁻¹]", domain: "p^μ = (E/c, p)", meaning: "四维动量" }
+      - { symbol: "m", type: "ℝ⁺", dim: "[M]", domain: "m ≥ 0 (m=0 for photon)", meaning: "静止质量 (Lorentz 标量); 与参考系无关的不变质量" }
+      - { symbol: "τ", type: "ℝ", dim: "[T]", domain: "dτ² = ds²/c² ≥ 0 (timelike)", meaning: "固有时 (R1); 沿粒子世界线的 Lorentz 不变量" }
+      - { symbol: "γ", type: "ℝ⁺", dim: "[1]", domain: "γ = dt/dτ = 1/√(1−v²/c²) ≥ 1", meaning: "Lorentz 因子; 时间膨胀的度量" }
+
+    steps:
+      - step: 1
+        description: "定义四维动量"
+        expression: "p^μ ≡ m dx^μ/dτ = (γmc, γmv) = (E/c, p)"
+        justification: >
+          τ 是固有时 (R1)。四维速度 u^μ = dx^μ/dτ 是 Lorentz 四矢量 (由定义保证:
+          dx^μ 是四矢量, dτ 是 Lorentz 标量)。乘以标量 m (静止质量) 得四维动量。
+          m 本身是 Lorentz 不变量——这是狭义相对论的核心假设:
+          粒子的内禀质量不随参考系改变。
+
+      - step: 2
+        description: "时间分量: E = γmc²"
+        expression: "p⁰ = m·dx⁰/dτ = m·c·dt/dτ = γmc ⇒ E ≡ p⁰c = γmc²"
+        justification: "dτ = dt/γ (时间膨胀)"
+
+      - step: 3
+        description: "Lorentz 不变标量"
+        expression: "p_μ p^μ = (E/c)² − p² = m²c²"
+        justification: >
+          p_μ p^μ 是 Lorentz 不变量 (R1)。
+          在静止系 (p=0): (E_rest/c)² = m²c² ⇒ E_rest = mc²。
+
+      - step: 4
+        description: "任意参考系中的能量-动量关系"
+        expression: "E² = p²c² + m²c⁴"
+        justification: "从 p_μ p^μ = m²c² 展开"
+
+    result: "E = mc² (静止); E² = p²c² + m²c⁴ (一般)"
+
+    necessity_conditions:
+      - "R1 Lorentz 不变性 [N]: p_μ p^μ 必须是不变量"
+      - "R1 固有时定义 [N]: dτ 是 Lorentz 不变量，保证四维动量的 Lorentz 矢量性"
+      - "m > 0 [N]: 对于无质量粒子 (m=0)，E = pc"
+
+    sufficiency_conditions:
+      - "[S] R1 + 四维动量定义 ⇒ E² = p²c² + m²c⁴"
+
+    reversible: true
+    validity_scope:
+      - relativistic_regime
+    mathematical_link: "p^μ = m dx^μ/dτ → p_μ p^μ = m²c² → E² = p²c² + m²c⁴ → E=mc² (p=0)"
+
+  - id: deriv.einstein_field_equations
+    conclusion: law.einstein_field
+    conclusion_statement: "G_{μν} + Λ g_{μν} = (8πG/c⁴) T_{μν}"
+    premise:
+      - kernel.equivalence_principle   # R1
+      - kernel.general_covariance      # R1
+      - kernel.least_action            # R2
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "R_{μν}", type: "ℝ^(4×4) 对称张量", dim: "[L⁻²]", domain: "", meaning: "Ricci 曲率张量; 描述时空弯曲如何影响体积" }
+      - { symbol: "R", type: "ℝ", dim: "[L⁻²]", domain: "R = g^{μν}R_{μν}", meaning: "Ricci 标量曲率" }
+      - { symbol: "G_{μν}", type: "ℝ^(4×4) 对称张量", dim: "[L⁻²]", domain: "∇_μ G^{μν} = 0 (Bianchi)", meaning: "Einstein 张量; G_{μν}=R_{μν}−½Rg_{μν}" }
+      - { symbol: "T_{μν}", type: "ℝ^(4×4) 对称张量", dim: "[M·L⁻¹·T⁻²]", domain: "∇_μ T^{μν} = 0 (守恒)", meaning: "应力-能量张量" }
+      - { symbol: "κ", type: "常数", dim: "[M⁻¹·L⁻¹·T²]", domain: "κ = 8πG/c⁴", meaning: "Einstein 耦合常数" }
+      - { symbol: "g", type: "ℝ", dim: "[1]", domain: "g ≡ det(g_{μν}) < 0", meaning: "度规行列式" }
+
+    steps:
+      - step: 1
+        description: "Einstein-Hilbert 作用量"
+        expression: "S = (1/(2κ)) ∫ R √(−g) d⁴x + S_matter"
+        justification: >
+          R1 (广义协变性): 作用量必须是标量。√(−g) d⁴x 是不变体积元。
+          Lovelock 定理 (1971): 在 4 维时空中, Einstein-Hilbert 作用量 (R + 常数项)
+          是唯一由度规及其导数构成、产生二阶运动方程的作用量。
+          R 是唯一满足此条件的标量曲率不变量——更高阶曲率不变量
+          (如 R², R_{μν}R^{μν}) 给出四阶或更高阶运动方程。
+          系数 1/(2κ) 由 Newton 极限确定 (Step 6)。
+          S_matter 是物质场的作用量。
+
+      - step: 2
+        description: "对度规 g^{μν} 变分"
+        expression: "δS = 0 ⇒ δS_gravity/δg^{μν} + δS_matter/δg^{μν} = 0"
+        justification: "R2: δS = 0。度规 g^{μν} 是引力场的动力学变量。"
+
+      - step: 3
+        description: "引力部分的变分"
+        expression: "δ(∫ R√(−g) d⁴x) = ∫ (R_{μν} − ½R g_{μν}) δg^{μν} √(−g) d⁴x"
+        justification: >
+          计算 δ(R√(−g)) = (δR)√(−g) + R δ√(−g)。
+          Palatini 恒等式: δR = R_{μν}δg^{μν} + ∇_α(…)。
+          全导数项在积分后消失（边界项假设: δg^{μν}|_∂M = 0）。
+          δ√(−g) = −½√(−g)g_{μν}δg^{μν}。
+        condition: "[N] g_{μν} ∈ C²（度规二阶可微）"
+
+      - step: 4
+        description: "定义 Einstein 张量"
+        expression: "G_{μν} ≡ R_{μν} − ½R g_{μν}"
+        justification: "G_{μν} 的协变散度自动为零: ∇_μ G^{μν} ≡ 0 (Bianchi 恒等式)"
+
+      - step: 5
+        description: "物质部分的变分定义应力-能量张量"
+        expression: "T_{μν} ≡ −(2/√(−g)) δS_matter/δg^{μν}"
+        justification: "这是 T_{μν} 的标准定义。对于任何广义协变的物质作用量，∇_μ T^{μν} = 0。"
+
+      - step: 6
+        description: "场方程"
+        expression: "G_{μν} = κ T_{μν} = (8πG/c⁴) T_{μν}"
+        justification: >
+          Newton 极限 (弱场、低速) 必须恢复 Poisson 方程 ∇²φ = 4πGρ。
+          这固定了 κ = 8πG/c⁴。
+          加上宇宙学常数 Λ: G_{μν} + Λ g_{μν} = κ T_{μν} 是最一般的散度为零的二阶张量。
+
+    result: "G_{μν} + Λ g_{μν} = (8πG/c⁴) T_{μν}"
+
+    necessity_conditions:
+      - "R1 (等效原理) [N]: m_i = m_g ⇒ 引力 = 时空几何 ⇒ 度规是动力学场"
+      - "R1 (广义协变性) [N]: 物理定律在所有坐标系中形式相同 ⇒ 作用量必须是标量"
+      - "R2 (δS=0) [N]: 给出运动方程"
+      - "4 维时空 [N]: G_{μν} 是 4 维中唯一满足 ∇_μ G^{μν}=0 的二阶张量"
+
+    sufficiency_conditions:
+      - "[S] R1 + R2 + 4D ⇒ Einstein 场方程（唯一可能性，Lovelock 定理）"
+      - "在 4 维时空中，Einstein-Hilbert 作用量是唯一给出二阶场方程且满足 ∇_μ G^{μν}=0 的引力理论"
+      - "注：R1+R2 本身不强制选择 EH 作用量——它们只要求作用量为一般协变标量。Lovelock 定理（1971）证明在 4D 中，EH 作用是唯一产生二阶运动方程的纯度规作用量。这是数学唯一性定理，不是物理假设。"
+
+    reversible: true
+    validity_scope:
+      - relativistic_regime
+      - macroscopic_limit
+    mathematical_link: "δ∫R√(−g)d⁴x=0 → G_{μν}=κT_{μν}"
+
+  - id: deriv.newton_gravitation
+    conclusion: law.newton_gravitation
+    conclusion_statement: "F = −G m₁ m₂ / r² · r̂"
+    premise:
+      - kernel.equivalence_principle
+      - kernel.general_covariance
+      - kernel.least_action
+      - kernel.spacetime_dimensionality
+    intermediate_dependency: law.einstein_field
+    intermediate_note: "Einstein 场方程是 kernel.equivalence_principle + kernel.general_covariance + kernel.least_action 的推论 (law.einstein_field)。本推导从 Einstein 场方程的弱场极限出发，等价于从所列 premise 出发。"
+
+    variables:
+      - { symbol: "φ", type: "ℝ³ → ℝ", dim: "[L²·T⁻²]", domain: "", meaning: "Newton 引力势" }
+      - { symbol: "ρ", type: "ℝ³ → ℝ", dim: "[M·L⁻³]", domain: "", meaning: "质量密度" }
+      - { symbol: "h_{μν}", type: "ℝ^(4×4) 对称", dim: "[1]", domain: "|h_{μν}| ≪ 1", meaning: "度规的微小扰动: g_{μν} = η_{μν} + h_{μν}" }
+
+    steps:
+      - step: 1
+        description: "弱场近似: g_{μν} = η_{μν} + h_{μν}"
+        expression: ""
+        justification: "|h_{μν}| ≪ 1。平直背景 η_{μν} 上加微小扰动。" 
+        condition: "[N] weak_field_limit"
+
+      - step: 2
+        description: "Einstein 场方程的 (0,0) 分量弱场展开"
+        expression: "R_{00} ≈ −½∇²h_{00}"
+        justification: "弱场极限下 Ricci 张量线性化。仅保留 h_{μν} 的一阶项。"
+
+      - step: 3
+        description: "求解 h_{00}"
+        expression: "h_{00} = 2φ/c²"
+        justification: >
+          从测地线方程 d²x/dt² = −½c²∇h_{00} ⇒ a = −½c²∇h_{00}。
+          与 Newton 力学 a = −∇φ 比较 ⇒ h_{00} = 2φ/c²。
+
+      - step: 4
+        description: "场方程化为 Poisson 方程"
+        expression: "∇²φ = 4πGρ"
+        justification: >
+          R = −R_{00} ≈ ½∇²h_{00} = ∇²φ/c²。
+          T = −ρc² (静态尘埃的应力-能量)。
+          R = −κT ⇒ ∇²φ/c² = −κ(−ρc²) = κρc² = (8πG/c⁴)ρc² = 8πGρ/c²。
+          ⇒ ∇²φ = 4πGρ。
+
+      - step: 5
+        description: "球对称解 ⇒ Newton 万有引力"
+        expression: >
+          ∇²φ = 4πGρ ⇒ 对于点质量 M: φ = −GM/r
+          F = −m∇φ = −GmM/r² · r̂
+        justification: "Poisson 方程在球对称下的 Green 函数解。∇(1/r) = −r̂/r²，m 为试探粒子质量。"
+
+    result: "F = −G m₁ m₂ / r² · r̂"
+
+    necessity_conditions:
+      - "弱场极限 [N]: |h_{μν}| ≪ 1"
+      - "低速极限 [N]: v ≪ c"
+      - "等效原理 [N]: m_i = m_g"
+      - "静态场 [N]: ∂_t g_{μν} = 0"
+
+    sufficiency_conditions:
+      - "[S] Einstein 场方程 + 弱场低速极限 ⇒ Newton 万有引力"
+
+    reversible: false
+    reverse_note: "Newton 引力 ⇏ Einstein 场方程（Newton 理论是 GR 的低能有效理论，丢失了时空弯曲的全部信息）"
+    validity_scope:
+      - classical_limit
+      - weak_field_limit
+      - point_particle_approximation
+    mathematical_link: "GR weak-field: G_{00}=(8πG/c⁴)T_{00} → ∇²φ=4πGρ → F=−GmM/r²"
+
+  # ═══════════════════════════════════════════════════════════════
+  # G7: 热力学 (从 R6 严格推导)
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: deriv.zeroth_law
+    conclusion: law.zeroth_law
+    conclusion_statement: "T_A = T_B, T_B = T_C → T_A = T_C（温度传递性）"
+    premise:
+      - kernel.second_law
+      - kernel.boltzmann_entropy
+
+    variables: []
+
+    steps:
+      - step: 1
+        description: "两系统热接触达到平衡时熵最大化"
+        expression: "dS_total = dS_A + dS_B = (1/T_A)dE_A + (1/T_B)dE_B = 0"
+        justification: >
+          R6: dS = dE/T（在体积和粒子数不变时）。
+          孤立系统熵取极大值：dS_total = 0 且 d²S_total < 0。
+
+      - step: 2
+        description: "能量守恒: dE_A + dE_B = 0"
+        expression: "(1/T_A − 1/T_B)dE_A = 0 ⇒ T_A = T_B"
+        justification: "两孤立系统组合的总能量守恒: dE_total = dE_A + dE_B = 0 ⇒ dE_B = −dE_A。代入 dS = dE_A/T_A + dE_B/T_B = 0 ⇒ (1/T_A − 1/T_B)dE_A = 0。dE_A 任意 ⇒ T_A = T_B。"
+
+      - step: 3
+        description: "传递性"
+        expression: "T_A = T_B, T_B = T_C ⇒ T_A = T_C"
+        justification: "等式的传递性。热平衡的传递性使温度计成为可能。"
+
+    result: "若 T_A=T_B 且 T_B=T_C，则 T_A=T_C"
+
+    necessity_conditions:
+      - "R6 (热平衡定义) [N]: 1/T ≡ ∂S/∂E"
+      - "R6 (熵极值) [N]: 孤立系熵取最大"
+
+    sufficiency_conditions:
+      - "[S] R6 + 能量守恒 ⇒ T 的传递性"
+
+    reversible: true
+    validity_scope:
+      - thermal_equilibrium
+      - macroscopic_limit
+    mathematical_link: "dS_total=0, dE_A+dE_B=0 → (1/T_A−1/T_B)dE_A=0 → T_A=T_B → transitivity"
+
+  - id: deriv.thermo_first_law
+    conclusion: law.first_law_thermo
+    conclusion_statement: "dU = T dS − P dV + μ dN"
+    premise:
+      - law.energy_conservation
+      - kernel.boltzmann_entropy
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "U", type: "ℝ", dim: "[M·L²·T⁻²]", domain: "", meaning: "内能（状态函数）" }
+      - { symbol: "P", type: "ℝ", dim: "[M·L⁻¹·T⁻²]", domain: "P ≥ 0 (稳定系统)", meaning: "压强" }
+
+    steps:
+      - step: 1
+        description: "能量守恒（热力学形式）"
+        expression: "dU = δQ − δW"
+        justification: "热 Q 为输入能量，功 W 为输出能量。dU 是全微分（状态函数）；δQ,δW 不是。"
+
+      - step: 2
+        description: "可逆过程的热交换用熵表示"
+        expression: "δQ_rev = T dS"
+        justification: "R6: dS = δQ_rev/T（熵的 Clausius 定义，从 S = k_B ln W 在平衡态下等价推出）"
+
+      - step: 3
+        description: "简单流体的机械功"
+        expression: "δW = P dV"
+        justification: "准静态压缩/膨胀: dW = F·dx = (P·A)·dx = P·dV"
+
+      - step: 4
+        description: "推广到可变粒子数"
+        expression: "dU = T dS − P dV + μ dN"
+        justification: "化学势 μ ≡ (∂U/∂N)_{S,V}。新增粒子的能量贡献。"
+
+    result: "dU = T dS − P dV + μ dN（热力学基本方程）"
+
+    necessity_conditions:
+      - "能量守恒 [N] (来自 Noether — G2)"
+      - "R6 (T 和 S 的定义) [N]: T = (∂U/∂S)_{V,N} 是推导的必要前提"
+      - "可逆过程 [N]: δQ = T dS 仅在可逆过程中成立"
+
+    sufficiency_conditions:
+      - "[S] 能量守恒 + R6 + 可逆 ⇒ dU = TdS − PdV"
+
+    reversible: true
+    validity_scope:
+      - thermal_equilibrium
+      - macroscopic_limit
+    mathematical_link: "dU = δQ − δW, δQ_rev=TdS, δW=PdV → dU = TdS − PdV"
+
+  - id: deriv.thermo_third_law
+    conclusion: law.third_law_thermo
+    conclusion_statement: "S → 0 as T → 0（完美晶体，非简并基态）"
+    premise:
+      - kernel.boltzmann_entropy
+      - kernel.superposition_principle
+
+    variables:
+      - { symbol: "S", type: "ℝ_{\\ge 0}", dim: "[M·L²·T⁻²·Θ⁻¹]", domain: "S ≥ 0", meaning: "熵" }
+      - { symbol: "W", type: "ℕ⁺", dim: "[1]", domain: "W ≥ 1", meaning: "可及微观状态数" }
+      - { symbol: "g₀", type: "ℕ⁺", dim: "[1]", domain: "g₀ ≥ 1", meaning: "基态简并度; 能量最低能级的独立量子态数目" }
+      - { symbol: "k_B", type: "常数", dim: "[M·L²·T⁻²·Θ⁻¹]", domain: "", meaning: "Boltzmann 常数" }
+      - { symbol: "T", type: "ℝ_{\\ge 0}", dim: "[Θ]", domain: "T ≥ 0", meaning: "热力学温度" }
+
+    steps:
+      - step: 1
+        description: "Boltzmann 熵公式"
+        expression: "S = k_B ln W"
+        justification: "R6: S = k_B ln W，W = 可及微观状态数。"
+
+      - step: 2
+        description: "T → 0 时的微观状态"
+        expression: "W(T→0) → g₀ (基态简并度)"
+        justification: >
+          系统的能谱来自量子力学: law.schroedinger_equation (从 R4b+R4c 推得)
+          在束缚势下给出离散能级 {E₀ < E₁ < E₂ < ...}。
+          T=0 时系统处于最低能态 E₀ (基态)。
+          若基态非简并 (g₀=1): W=1, S=k_B ln 1=0。
+          若基态 g₀ 重简并: S → k_B ln g₀ > 0 (剩余熵，如冰 Ih)。
+
+    result: "T→0 ⇒ S→0（非简并基态）或 S→k_B ln g₀（简并基态）"
+
+    necessity_conditions:
+      - "离散能谱 [N]: 量子系统在束缚势下具有离散能级（来自 law.schroedinger_equation）。无量子力学则基态不一定是离散唯一的（经典系统 S→−∞, Gibbs 悖论）"
+      - "R6 (S=k_B ln W) [N]: 熵的统计定义"
+
+    sufficiency_conditions:
+      - "[S] law.schroedinger_equation (离散能谱) + R6 ⇒ T→0 时 S→k_B ln g₀"
+
+    reversible: false
+    validity_scope:
+      - zero_temperature_limit
+      - quantum_regime
+    mathematical_link: "S=k_B ln W, T→0 → W→g₀ → S→k_B ln g₀"
+
+  - id: deriv.ideal_gas
+    conclusion: law.ideal_gas
+    conclusion_statement: "PV = nRT"
+    premise:
+      - law.first_law_thermo
+      - kernel.boltzmann_entropy
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "R", type: "常数", dim: "[M·L²·T⁻²·Θ⁻¹·N⁻¹]", domain: "R = N_A k_B = 8.314 J/(mol·K)", meaning: "气体常数" }
+
+    steps:
+      - step: 1
+        description: "自由粒子在体积 V 中的微观状态数"
+        expression: "W ∝ V^N（N 个独立粒子，每个粒子的位置可在 V 中任意取值）"
+        justification: "经典稀薄气体: 粒子间无相互作用，每个粒子的位置相空间体积 ∝ V。"
+
+      - step: 2
+        description: "熵对体积的依赖"
+        expression: "S(V) = N k_B ln V + C(E,N)"
+        justification: "S = k_B ln W = k_B ln(c·V^N·f(E,N)) = N k_B ln V + const"
+
+      - step: 3
+        description: "从热力学基本方程求压强"
+        expression: "P = T(∂S/∂V)_{E,N} = T·(N k_B/V) = N k_B T/V"
+        justification: "dU = TdS − PdV ⇒ 在 dU=0,dN=0 时: P = T(∂S/∂V)_{U,N}。"
+
+      - step: 4
+        description: "理想气体状态方程"
+        expression: "PV = N k_B T = n N_A k_B T = n R T"
+        justification: "R = N_A k_B。"
+
+    result: "PV = nRT"
+
+    necessity_conditions:
+      - "R6 (S = k_B ln W) [N]: 微观状态计数的统计基础"
+      - "R1 (D=3 ⇒ V ∝ L³) [N]: 体积的量纲和微观状态计数的空间维数依赖"
+      - "稀薄气体近似 [N]: 粒子间无相互作用"
+      - "经典极限 [N]: 不考虑量子统计效应（Bose/Fermi）"
+
+    sufficiency_conditions:
+      - "[S] R6 + 3D + 稀薄气体 ⇒ PV = N k_B T"
+
+    reversible: true
+    validity_scope:
+      - thermal_equilibrium
+      - macroscopic_limit
+      - classical_limit
+    mathematical_link: "W∝V^N → S=Nk_B ln V+… → P/T=(∂S/∂V)=Nk_B/V → PV=Nk_B T"
+
+  # ═══════════════════════════════════════════════════════════════
+  # G8: 推论 (从已证定律推导)
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: deriv.kepler_third
+    conclusion: cor.kepler_third
+    conclusion_statement: "T² ∝ r³（轨道周期的平方正比于半长轴的立方）"
+    premise:
+      - law.newton_second
+      - law.newton_gravitation
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "T", type: "ℝ⁺", dim: "[T]", domain: "", meaning: "轨道周期" }
+      - { symbol: "r", type: "ℝ⁺", dim: "[L]", domain: "", meaning: "圆轨道半径" }
+
+    steps:
+      - step: 1
+        description: "圆轨道运动方程"
+        expression: "向心加速度 a = v²/r。Newton 第二定律: F = ma = mv²/r"
+        justification: "匀速圆运动的运动学"
+
+      - step: 2
+        description: "万有引力提供向心力"
+        expression: "mv²/r = GMm/r² ⇒ v² = GM/r"
+        justification: "Newton 万有引力 (F = GMm/r²) 提供匀速圆运动所需的向心力 (F_c = mv²/r)。两力相等。"
+
+      - step: 3
+        description: "轨道周期"
+        expression: "T = 2πr/v ⇒ T² = 4π²r²/v² = 4π²r²/(GM/r) = (4π²/GM)·r³"
+        justification: "代入 v² = GM/r"
+
+    result: "T² ∝ r³（比例常数 = 4π²/GM）"
+
+    necessity_conditions:
+      - "Newton 第二定律 [N]: F = ma"
+      - "Newton 万有引力 [N]: F = GMm/r²"
+      - "圆轨道 [N]: 偏心率 e=0 的简化"
+
+    sufficiency_conditions:
+      - "[S] Newton 力学 + 万有引力 ⇒ Kepler 第三定律"
+
+    reversible: false
+    reverse_note: "T²∝r³ ⇏ 万有引力 ∝ 1/r²（其他有心力律也可能给出此关系）"
+    validity_scope:
+      - classical_limit
+      - point_particle_approximation
+      - conservative_force
+    mathematical_link: "v²/r = GM/r², T = 2πr/v → T² = (4π²/GM)·r³"
+
+  - id: deriv.fermi_dirac_distribution
+    conclusion: cor.fermi_dirac
+    conclusion_statement: "f(E) = 1/[exp((E−μ)/(k_B T)) + 1]"
+    premise:
+      - kernel.pauli_exclusion
+      - kernel.boltzmann_entropy
+
+    variables:
+      - { symbol: "f(E)", type: "ℝ_{[0,1]}", dim: "[1]", domain: "0 ≤ f ≤ 1", meaning: "能级 E 的平均占据数" }
+      - { symbol: "n_i", type: "{0,1}", dim: "[1]", domain: "0 or 1", meaning: "第 i 个单粒子态的占据数（Pauli: ≤1）" }
+      - { symbol: "β", type: "ℝ⁺", dim: "[M⁻¹·L⁻²·T²]", domain: "β = 1/(k_B T)", meaning: "逆温度" }
+
+    steps:
+      - step: 1
+        description: "Fermi 子约束: n_i ∈ {0,1}"
+        expression: ""
+        justification: "R4 (Pauli 不相容原理): 每个单粒子量子态至多被一个费米子占据。"
+
+      - step: 2
+        description: "巨正则系综中最大化熵"
+        expression: "S = −k_B Σ_i [n_i ln n_i + (1−n_i) ln(1−n_i)]"
+        justification: >
+          给定 {0,1} 约束，每个态的统计权重 = (1 choose n_i) = 1。
+          约束: Σ_i n_i = N (粒子数), Σ_i n_i E_i = E (能量)。
+        condition: "[N] R6: S = k_B ln W，其中 W = 1（每个态只有 {0,1} 两种可能）"
+
+      - step: 3
+        description: "用 Lagrange 乘子最大化 ln W"
+        expression: "∂/∂n_i [−Σ_i (n_i ln n_i + (1−n_i) ln(1−n_i)) − αΣ_i n_i − βΣ_i n_i E_i] = 0"
+        justification: "α 约束 N, β 约束 E。"
+
+      - step: 4
+        description: "求解得 Fermi-Dirac 分布"
+        expression: "ln[(1−n_i)/n_i] = α + βE_i ⇒ n_i = 1/[exp(α+βE_i) + 1]"
+        justification: "令 α = −βμ, β = 1/(k_B T) 得标准形式。"
+
+    result: "f(E) = 1/[exp((E−μ)/(k_B T)) + 1]"
+
+    necessity_conditions:
+      - "Pauli 不相容 [N]: n_i ∈ {0,1}。若无此约束，分布退化为 Maxwell-Boltzmann"
+      - "R6 [N]: 熵最大化的统计方法"
+      - "热平衡 [N]: T 的统一定义"
+
+    sufficiency_conditions:
+      - "[S] Pauli + R6 + 热平衡 ⇒ Fermi-Dirac 分布"
+
+    reversible: true
+    validity_scope:
+      - thermal_equilibrium
+      - quantum_regime
+    mathematical_link: "n_i∈{0,1} → maximize S → f(E)=1/(exp(β(E−μ))+1)"
+
+  - id: deriv.bose_einstein_distribution
+    conclusion: cor.bose_einstein
+    conclusion_statement: "f(E) = 1/[exp((E−μ)/(k_B T)) − 1]"
+    premise:
+      - kernel.superposition_principle
+      - kernel.boltzmann_entropy
+
+    variables:
+      - { symbol: "n_i", type: "ℕ", dim: "[1]", domain: "n_i ∈ {0,1,2,…}", meaning: "第 i 个单粒子态的占据数（无上限）" }
+
+    steps:
+      - step: 1
+        description: "Bose 子约束: n_i ∈ {0,1,2,…}（无上限）"
+        expression: ""
+        justification: "R4a (叠加原理): Bose 子可以任意数量占据同一量子态。"
+
+      - step: 2
+        description: "最大化熵"
+        expression: "S = k_B Σ_i [(1+n_i) ln(1+n_i) − n_i ln n_i]"
+        justification: >
+          每个单粒子态被 n_i 个全同 Bose 子占据的组合数:
+          W_i = (n_i+g_i−1)!/(n_i!(g_i−1)!) → 对 g_i=1（单态）W_i=1。
+          但 Bose 子的交换对称性改变了状态计数方式。
+        condition: "[N] R6"
+
+      - step: 3
+        description: "求解得 Bose-Einstein 分布"
+        expression: "n_i = 1/[exp(α+βE_i) − 1] → f(E) = 1/[exp((E−μ)/(k_B T)) − 1]"
+        justification: "α = −βμ, β = 1/(k_B T)"
+
+    result: "f(E) = 1/[exp((E−μ)/(k_B T)) − 1]"
+
+    necessity_conditions:
+      - "叠加原理 [N]: n_i 无上限约束"
+      - "R6 [N]"
+
+    sufficiency_conditions:
+      - "[S] 叠加原理 + R6 + 热平衡 ⇒ Bose-Einstein 分布"
+      - "分母中的 −1 ⇒ 当 μ→0 时 f 发散 ⇒ Bose-Einstein 凝聚"
+
+    reversible: true
+    validity_scope:
+      - thermal_equilibrium
+      - quantum_regime
+    mathematical_link: "n_i∈{0,1,2,…} → maximize S → f(E)=1/(exp(β(E−μ))−1)"

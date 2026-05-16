@@ -1805,6 +1805,98 @@ derivations:
       - conservative_force
     mathematical_link: "v²/r = GM/r², T = 2πr/v → T² = (4π²/GM)·r³"
 
+  - id: deriv.pauli_exclusion
+    conclusion: law.pauli_exclusion
+    conclusion_statement: >
+      半整数自旋粒子波函数在交换下完全反对称:
+      ψ(r₁,s₁; r₂,s₂) = −ψ(r₂,s₂; r₁,s₁)。
+      推论: 无两个全同费米子占据同一量子态 (Pauli 不相容原理)。
+    premise:
+      - kernel.lorentz_invariance        # R1
+      - kernel.superposition_principle    # R4a
+      - kernel.unitary_evolution          # R4b
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "ψ", type: "multi-particle wavefunction", dim: "依赖表示", meaning: "多粒子波函数" }
+      - { symbol: "s", type: "half-integer", dim: "[1]", meaning: "自旋量子数（半整数 = 费米子）" }
+      - { symbol: "φ(x)", type: "field operator", dim: "依赖表示", meaning: "量子场算符" }
+      - { symbol: "(x−y)² < 0", type: "condition", dim: "[L²]", meaning: "类空间隔条件（两个时空点之间无因果联系）" }
+
+    steps:
+      - step: 1
+        description: "微因果性 (Microcausality)"
+        expression: "对类空间隔 (x−y)² < 0: [φ(x), φ(y)]_± = 0"
+        justification: >
+          R1 (Lorentz 不变性 + 因果结构) 要求类空分离的场算符满足
+          (反)对易关系。两个类空分离的测量不能互相影响，故对应的
+          可观测量的算符必须 (反)对易。这是自旋-统计定理的核心输入。
+
+      - step: 2
+        description: "自旋-统计连接 (Spin-Statistics Theorem)"
+        expression: >
+          Fierz (1939) — Pauli (1940) — Lüders & Zumino (1958):
+          在满足 Lorentz 不变性 + 谱条件 (正能量) + 微观因果性的
+          量子场论中，整数自旋场必须对易 (Bose 统计)，半整数自旋场
+          必须反对易 (Fermi 统计)。
+        justification: >
+          这是量子场论中最深的结构定理。严格证明依赖 Wightman 公理体系
+          (正定度量、谱条件、局域性、Lorentz 协变性) 或 LSZ 约化公式 +
+          CPT 定理 + 自旋表示论。此处为结论性引用，不重构完整证明。
+          详见 Streater & Wightman "PCT, Spin & Statistics, and All That" (1964)。
+
+      - step: 3
+        description: "费米子场的反对易性"
+        expression: "对半整数自旋 s: {φ(x), φ(y)} = 0 当 (x−y)² < 0"
+        justification: "Step 2 的直接结论。费米子场算符在类空间隔下反对易。"
+
+      - step: 4
+        description: "多粒子波函数的反对称性"
+        expression: "从场算符的反对易关系 ⇒ 多粒子态波函数在交换下反号"
+        justification: >
+          多粒子态 |r₁,s₁; r₂,s₂⟩ ∝ φ†(r₁,s₁)·φ†(r₂,s₂)|0⟩。
+          场算符的反对易性继承到波函数:
+          ψ(r₁,s₁; r₂,s₂) = ⟨0|φ(r₂,s₂)φ(r₁,s₁)|ψ⟩
+          = −⟨0|φ(r₁,s₁)φ(r₂,s₂)|ψ⟩ = −ψ(r₂,s₂; r₁,s₁)。
+
+      - step: 5
+        description: "Pauli 不相容原理"
+        expression: "ψ(…, r_i, s_i; …, r_i, s_i; …) = 0"
+        justification: >
+          反对称波函数在交换两个全同粒子时变号。
+          若两粒子占据同一量子态 (r,s 全同)，交换后波函数不变 (因全同)，
+          但反对称性要求变号: ψ = −ψ ⇒ ψ = 0。
+          此即 Pauli 不相容原理: 无两个全同费米子可占据同一量子态。
+
+    result: >
+      自旋-统计定理 ⇒ 费米子波函数完全反对称 ⇒ Pauli 不相容原理。
+      此推导是结构性大纲；自旋-统计定理的完整严格证明 (需 Wightman 公理、
+      CPT 定理、自旋群表示限制) 超出本项目范围。
+
+    caveat: >
+      上述步骤为结构性逻辑大纲。自旋-统计定理的完整数学推导需
+      Wightman 公理体系 (Streater & Wightman 1964) 或 Weinberg
+      (1995, Vol. I Ch. 5) 的 LSZ-微因果性方法。本推导给出的是
+      从 R1 (微因果性) + R4 (量子结构) 到结论的逻辑链，不声称
+      提供了 axoimatic QFT 层面的完整严格性。
+
+    necessity_conditions:
+      - "R1 (Lorentz 不变性 + 微观因果性) [N]: Step 1 的核心前提"
+      - "R4a (叠加原理) [N]: Hilbert 空间正定度量为 Wightman 公理的前提"
+      - "R4b (幺正演化) [N]: 谱条件 (正能量) 依赖幺正表示"
+      - "3+1 维时空 [N]: 自旋-统计定理在 D≠4 时可给出不同结论 (如 anyon)"
+      - "半整数自旋 [N]: 仅对费米子成立；整数自旋 ⇒ Bose 统计"
+
+    sufficiency_conditions:
+      - "[S] Lorentz 不变性 + 量子公设 + 微观因果性 ⇒ 自旋-统计定理 (费米子侧)"
+
+    reversible: false
+    reverse_note: "Pauli 不相容 ⇏ 自旋-统计定理的完整结构 (Bose 侧 + CPT)"
+    validity_scope:
+      - quantum_regime
+      - relativistic_regime
+    mathematical_link: "Lorentz + microcausality → spin-statistics → antisymmetric ψ → Pauli exclusion"
+
   - id: deriv.fermi_dirac_distribution
     conclusion: cor.fermi_dirac
     conclusion_statement: "f(E) = 1/[exp((E−μ)/(k_B T)) + 1]"

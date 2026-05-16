@@ -66,8 +66,7 @@ Einstein 求和约定默认启用。度规符号约定 $(+,-,-,-)$。
 | 线元 | $ds^2$ | $\mathbb{R}$ | L² | $ds^2 \in \mathbb{R}$ | Lorentz 不变量；符号决定事件因果分类 |
 | 真空光速 | $c$ | 常数 | L·T⁻¹ | $c = 2.99792458 \times 10^8$ m/s (exact) | 因果传播速度上限；SI 定义常数 |
 | 固有时间 | $\tau$ | $\mathbb{R}_{\geq 0}$ | T | $d\tau^2 \equiv ds^2/c^2 \geq 0$（类时世界线） | 沿类时世界线的弧长参数 |
-| 空间维数 | $D$ | $\mathbb{N}^+$ | [1] | $D = 3$（本宇宙 contingent 事实） | 宏观延展空间维度数 |
-| 时间维数 | — | $\mathbb{N}^+$ | [1] | $= 1$ | 时间维度数 |
+| 空间维数 | $D$ | $\mathbb{N}^+$ | [1] | $D = 3$（本宇宙 contingent 事实） | 宏观延展空间维度数；D=3 保证平方反比律、稳定 Kepler 轨道和 Huygens 原理 |
 | 惯性参考系 | — | 概念 | — | 度规取 Minkowski 形式 $\eta_{\mu\nu}$ 且 Christoffel 符号 $\Gamma^\lambda_{\mu\nu}=0$ 的坐标系 | 无加速度、无引力的局域参考系；Newton 定律和狭义相对论成立的舞台 |
 
 ### R1.3 数学表达式
@@ -773,4 +772,5 @@ R6 (Entropy)
 | 8 | 2026-05-12 | Levi-Civita 指标 F^{ji}=ε_{ijk} 修正；新增跨规则常数表；R1.1 D=3 contingent 标注 |
 | 9 | 2026-05-12 | R1.1 重构：(1a) 最大速度 ⇔ (1b) 因果结构，明确等价性并附证明 |
 | 10 | 2026-05-14 | R4.8 新增：四条量子公设 (4a–4d) 独立性论证——逻辑独立矩阵、反例与 Stone/Bargmann/Gleason 定理的局限 |
-| 11 | 2026-05-16 | R1-R6 充分必要性审计：R1.1 重构为三独立子原则（1a/1b + 1c 等效原理）；R3.3 新增 U(1) 群选择显式声明；R6 重构为两独立公设（6a Boltzmann 熵 + 6b 等概率先验）；claims.yaml 移除 kernel.second_law 和 kernel.pauli_exclusion 的 kernel 层错误分类；derivations 引用链修复 |
+| 11 | 2026-05-16 | R1-R6 充分必要性审计 Round 1-2：R1 重构为三独立子原则、R3.3 U(1) 声明、R6 双公设、kernel 层清理、L-form 来源、½mv² 对称性论证、热力学极限桥接 |
+| 12 | 2026-05-16 | Round 3：新增 deriv.pauli_exclusion 推导草图 + caveat (自旋-统计定理)；R1.2 合并空间维数/时间维数变量行 |

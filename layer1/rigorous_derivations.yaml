@@ -15,10 +15,10 @@
 #   G2: Noether + Conservation (2-6)
 #   G3: Newton's Laws (7-9)
 #   G4: Maxwell from Gauge (10-15)
-#   G5: Quantum Mechanics (16-19)
-#   G6: Relativity (20-22)
-#   G7: Thermodynamics (23-27)
-#   G8: Corollaries (28-30)
+#   G5: Quantum Mechanics (16-20)
+#   G6: Relativity (21-24)
+#   G7: Thermodynamics (25-29)
+#   G8: Corollaries (30-32)
 # ─────────────────────────────────────────────────────────────────
 
 # ═════════════════════════════════════════════════════════════════
@@ -1754,6 +1754,64 @@ derivations:
       - macroscopic_limit
       - classical_limit
     mathematical_link: "W∝V^N → S=Nk_B ln V+… → P/T=(∂S/∂V)=Nk_B/V → PV=Nk_B T"
+
+  - id: deriv.second_law_thermo
+    conclusion: law.second_law_thermo
+    conclusion_statement: "ΔS ≥ 0（孤立系统）；等号仅在可逆过程中成立"
+    premise:
+      - kernel.boltzmann_entropy
+      - kernel.equal_prior_probability
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "S", type: "ℝ_{\\ge 0}", dim: "[M·L²·T⁻²·Θ⁻¹]", domain: "S ≥ 0", meaning: "熵" }
+      - { symbol: "W", type: "ℕ⁺", dim: "[1]", domain: "W ≥ 1", meaning: "可及微观状态数" }
+      - { symbol: "P_i", type: "ℝ_{[0,1]}", dim: "[1]", domain: "Σ_i P_i = 1", meaning: "微观态 i 的概率" }
+      - { symbol: "N", type: "ℕ⁺", dim: "[1]", domain: "N ≫ 1", meaning: "系统粒子数（热力学极限）" }
+
+    steps:
+      - step: 1
+        description: "Boltzmann 熵公式"
+        expression: "S = k_B ln W"
+        justification: "R6 公设 6a: 熵正比于可及微观状态数的对数。"
+
+      - step: 2
+        description: "等概率先验"
+        expression: "P_i = 1/W（孤立系统平衡态下所有可及微观态等概率）"
+        justification: "R6 公设 6b: 统计力学的唯一基本假设。"
+
+      - step: 3
+        description: "自发演化趋向最概然宏观态"
+        expression: "系统从宏观态 A → B 的演化等价于 W_B ≫ W_A"
+        justification: >
+          等概率假设 ⇒ 每个微观态等权重 ⇒ 宏观态的概率 ∝ W (微观状态数)。
+          系统自发演化趋向概率最大的宏观态 (即 W 最大的态)。
+
+      - step: 4
+        description: "热力学极限桥接"
+        expression: "当 N → ∞: 涨落 ∼ 1/√N → 0 ⇒ 最概然 = 确定"
+        justification: >
+          对于宏观系统 (N ∼ 10²³)，涨落 ∼ 1/√N ∼ 10⁻¹² 完全不可观测。
+          因此 "趋向最概然态" 在热力学极限下退化为确定律:
+          ΔS ≥ 0 (等号仅对可逆过程)。
+
+    result: "ΔS ≥ 0 (热力学第二定律)"
+
+    necessity_conditions:
+      - "R6a (S = k_B ln W) [N]: 微观-宏观熵的统计桥梁"
+      - "R6b (等概率先验) [N]: 使微观计数 → 物理概率"
+      - "热力学极限 (N → ∞) [N]: 将概率趋势转化为确定律"
+      - "孤立系统 [N]: 无外界能量/物质交换"
+
+    sufficiency_conditions:
+      - "[S] R6a + R6b + 热力学极限 ⇒ ΔS ≥ 0"
+
+    reversible: false
+    reverse_note: "ΔS ≥ 0 ⇏ S = k_B ln W (熵增也可来自其他统计机制)"
+    validity_scope:
+      - isolated_system
+      - macroscopic_limit
+    mathematical_link: "S = k_B ln W + P_i = 1/W + N → ∞ ⇒ ΔS ≥ 0"
 
   # ═══════════════════════════════════════════════════════════════
   # G8: 推论 (从已证定律推导)

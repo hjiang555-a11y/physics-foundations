@@ -1,4 +1,4 @@
-# 基本规则 — 精炼版 (Round 1)
+# 基本规则 — 精炼版 (Round 12)
 
 > 物理世界最底层基础的 6 条核心原则。每一条均按"充分且必要"标准描述：
 > 变量完整定义、数学表达式精确、成立条件与失效边界明确、必要性论证、充分性论证。
@@ -720,7 +720,7 @@ R6 (Entropy)
 
 ## 定理推导清单
 
-以下 30 条定理 / 有效定律 / 推论均从 R1–R6（加上 contingent 事实）严格推出。
+以下 32 条定理 / 有效定律 / 推论均从 R1–R6（加上 contingent 事实）严格推出。
 `[N]` = 必要性条件；`[S]` = 充分条件。括号中的 G1–G8 为推导分组。
 
 | # | ID | 定律名 | 主要前提 |
@@ -744,17 +744,19 @@ R6 (Entropy)
 | 17 | law.energy_frequency | Planck-Einstein 关系 $E=h\nu$ | R4c |
 | 18 | law.de_broglie_wavelength | de Broglie 波长 $\lambda = h/p$ | energy_frequency |
 | 19 | law.uncertainty_principle | 不确定性原理 | R4c, R5, R4d, R1 |
-| 20 | law.lorentz_transform | Lorentz 变换 | R1 |
-| 21 | law.mass_energy | 质能等价 $E=mc^2$ | R1 |
-| 22 | law.einstein_field | Einstein 场方程 | R1, R2 |
-| 23 | law.newton_gravitation | Newton 万有引力 | Einstein 场方程（弱场极限） |
-| 24 | law.zeroth_law | 热力学第零定律 | R6 |
-| 25 | law.first_law_thermo | 热力学第一定律 | 能量守恒 + R6 |
-| 26 | law.third_law_thermo | 热力学第三定律 | R6, R4a |
-| 27 | law.ideal_gas | 理想气体状态方程 | R6, 热力学第一定律 |
-| 28 | cor.kepler_third | Kepler 第三定律 | Newton 第二 + 万有引力 |
-| 29 | cor.fermi_dirac | Fermi-Dirac 分布 | law.pauli_exclusion, R6 |
-| 30 | cor.bose_einstein | Bose-Einstein 分布 | kernel.superposition_principle, R6 |
+| 20 | law.pauli_exclusion | Pauli 不相容原理 | R1, R4 (自旋-统计定理) |
+| 21 | law.lorentz_transform | Lorentz 变换 | R1 |
+| 22 | law.mass_energy | 质能等价 $E=mc^2$ | R1 |
+| 23 | law.einstein_field | Einstein 场方程 | R1, R2 |
+| 24 | law.newton_gravitation | Newton 万有引力 | Einstein 场方程（弱场极限） |
+| 25 | law.zeroth_law | 热力学第零定律 | R6 |
+| 26 | law.second_law_thermo | 热力学第二定律 | R6 (S=k·lnW + 等概率) |
+| 27 | law.first_law_thermo | 热力学第一定律 | 能量守恒 + R6 |
+| 28 | law.third_law_thermo | 热力学第三定律 | R6, R4a |
+| 29 | law.ideal_gas | 理想气体状态方程 | R6, 热力学第一定律 |
+| 30 | cor.kepler_third | Kepler 第三定律 | Newton 第二 + 万有引力 |
+| 31 | cor.fermi_dirac | Fermi-Dirac 分布 | law.pauli_exclusion, R6 |
+| 32 | cor.bose_einstein | Bose-Einstein 分布 | kernel.superposition_principle, R6 |
 
 ---
 

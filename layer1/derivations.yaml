@@ -597,6 +597,30 @@ derivations:
   - Newton Principia Book I Sect.III
   - Goldstein §3.7
   reversible: true
+- id: deriv.pauli_exclusion
+  premise:
+  - kernel.lorentz_invariance
+  - kernel.superposition_principle
+  - kernel.unitary_evolution
+  - kernel.spacetime_dimensionality
+  steps:
+  - "Microcausality (R1): spacelike separated field operators (anti)commute per Lorentz invariance"
+  - "Spin-statistics theorem (Fierz 1939, Pauli 1940): half-integer spin fields must anticommute"
+  - "Anticommutation → multi-fermion wavefunction is totally antisymmetric: ψ(r₁,s₁; r₂,s₂) = −ψ(r₂,s₂; r₁,s₁)"
+  - "Antisymmetry → no two identical fermions occupy the same quantum state (Pauli exclusion)"
+  conclusion: law.pauli_exclusion
+  caveat: >-
+    Structural sketch of spin-statistics theorem (Wightman axioms, Streater & Wightman 1964).
+    Full rigorous derivation requires axiomatic QFT beyond project scope.
+  mathematical_link: "Lorentz + microcausality → spin-statistics → antisymmetric ψ → Pauli exclusion"
+  validity_scope:
+  - quantum_regime
+  - relativistic_regime
+  sources:
+  - Fierz (1939)
+  - Pauli (1940)
+  - Streater & Wightman §4.4
+  reversible: false
 - id: deriv.fermi_dirac_distribution
   premise:
   - law.pauli_exclusion

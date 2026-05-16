@@ -461,8 +461,8 @@ derivations:
   reversible: false
 - id: deriv.zeroth_law
   premise:
-  - kernel.second_law
   - kernel.boltzmann_entropy
+  - kernel.equal_prior_probability
   steps:
   - Two systems A and B in thermal contact reach equilibrium when their temperatures
     equalize
@@ -599,7 +599,7 @@ derivations:
   reversible: true
 - id: deriv.fermi_dirac_distribution
   premise:
-  - kernel.pauli_exclusion
+  - law.pauli_exclusion
   - kernel.boltzmann_entropy
   steps:
   - Start from Boltzmann entropy S = k_B*ln(W)
@@ -762,6 +762,30 @@ derivations:
   - Courant & Hilbert §VI.12
   - Baker & Copson (1939)
   reversible: false
+- id: deriv.second_law_thermo
+  premise:
+  - kernel.boltzmann_entropy
+  - kernel.equal_prior_probability
+  - kernel.spacetime_dimensionality
+  steps:
+  - "Boltzmann entropy: S = k_B ln W, where W is the number of accessible microstates"
+  - "Equal a priori probability: in equilibrium, all W microstates occur with equal probability P_i = 1/W"
+  - |-
+    Spontaneous evolution proceeds toward macrostate with maximal W (most probable).
+    In the thermodynamic limit (N → ∞), fluctuations ∼1/√N become negligible,
+    making this statistical tendency deterministic: ΔS ≥ 0 for isolated systems.
+    Equality holds only for reversible processes (quasi-static, the system always
+    remains infinitesimally close to equilibrium).
+  conclusion: law.second_law_thermo
+  mathematical_link: S = k_B ln W + P_i = 1/W → ΔS ≥ 0
+  validity_scope:
+  - isolated_system
+  - macroscopic_limit
+  sources:
+  - Boltzmann (1872-1875)
+  - Pathria & Beale §1.4
+  reversible: false
+
 dependencies:
 - dependent: law.newton_third
   depends_on:

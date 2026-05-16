@@ -128,35 +128,9 @@ kernels:
     hardness: kernel
     layer: kernel
 
-  - id: kernel.pauli_exclusion
-    relation: >
-      Multi-fermion wavefunction is totally antisymmetric under exchange:
-      ψ(r₁,s₁; r₂,s₂) = −ψ(r₂,s₂; r₁,s₁).
-      No two identical fermions occupy the same quantum state.
-    quantities:
-      - qty.spin
-      - qty.state_vector
-    scope:
-      - quantum_regime
-    provenance: "Pauli Z.Phys. 31, 765 (1925); independent postulate in non-relativistic QM; derivable in QFT from spin-statistics theorem"
-    hardness: kernel
-    layer: kernel
-    note: "In non-relativistic QM this is a postulate. In QFT it follows from the spin-statistics theorem (microscopic causality + Lorentz invariance)."
-
 # ═════════════════════════════════════════════════════════════════
 # K4: 相对论原理  Relativity Principles
 # ═════════════════════════════════════════════════════════════════
-
-  - id: kernel.light_speed_invariance
-    relation: >
-      The speed of light in vacuum c is the same in all inertial frames.
-      It is the maximum speed of causal influence.
-    quantities:
-      - cst.speed_of_light
-    scope: []
-    provenance: "Einstein Ann.Phys. 17, 891 (1905); Michelson-Morley (1887)"
-    hardness: kernel
-    layer: kernel
 
   - id: kernel.equivalence_principle
     relation: >
@@ -185,10 +159,12 @@ kernels:
 
   - id: kernel.lorentz_invariance
     relation: >
-      The spacetime interval Δs² = c²Δt² − |Δr|² is invariant under
+      The speed of light in vacuum c is the same in all inertial frames
+      and is the maximum speed of causal influence. Equivalently, the
+      spacetime interval Δs² = c²Δt² − |Δr|² is invariant under
       transformations between inertial frames.
       Consequence 1: The Lorentz transformations t′=γ(t−vx/c²), x′=γ(x−vt)
-      preserve this interval.
+      preserve this interval, with γ = 1/√(1−v²/c²).
       Consequence 2 (causality): Spacelike separated events (Δs² < 0)
       cannot have causal influence on each other.
       Together these define the causal structure of spacetime.
@@ -220,27 +196,14 @@ kernels:
     layer: kernel
 
 # ═════════════════════════════════════════════════════════════════
-# K5: 热力学第二定律  Second Law of Thermodynamics
+# K5: 统计力学基础  Statistical Mechanics Foundations
 # ═════════════════════════════════════════════════════════════════
-
-  - id: kernel.second_law
-    relation: >
-      The entropy of an isolated system never decreases: ΔS ≥ 0.
-      All natural processes proceed in the direction of increasing total entropy.
-    direction: "+"
-    quantities:
-      - qty.entropy
-    scope:
-      - isolated_system
-      - macroscopic_limit
-    provenance: "Clausius (1850); Boltzmann S = k·ln(W) (1877)"
-    hardness: kernel
-    layer: kernel
 
   - id: kernel.boltzmann_entropy
     relation: >
       Entropy is proportional to the logarithm of accessible microstates:
-      S = k_B · ln(W). Statistical foundation of the second law.
+      S = k_B · ln(W). This defines the bridge between microscopic quantum
+      states and macroscopic thermodynamics.
     direction: "+"
     quantities:
       - qty.entropy
@@ -249,6 +212,23 @@ kernels:
       - macroscopic_limit
       - thermal_equilibrium
     provenance: "Boltzmann (1872-1875); Planck (1900)"
+    hardness: kernel
+    layer: kernel
+
+  - id: kernel.equal_prior_probability
+    relation: >
+      For an isolated system in equilibrium, all accessible quantum
+      microstates within the energy shell [E, E+δE] occur with equal
+      probability: P_i = 1/W. This is the sole fundamental postulate of
+      statistical mechanics — from it together with kernel.boltzmann_entropy,
+      all of equilibrium statistical mechanics follows.
+    quantities:
+      - qty.microstate_count
+    scope:
+      - isolated_system
+      - thermal_equilibrium
+      - macroscopic_limit
+    provenance: "Boltzmann (1872-1875); Gibbs (1902)"
     hardness: kernel
     layer: kernel
 

@@ -103,7 +103,7 @@
 | `contingent.stable_kepler_orbits` | `contingent` | `contingent.yaml` | `kernel.spacetime_dimensionality` |
 | `contingent.volume_dimension` | `contingent` | `contingent.yaml` | `kernel.spacetime_dimensionality`, `rule.dimensional_consistency` |
 | `cor.bose_einstein` | `effective_law` | `effective_laws.yaml` | `kernel.superposition_principle`, `kernel.boltzmann_entropy` |
-| `cor.fermi_dirac` | `effective_law` | `effective_laws.yaml` | `kernel.pauli_exclusion`, `kernel.boltzmann_entropy` |
+| `cor.fermi_dirac` | `effective_law` | `effective_laws.yaml` | `law.pauli_exclusion`, `kernel.boltzmann_entropy` |
 | `cor.kepler_third` | `effective_law` | `effective_laws.yaml` | `law.newton_second`, `law.newton_gravitation`, `kernel.spacetime_dimensionality` |
 | `kernel.boltzmann_entropy` | `kernel` | `frameworks.yaml` | — |
 | `kernel.born_rule` | `kernel` | `frameworks.yaml` | — |
@@ -115,8 +115,6 @@
 | `kernel.light_speed_invariance` | `kernel` | `frameworks.yaml` | — |
 | `kernel.lorentz_invariance` | `kernel` | `frameworks.yaml` | — |
 | `kernel.operator_observable` | `kernel` | `frameworks.yaml` | — |
-| `kernel.pauli_exclusion` | `kernel` | `frameworks.yaml` | — |
-| `kernel.second_law` | `kernel` | `frameworks.yaml` | — |
 | `kernel.spacetime_dimensionality` | `kernel` | `frameworks.yaml` | — |
 | `kernel.superposition_principle` | `kernel` | `frameworks.yaml` | — |
 | `kernel.unitary_evolution` | `kernel` | `frameworks.yaml` | — |
@@ -143,10 +141,12 @@
 | `law.newton_second` | `effective_law` | `effective_laws.yaml` | `kernel.least_action`, `law.euler_lagrange`, `kernel.spacetime_dimensionality` |
 | `law.newton_third` | `effective_law` | `effective_laws.yaml` | `law.noether_theorem`, `kernel.spacetime_dimensionality` |
 | `law.noether_theorem` | `effective_law` | `effective_laws.yaml` | `kernel.least_action`, `kernel.spacetime_dimensionality` |
+| `law.pauli_exclusion` | `effective_law` | `effective_laws.yaml` | `kernel.lorentz_invariance`, `kernel.superposition_principle`, `kernel.unitary_evolution` |
 | `law.schroedinger_equation` | `effective_law` | `effective_laws.yaml` | `kernel.unitary_evolution`, `kernel.canonical_commutation`, `kernel.operator_observable`, `kernel.spacetime_dimensionality` |
+| `law.second_law_thermo` | `effective_law` | `effective_laws.yaml` | `kernel.boltzmann_entropy`, `kernel.equal_prior_probability`, `kernel.spacetime_dimensionality` |
 | `law.third_law_thermo` | `effective_law` | `effective_laws.yaml` | `kernel.boltzmann_entropy`, `kernel.superposition_principle` |
 | `law.uncertainty_principle` | `effective_law` | `effective_laws.yaml` | `kernel.canonical_commutation`, `kernel.born_rule`, `kernel.operator_observable`, `kernel.spacetime_dimensionality` |
-| `law.zeroth_law` | `effective_law` | `effective_laws.yaml` | `kernel.second_law`, `kernel.boltzmann_entropy` |
+| `law.zeroth_law` | `effective_law` | `effective_laws.yaml` | `kernel.boltzmann_entropy` |
 | `rule.conservation_continuity` | `rule` | `frameworks.yaml` | — |
 | `rule.dimensional_consistency` | `rule` | `frameworks.yaml` | — |
 | `rule.empirical_verification_boundary` | `rule` | `frameworks.yaml` | — |

@@ -1,14 +1,33 @@
 # ═══════════════════════════════════════════════════════════════
-# Sci-hf 物理声明 — Kernel + Contingent + Laws + Corollaries
+# Sci-hf Physics Declarations — Kernel → Contingent → Laws → Corollaries
 # ═══════════════════════════════════════════════════════════════
 #
-# 三层结构：
-#   [kernel]     — 不可推导的物理内核，任何物理宇宙的框架
-#   [contingent] — 我们这个宇宙的经验事实
-#   [law]        — 从 kernel + contingent 推导的有效定律
-#   [corollary]  — 从 law 推导的推论
+# Layer discipline:
+#   [kernel]     — Non-derivable physical axioms (root of derivation graph)
+#   [rule]       — Structural meta-rules constraining assertion form
+#   [contingent] — Universe-specific empirical facts (not kernel)
+#   [law]        — Effective laws derived from kernel + contingent
+#   [corollary]  — Derived from law(s)
+#
+# Source graph rules (V1–V5): see SOURCE.md
+# Language spec (token/node/grammar): see LANGUAGE.md
+# Extraction order: see EXTRACTION.md
+#
+# R1–R6 mapping:
+#   R1 → kernel.lorentz_invariance, kernel.light_speed_invariance,
+#         kernel.spacetime_dimensionality, kernel.equivalence_principle,
+#         kernel.general_covariance
+#   R2 → kernel.least_action
+#   R3 → kernel.gauge_interactions
+#   R4 → kernel.superposition_principle, kernel.unitary_evolution,
+#         kernel.canonical_commutation, kernel.operator_observable
+#         (four logically INDEPENDENT postulates — see R4.8 in rules.md)
+#   R5 → kernel.born_rule
+#   R6 → kernel.boltzmann_entropy, kernel.equal_prior_probability
+#
+# Version: Round 11 (2026-05-16) — R1-R6 necessity/sufficiency audit fixes
 
-# ── 词汇声明 ──────────────────────────────────────────────────
+# ── 词汇声明：物理量 ──────────────────────────────────────────
 
 Q(time, [T], time)
 Q(length, [L], geometric_length)
@@ -25,35 +44,50 @@ Q(volume, [L³], volume)
 Q(temperature, [Θ], thermodynamic_temperature)
 Q(entropy, [M·L²·T⁻²·Θ⁻¹], entropy)
 Q(internal_energy, [M·L²·T⁻²], thermodynamic_internal_energy)
+Q(heat, [M·L²·T⁻²], heat)
+Q(work, [M·L²·T⁻²], work)
 Q(electric_charge, [T·I], electric_charge)
 Q(electric_field, [M·L·T⁻³·I⁻¹], electric_field)
 Q(magnetic_field, [M·T⁻²·I⁻¹], magnetic_flux_density)
 Q(current_density, [L⁻²·I], current_density)
 Q(charge_density, [L⁻³·T·I], charge_density)
 Q(spin, [1], quantum_spin)
-Q(probability_density, [L⁻³], quantum_probability_density)
 Q(state_vector, [1], quantum_state)
+Q(wave_function, [L^(-3/2)], quantum_wave_function)
+Q(probability_density, [L⁻³], quantum_probability_density)
+Q(complex_amplitude, [1], quantum_complex_amplitude)
+Q(quantum_number, [1], quantum_number)
 Q(gravitational_mass, [M], gravitational_mass)
 Q(spacetime_interval, [L²], spacetime_interval)
 Q(metric_tensor, [1], metric_tensor)
 Q(einstein_tensor, [L⁻²], einstein_tensor)
 Q(stress_energy_tensor, [M·L⁻¹·T⁻²], stress_energy_tensor)
+Q(lorentz_factor, [1], lorentz_factor)
+Q(cosmological_constant, [L⁻²], cosmological_constant)
+Q(amount_of_substance, [N], amount_of_substance)
+Q(microstate_count, [1], microstate_count)
 Q(color_charge, [1], color_charge)
 Q(weak_isospin, [1], weak_isospin)
 Q(weak_hypercharge, [1], weak_hypercharge)
 Q(generation, [1], fermion_generation)
 Q(higgs_vev, [M·L²·T⁻²], higgs_vacuum_expectation_value)
 
+# ── 词汇声明：作用域条件 ────────────────────────────────────
+
 C(inertial_frame, reference_frame)
-C(thermal_equilibrium, physical_regime)
 C(isolated_system, system_boundary)
 C(conservative_force, force_type)
+C(thermal_equilibrium, physical_regime)
 C(classical_limit, quantum_classical_boundary)
 C(quantum_regime, quantum_classical_boundary)
 C(relativistic_regime, velocity_regime)
-C(vacuum, medium_condition)
+C(non_relativistic_limit, velocity_regime)
 C(macroscopic_limit, scale_regime)
+C(vacuum, medium_condition)
 C(zero_temperature_limit, temperature_range)
+C(weak_field_limit, gravitational_regime)
+C(point_particle_approximation, model_approximation)
+C(electrostatic_regime, electromagnetic_regime)
 
 # ── 常量 ──────────────────────────────────────────────────────
 
@@ -63,155 +97,358 @@ Q(k_B, [M·L²·T⁻²·Θ⁻¹], physical_constant)
 Q(G, [M⁻¹·L³·T⁻²], physical_constant)
 Q(ε₀, [M⁻¹·L⁻³·T⁴·I²], physical_constant)
 Q(μ₀, [M·L·T⁻²·I⁻²], physical_constant)
+Q(R, [M·L²·T⁻²·Θ⁻¹·N⁻¹], physical_constant)
 
 # ═══════════════════════════════════════════════════════════════
 # 内核层 [kernel] — 不可推导的物理框架
 # ═══════════════════════════════════════════════════════════════
 
-# ── K1: 最小作用量原理 ──
+# ═══════════════════════════════════════════════════════════════
+# R1: 因果时空结构 (Causal Spacetime Structure)
+#     kernel.light_speed_invariance, kernel.lorentz_invariance,
+#     kernel.equivalence_principle, kernel.general_covariance,
+#     kernel.spacetime_dimensionality
+# ═══════════════════════════════════════════════════════════════
 
-[kernel] δS = 0
+# R1a: 真空光速在所有惯性系中取相同数值 — 因果传播速度上限
+[kernel] c = constant | inertial_frame
 
-# ── K2: 对称性 → 守恒律 (Noether) ──
+# R1b: 时空是四维 Lorentz 流形 (M, g_μν)；弯曲时空线元
+[kernel] ds² = g_μν·dx^μ·dx^ν | relativistic_regime
 
-[law] d(E)/d(t) = 0 | time_translation_invariance
-        ← law.noether_theorem
+# R1b (平直极限): Minkowski 度规 — 惯性系中
+[kernel] ds² = c²·dt^2 − dx^2 − dy^2 − dz^2 | inertial_frame
 
-[law] d(P)/d(t) = 0 | space_translation_invariance, isolated_system
-        ← law.noether_theorem
+# R1c: 因果分类 — 时空间隔符号决定事件对的因果可连接性
+#      类时 (ds² > 0): 可因果连接
+#      类光 (ds² = 0): 仅光速信号可连接
+#      类空 (ds² < 0): 无因果联系
+[kernel] Δs² ≤ 0 → no_causal_influence | relativistic_regime
 
-[law] d(L)/d(t) = 0 | rotational_invariance, isolated_system
-        ← law.noether_theorem
+# R1d: 局域性约束 — 物理量在点 x 的值仅依赖于过去光锥 J⁻(x) 内的初始数据
+[kernel] φ(x) depends_only_on J⁻(x)
 
-# ── K3: 量子公设 ──
+# R1e: 等效原理 — 惯性质量严格等于引力质量 (m_i = m_g)
+[kernel] m_i = m_g
 
-[law] braket(ψ,ψ) = 1 | quantum_regime
-        ← kernel.superposition_principle
+# R1f: 广义协变性 — 物理定律在所有坐标系中取相同形式；
+#      度规为动力学量，引力即时空弯曲
+[kernel] physical_laws_coordinate_independent
 
-[kernel] i·ħ·∂(ket(ψ))/∂(t) = H·ket(ψ) | quantum_regime, isolated_system
+# R1g: 时空维度 — 3 个延展空间维 + 1 个时间维 (本宇宙 contingent 事实)
+[kernel] spatial_dim(D) = 3 | temporal_dim = 1
 
-[kernel] comm(x, p) = i·ħ | quantum_regime
-
-[kernel] P = braket(ψ,ψ) | quantum_regime
-
-[kernel] ket(ψ(r₁,s₁;r₂,s₂)) = −ket(ψ(r₂,s₂;r₁,s₁)) | quantum_regime
-
-# ── K4: 相对论原理 ──
-
-[kernel] Δs² = c²·Δt² − |Δr|² | inertial_frame
-
-[kernel] m_i = m_g  (等效原理)
-
-[kernel] spatial_dim = 3, temporal_dim = 1
-
-[rule] 未经实验证实的理论不是可信理论；不能作为 kernel 判据
-
-# ── K5: 热力学 ──
-
-[kernel] ΔS ≥ 0 | isolated_system, macroscopic_limit
-
-[kernel] S = k_B · ln(W) | macroscopic_limit, thermal_equilibrium
-
-# ── K6: 因果性 ──
-
-[kernel] Δs² ≤ 0 → 无因果关联 | relativistic_regime
+# R1 成立条件: 能量 ≪ E_Planck, 距离 ≫ l_Planck (有效场论范围)
+# R1 失效边界: Planck 尺度 (l_P ≈ 1.616×10⁻³⁵ m), 初始奇点
 
 # ═══════════════════════════════════════════════════════════════
-# 经验层 [contingent] — 我们这个宇宙的经验事实
+# R2: 最小作用量原理 (Principle of Stationary Action)
+#     kernel.least_action
+# ═══════════════════════════════════════════════════════════════
+
+# R2a: 粒子力学 — 作用量取平稳值 δS = 0
+#       S[q] = ∫_{t₁}^{t₂} L(q, q̇, t) dt
+[kernel] δ(∫ L·d(t)) = 0 | fixed_endpoints
+
+# R2b: 场论 — 作用量取平稳值
+#       S[φ] = ∫ ℒ(φ, ∂_μφ, x) d⁴x
+[kernel] δ(∫ ℒ·d⁴x) = 0
+
+# R2c: 拉格朗日量 L (或密度 ℒ) 编码系统的全部动力学内容
+#       平稳作用量条件是导出所有动力学方程的统一数学机制
+# R2 成立条件: 有效场论范围; L ∈ C²; 固定端点变分
+# R2 失效边界: 非势场力(耗散), 非完整约束, Planck 尺度量子引力
+
+# ═══════════════════════════════════════════════════════════════
+# R3: 局域规范不变性 (Local Gauge Invariance)
+#     kernel.gauge_interactions
+# ═══════════════════════════════════════════════════════════════
+
+# R3a: 物质场局域规范变换 — 以 U(1) Abel 群为例
+#       ψ(x) → exp(i·α(x))·ψ(x)
+#       为维持不变性，必须引入补偿规范场 A_μ
+[kernel] D_μ = ∂_μ − i·g·A_μ
+
+# R3b: 规范场变换律 (Abel 群)
+#       A_μ → A_μ + (1/g)·∂_μ(α)
+[kernel] A_μ → A_μ + (1/g)·∂_μ(α) | local_gauge_transform
+
+# R3c: 场强张量 — 规范场的物理自由度 (Abel 群)
+[kernel] F_μν = ∂_μ(A_ν) − ∂_ν(A_μ)
+
+# R3d: 非 Abel 规范群推广 — 场强含规范场自相互作用
+#       F_μν^a = ∂_μ A_ν^a − ∂_ν A_μ^a + g·f^{abc}·A_μ^b·A_ν^c
+#       [T^a, T^b] = i·f^{abc}·T^c
+[kernel] F_μν^a = ∂_μ(A_ν^a) − ∂_ν(A_μ^a) + g·f^{abc}·A_μ^b·A_ν^c | non_abelian_gauge
+
+# R3e: 规范场动能项 — 唯一可能的 Lorentz 不变、至多二阶导数形式
+#       ℒ_gauge = −(1/4)·F_μν^a·F^{aμν}
+[kernel] ℒ_gauge ∝ F_μν^a·F^{aμν}
+
+# R3 注: 规范群选择 (U(1)/SU(2)/SU(3)) 是 contingent 事实
+#       R3 仅规定"若存在规范对称性，则必然伴随规范场和规范相互作用"
+# R3 成立条件: 可微规范变换; 可重整性 (微扰理论中)
+# R3 失效边界: 反常(anomaly), Planck 尺度, 强耦合区(微扰失效)
+
+# ═══════════════════════════════════════════════════════════════
+# R4: 量子力学公设 (Quantum Postulates)
+#     FOUR logically INDEPENDENT postulates — see rules.md R4.8
+#     4a → kernel.superposition_principle
+#     4b → kernel.unitary_evolution
+#     4c → kernel.canonical_commutation
+#     4d → kernel.operator_observable
+#     Independence matrix (R4.8): 4b/4c/4d all depend on 4a (Hilbert space),
+#     but none of 4b/4c/4d can be derived from the other two.
+#     Counter-examples: de Broglie-Bohm (has 4a+4b+4c, denies 4d);
+#     classical Liouville mechanics (analogue of 4a without 4b-4d).
+# ═══════════════════════════════════════════════════════════════
+
+# R4a: 叠加原理 — 量子态 ∈ 复 Hilbert 空间 H
+#       合法量子态的任意线性组合仍为合法量子态
+#       |ψ⟩ = Σᵢ αᵢ|i⟩,  Σᵢ |αᵢ|² = 1
+#       其中 {|i⟩} 为 H 的完备正交归一基
+[kernel] ket(ψ) = Σ(α_i·ket(i))
+      | quantum_regime
+[kernel] Σ(braket(ψ,ψ)) = 1 | quantum_regime
+
+# R4b: 幺正演化 — 孤立系统时间演化由酉算符 U 实现
+#       |ψ(t)⟩ = U(t,t₀)|ψ(t₀)⟩,  U†U = UU† = I
+#       i·ħ·d|ψ⟩/dt = Ĥ|ψ⟩  (Schrödinger 绘景演化方程)
+#       Ĥ 为能量算符(厄米), 是时间平移的生成元
+[kernel] i·ħ·∂(ket(ψ))/∂(t) = H·ket(ψ) | quantum_regime, isolated_system
+
+# R4c: 正则对易关系 — 经典共轭变量升格为满足对易关系的算符
+#       [x̂, p̂] = i·ħ  (一维)
+#       [x̂_i, p̂_j] = i·ħ·δ_ij  (三维推广)
+#       这是量子-经典物理的结构分界线
+[kernel] comm(x, p) = i·ħ | quantum_regime
+
+# R4d: 算符-可观测量对应 — 物理可观测量 ⇔ 厄米(自伴)算符
+#       测量结果必为对应算符的本征值之一: Ô|oᵢ⟩ = oᵢ|oᵢ⟩, oᵢ ∈ ℝ
+#       注: 不含投影公设(坍缩) — 该部分属于量子力学诠释层
+[kernel] O_hermitian·ket(o_i) = o_i·ket(o_i) | quantum_regime
+
+# R4 推论: Pauli 不相容原理 (← 自旋-统计定理: R1 + R4b + R4a)
+#         多费米子波函数全反对称: ψ(r₁,s₁;r₂,s₂) = −ψ(r₂,s₂;r₁,s₁)
+#         两个全同费米子不能占据同一量子态
+[kernel] ket(ψ(r₁,s₁;r₂,s₂)) = −ket(ψ(r₂,s₂;r₁,s₁)) | quantum_regime
+
+# R4 成立条件: 量子区 (作用量 ∼ ħ); 孤立系统 (对 R4b 幺正演化)
+# R4 失效边界: 测量过程(R5 接管), Planck 尺度, 开放量子系统(非幺正)
+
+# ═══════════════════════════════════════════════════════════════
+# R5: Born 概率规则 (Born's Probability Rule)
+#     kernel.born_rule
+# ═══════════════════════════════════════════════════════════════
+
+# R5a: 离散谱 (非简并) — 测量 Â 得本征值 a_i 的概率 = 投影模方
+[kernel] P(a_i) = braket(a_i,ψ)² | quantum_regime
+
+# R5b: 离散谱 (g_i 重简并) — 对简并子空间求和
+#       P(a_i) = Σ_{k=1}^{g_i} |⟨a_i^(k)|ψ⟩|²
+[kernel] P(a_i) = Σ(braket(a_i^(k),ψ)²) | quantum_regime, degenerate_spectrum
+
+# R5c: 连续谱 — 位置 x 的概率密度
+#       dP(x) = |ψ(x)|²·dx,  ψ(x) = ⟨x|ψ⟩
+[kernel] dP(x) = braket(x,ψ)²·d(x) | quantum_regime, continuous_spectrum
+
+# R5d: 期望值 — 可观测量 Â 在态 |ψ⟩ 中的期望值
+#       ⟨Â⟩_ψ = ⟨ψ|Â|ψ⟩ = Σᵢ a_i·P(a_i)
+[kernel] ⟨A⟩_ψ = braket(ψ, A·ket(ψ)) | quantum_regime
+
+# R5 注: R4d+R5 构成最小统计诠释 — 不承诺坍缩本体论
+#       概率完备性: Σᵢ P(a_i) = 1 或 ∫ dP(x) = 1
+
+# ═══════════════════════════════════════════════════════════════
+# R6: 统计力学基础 (Statistical Mechanics Foundations)
+#     kernel.boltzmann_entropy, kernel.equal_prior_probability
+# ═══════════════════════════════════════════════════════════════
+
+# R6a: Boltzmann 熵公式 — 熵正比于可及微观状态数的对数
+#       S(E,V,N) = k_B · ln W(E,V,N)
+#       其中 W 为给定宏观约束 (E,V,N) 下的量子微观状态数
+[kernel] S = k_B · ln(W) | macroscopic_limit, thermal_equilibrium
+
+# R6b: 热力学温度的定义 — 由熵对内能的偏导给出
+#       1/T ≡ (∂S/∂E)_{V,N}
+#       此定义将温度与微观状态计数的能量依赖性关联
+[kernel] 1/T = ∂(S)/∂(E) | V,N_fixed, thermal_equilibrium
+
+# R6c: 化学势的定义 — 由熵对粒子数的偏导给出
+#       μ ≡ −T·(∂S/∂N)_{E,V}
+[kernel] μ = −T·∂(S)/∂(N) | E,V_fixed, thermal_equilibrium
+
+# R6d: 热力学第二定律 (统计形式) — 孤立系统熵不随时间减少
+#       ΔS_total ≥ 0 (自发过程), 等号仅可逆过程
+#       这是 S = k_B ln W 和宇宙低熵初始条件的统计推论
+[kernel] ΔS ≥ 0 | isolated_system, macroscopic_limit
+
+# R6e: 等概率先验假设 (Fundamental Postulate of Statistical Mechanics)
+#       孤立系统平衡态中，所有可及量子微观状态以相等概率出现
+#       P_i = 1/W  对所有 E_i ∈ [E, E+δE] 的微观态 |i⟩
+#       这是统计力学的唯一基本假设 — 正则/巨正则分布从此推出
+[kernel] P_i = 1/W | isolated_system, thermal_equilibrium, macroscopic_limit
+
+# R6f: 正则系综 — Boltzmann 分布 (← R6a + R6e + 热库耦合)
+#       P_i = exp(−E_i/(k_B·T)) / Z,  Z = Σᵢ exp(−E_i/(k_B·T))
+#       此为 R6a+R6e 在最概然分布下的直接推论
+[kernel] P_i = exp(−E_i/(k_B·T)) / Z | thermal_equilibrium
+
+# R6 成立条件: 宏观极限 (N ≫ 1); 热平衡; 遍历性
+# R6 失效边界: 小系统(N∼1-100); 非平衡; 引力系统(负热容);
+#              黑洞(Bekenstein-Hawking 熵 S_BH = k_B·A/(4·l_P²)); 量子纠缠熵
+
+# ═══════════════════════════════════════════════════════════════
+# 结构性元规则 [rule]
+# ═══════════════════════════════════════════════════════════════
+
+# 量纲一致性
+[rule] dim(A_op_B) = dim(A) ⊕ dim(B) | dimensional_consistency
+
+# 守恒量 ⇔ 连续性方程
+[rule] conserved_Q ⇔ ∂_μ(J^μ) = 0
+
+# 实验验证边界 — 未经证实的理论不能作为 kernel 判据
+[rule] unverified_theory_not_kernel_adjudicator
+
+# ═══════════════════════════════════════════════════════════════
+# 经验层 [contingent] — 本宇宙经验事实
 # ═══════════════════════════════════════════════════════════════
 
 [contingent] gauge_group = SU(3)×SU(2)×U(1)
 
 [contingent] fermion_generation = 3
 
-[contingent] Higgs 机制: SU(2)_L × U(1)_Y → U(1)_EM  at v ≈ 246 GeV
+[contingent] Higgs_mechanism: SU(2)_L × U(1)_Y → U(1)_EM  at v ≈ 246 GeV
 
 # ═══════════════════════════════════════════════════════════════
-# 定律层 [law] — 从内核推导的有效定律
+# 定律层 [law] — 从 kernel 推导的有效定律
 # ═══════════════════════════════════════════════════════════════
 
-# ── 经典力学 ──
+# ── G1: Euler-Lagrange 方程 ──
 
-[law] F = 0 → d(v)/d(t) = 0
-      | inertial_frame, classical_limit
-      ← kernel.least_action
+[law] d(d(L)/d(q̇))/d(t) − d(L)/d(q) = 0
+      | classical_limit, conservative_force
+      ← kernel.least_action, kernel.spacetime_dimensionality
 
-[law] F = d(p)/d(t)
-      | inertial_frame, classical_limit
-      ← kernel.least_action, law.euler_lagrange
+# ── G2: Noether 定理 + 守恒律 ──
 
-[law] F₁₂ = −(F₂₁)
-      | inertial_frame
-      ← law.noether_theorem
+[law] continuous_symmetry_of_S ⇔ conserved_current
+      ← kernel.least_action, kernel.spacetime_dimensionality
 
-[law] F₁₂ = −(G·m₁·m₂/r^2)·r̂
-      | classical_limit, weak_field_limit
+[law] d(E)/d(t) = 0 | isolated_system
+      ← law.noether_theorem, kernel.spacetime_dimensionality
 
-# ── 电磁学 ──
+[law] d(P)/d(t) = 0 | isolated_system, inertial_frame
+      ← law.noether_theorem, kernel.spacetime_dimensionality
 
-[law] ∇·(E) = ρ_q / ε₀
-      ← kernel.gauge_interactions
+[law] d(L)/d(t) = 0 | isolated_system
+      ← law.noether_theorem, kernel.spacetime_dimensionality
+
+[law] ∂_μ(J^μ) = 0
+      ← law.noether_theorem, kernel.gauge_interactions, kernel.spacetime_dimensionality
+
+# ── G3: Newton 三定律 ──
+
+[law] F = 0 → d(v)/d(t) = 0 | inertial_frame, classical_limit
+      ← kernel.least_action, kernel.spacetime_dimensionality
+
+[law] F = d(p)/d(t) | inertial_frame, classical_limit, conservative_force
+      ← kernel.least_action, law.euler_lagrange, kernel.spacetime_dimensionality
+
+[law] F₁₂ = −(F₂₁) | inertial_frame, classical_limit
+      ← law.noether_theorem, kernel.spacetime_dimensionality
+
+# ── G4: Maxwell 方程组 (← R3 规范不变性 + R2 + R1) ──
+
+[law] ∇·(E) = ρ_q / ε₀ | electrostatic_regime
+      ← kernel.gauge_interactions, kernel.least_action,
+        kernel.lorentz_invariance, kernel.spacetime_dimensionality
 
 [law] ∇·(B) = 0
+      ← kernel.gauge_interactions, kernel.spacetime_dimensionality
 
 [law] ∇×(E) = −∂(B)/∂(t)
+      ← kernel.gauge_interactions, kernel.spacetime_dimensionality
 
 [law] ∇×(B) = μ₀·J + μ₀·ε₀·∂(E)/∂(t)
+      ← kernel.gauge_interactions, kernel.least_action,
+        kernel.lorentz_invariance, kernel.spacetime_dimensionality
 
-[law] F = q·(E + v×B)
+# Lorentz 力 (← 最小耦合)
+[law] F = q·(E + v×B) | classical_limit, point_particle_approximation
+      ← kernel.gauge_interactions, kernel.spacetime_dimensionality
 
-# ── 量子力学 ──
+# 电磁波方程
+[law] ∇²(E) = (1/c²)·∂²(E)/∂(t)^2
+      ∇²(B) = (1/c²)·∂²(B)/∂(t)^2 | vacuum
+      ← law.gauss_electric, law.gauss_magnetic,
+        law.faraday_induction, law.ampere_maxwell, kernel.spacetime_dimensionality
+
+# ── G5: 量子力学 ──
 
 [law] i·ħ·∂(ψ)/∂(t) = −(ħ^2/(2·m))·∇²(ψ) + V·ψ
-      | quantum_regime
+      | quantum_regime, non_relativistic_limit
+      ← kernel.unitary_evolution, kernel.canonical_commutation,
+        kernel.operator_observable, kernel.spacetime_dimensionality
 
-[law] E = h·ν
+[law] E = h·ν | quantum_regime
+      ← kernel.canonical_commutation
 
-[law] λ = h / p
+[law] λ = h / p | quantum_regime
+      ← law.energy_frequency
 
-[law] σ_x·σ_p ≥ ħ/2
+[law] σ_x·σ_p ≥ ħ/2 | quantum_regime
+      ← kernel.canonical_commutation, kernel.born_rule,
+        kernel.operator_observable, kernel.spacetime_dimensionality
 
-# ── 热力学 ──
+# ── G6: 相对论 ──
+
+[law] t' = γ·(t − v·x/c^2)
+      x' = γ·(x − v·t)
+      γ = 1 / (1 − v^2/c^2)^(1/2)
+      | inertial_frame, relativistic_regime
+      ← kernel.light_speed_invariance, kernel.lorentz_invariance,
+        kernel.spacetime_dimensionality
+
+[law] E^2 = p^2·c^2 + m^2·c^4 | relativistic_regime
+      ← kernel.lorentz_invariance, kernel.spacetime_dimensionality
+
+[law] G_μν + Λ·g_μν = (8·π·G/c^4)·T_μν | relativistic_regime, macroscopic_limit
+      ← kernel.equivalence_principle, kernel.general_covariance,
+        kernel.least_action, kernel.spacetime_dimensionality
+
+# Newton 万有引力 (← Einstein 场方程弱场极限)
+[law] F₁₂ = −(G·m₁·m₂/r^2)·r̂
+      | classical_limit, weak_field_limit, point_particle_approximation
+      ← kernel.equivalence_principle, kernel.general_covariance,
+        kernel.spacetime_dimensionality
+
+# ── G7: 热力学 ──
 
 [law] T_A = T_B, T_B = T_C → T_A = T_C | thermal_equilibrium
+      ← kernel.boltzmann_entropy
 
 [law] dU = T·dS − P·dV | thermal_equilibrium
-      ← law.noether_theorem, kernel.boltzmann_entropy
+      ← law.energy_conservation, kernel.boltzmann_entropy,
+        kernel.spacetime_dimensionality
 
 [law] S → 0 | T → 0
+      ← kernel.boltzmann_entropy, kernel.superposition_principle
 
-[law] P·V = n·R·T | thermal_equilibrium, classical_limit
-      ← law.first_law_thermo, kernel.boltzmann_entropy
-
-# ── 相对论 ──
-
-[law] t = γ·(t₀ − v·x/c^2)
-      x = γ·(x₀ − v·t)
-      γ = 1 / (1 − v^2/c^2)^(1/2)
-      | relativistic_regime
-
-[law] E^2 = p^2·c^2 + m^2·c^4
-
-[law] G_μν + Λ·g_μν = (8·π·G/c^4)·T_μν
-      | relativistic_regime
-
-[law] ∂_μ T^μν = 0 | isolated_system
-
-[law] ∂_μ J = 0
-
-[law] ∇²(E) = (1/c^2)·∂²(E)/∂(t)^2
-      ∇²(B) = (1/c^2)·∂²(B)/∂(t)^2
-      | vacuum
+[law] P·V = n·R·T | thermal_equilibrium, macroscopic_limit, classical_limit
+      ← law.first_law_thermo, kernel.boltzmann_entropy,
+        kernel.spacetime_dimensionality
 
 # ═══════════════════════════════════════════════════════════════
 # 推论层 [corollary]
 # ═══════════════════════════════════════════════════════════════
 
-[corollary] T^2 ∝[+] r^3
-            ← law.newton_second, law.newton_gravitation
+[corollary] T^2 ∝[+] r^3 | classical_limit, point_particle_approximation, conservative_force
+            ← law.newton_second, law.newton_gravitation, kernel.spacetime_dimensionality
 
-[corollary] f(E) = 1 / (exp((E − μ)/(k_B·T)) + 1)
-            ← kernel.pauli_exclusion, kernel.boltzmann_entropy
+[corollary] f(E) = 1 / (exp((E − μ)/(k_B·T)) + 1) | thermal_equilibrium, quantum_regime
+            ← law.pauli_exclusion, kernel.boltzmann_entropy
 
-[corollary] f(E) = 1 / (exp((E − μ)/(k_B·T)) − 1)
+[corollary] f(E) = 1 / (exp((E − μ)/(k_B·T)) − 1) | thermal_equilibrium, quantum_regime
             ← kernel.superposition_principle, kernel.boltzmann_entropy

@@ -272,7 +272,7 @@ C(conservative_force, force_type)
             ← law.newton_second, law.newton_gravitation
 
 [corollary] f(E) = 1 / (exp((E - μ) / (k_B·T)) + 1)
-            ← kernel.pauli_exclusion, kernel.boltzmann_entropy
+            ← law.pauli_exclusion, kernel.boltzmann_entropy
 ```
 
 ---

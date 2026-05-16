@@ -52,6 +52,7 @@ effective_laws:
   layer: effective_law
   derived_from:
   - kernel.least_action
+  - law.euler_lagrange
   - kernel.spacetime_dimensionality
 - id: law.newton_second
   relation: 'The net force on an object equals the rate of change of its momentum:
@@ -206,6 +207,23 @@ effective_laws:
   - kernel.canonical_commutation
   - kernel.operator_observable
   - kernel.spacetime_dimensionality
+- id: law.pauli_exclusion
+  relation: >
+    Multi-fermion wavefunction is totally antisymmetric under exchange:
+    ψ(r₁,s₁; r₂,s₂) = −ψ(r₂,s₂; r₁,s₁). No two identical fermions
+    occupy the same quantum state.
+  quantities:
+  - qty.spin
+  - qty.state_vector
+  scope:
+  - quantum_regime
+  provenance: "Pauli (1925); spin-statistics theorem (Fierz 1939, Pauli 1940)"
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.lorentz_invariance
+  - kernel.superposition_principle
+  - kernel.unitary_evolution
 - id: law.energy_frequency
   relation: E = h·ν
   quantities:
@@ -218,6 +236,9 @@ effective_laws:
   layer: effective_law
   derived_from:
   - kernel.canonical_commutation
+  - kernel.least_action
+  - kernel.unitary_evolution
+  - kernel.spacetime_dimensionality
 - id: law.de_broglie_wavelength
   relation: λ = h / p
   quantities:
@@ -259,8 +280,24 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.second_law
   - kernel.boltzmann_entropy
+- id: law.second_law_thermo
+  relation: >
+    The entropy of an isolated system never decreases: ΔS ≥ 0.
+    Equality holds only for reversible processes. This is a statistical
+    consequence of S = k_B ln W and the equal a priori probability postulate.
+  quantities:
+  - qty.entropy
+  scope:
+  - isolated_system
+  - macroscopic_limit
+  provenance: "Clausius (1850); Boltzmann (1872-1875)"
+  hardness: hard
+  layer: effective_law
+  derived_from:
+  - kernel.boltzmann_entropy
+  - kernel.equal_prior_probability
+  - kernel.spacetime_dimensionality
 - id: law.first_law_thermo
   relation: dU = T·dS − P·dV + μ·dN
   quantities:
@@ -329,7 +366,6 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.light_speed_invariance
   - kernel.lorentz_invariance
   - kernel.spacetime_dimensionality
 - id: law.mass_energy
@@ -419,6 +455,7 @@ effective_laws:
   - law.noether_theorem
   - kernel.gauge_interactions
   - kernel.spacetime_dimensionality
+  - contingent.sm_gauge_group
 - id: law.em_wave_equation
   relation: '∇²E = (1/c²)·∂²E/∂t², ∇²B = (1/c²)·∂²B/∂t², c = 1/√(ε₀·μ₀)
 
@@ -471,7 +508,7 @@ effective_laws:
   hardness: firm
   layer: effective_law
   derived_from:
-  - kernel.pauli_exclusion
+  - law.pauli_exclusion
   - kernel.boltzmann_entropy
 - id: cor.bose_einstein
   relation: f(E) = 1 / (exp((E − μ)/(k_B·T)) − 1)

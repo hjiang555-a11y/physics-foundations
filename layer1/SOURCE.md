@@ -209,7 +209,7 @@ Roots(a) = {r ∈ Ancestors(a) | r.layer = kernel}
 
 示例：
 ```
-cor.fermi_dirac 的 Roots = {kernel.pauli_exclusion, kernel.boltzmann_entropy}
+cor.fermi_dirac 的 Roots = {law.pauli_exclusion, kernel.boltzmann_entropy}
 ```
 
 ### O4: ImpactSet(a) — 影响集

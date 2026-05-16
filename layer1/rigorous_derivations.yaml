@@ -506,7 +506,7 @@ derivations:
       - step: 1
         description: "非相对论粒子的 Lagrangian"
         expression: "L(r, v) = ½m|v|² − V(r)"
-        justification: "T = ½mv²（动能），V(r) 为势能"
+        justification: "Galilei 不变性（R1 Lorentz 不变性在 v≪c 极限）要求自由粒子 Lagrangian 为速度平方的函数且不含位置：L ∝ v²。定义惯性质量 m 为比例常数：L_free = ½m|v|²（因子 ½ 为满足 Newton 极限 dp/dt = F 的约定）。加上势能项：L = T − V = ½m|v|² − V(r)。"
 
       - step: 2
         description: "应用 Euler-Lagrange 方程"
@@ -1279,7 +1279,7 @@ derivations:
     conclusion: law.lorentz_transform
     conclusion_statement: "t' = γ(t−vx/c²), x' = γ(x−vt), γ = 1/√(1−v²/c²)"
     premise:
-      - kernel.light_speed_invariance  # R1
+      - kernel.lorentz_invariance  # R1
       - kernel.lorentz_invariance      # R1
       - kernel.spacetime_dimensionality
 
@@ -1292,7 +1292,7 @@ derivations:
       - step: 1
         description: "基本假设: c 在所有惯性系中不变"
         expression: "c' = c"
-        justification: "R1: kernel.light_speed_invariance。光速是绝对常数。"
+        justification: "R1: kernel.lorentz_invariance。光速是绝对常数。"
 
       - step: 2
         description: "间隔不变性"
@@ -1572,8 +1572,9 @@ derivations:
     conclusion: law.zeroth_law
     conclusion_statement: "T_A = T_B, T_B = T_C → T_A = T_C（温度传递性）"
     premise:
-      - kernel.second_law
       - kernel.boltzmann_entropy
+      - kernel.equal_prior_probability
+      - kernel.spacetime_dimensionality
 
     variables: []
 
@@ -1582,8 +1583,8 @@ derivations:
         description: "两系统热接触达到平衡时熵最大化"
         expression: "dS_total = dS_A + dS_B = (1/T_A)dE_A + (1/T_B)dE_B = 0"
         justification: >
-          R6: dS = dE/T（在体积和粒子数不变时）。
-          孤立系统熵取极大值：dS_total = 0 且 d²S_total < 0。
+          R6 (S = k_B ln W + 等概率先验): 孤立系统自发演化至最概然宏观态 → 熵取极大值。
+          dS = dE/T (体积和粒子数固定时，由 1/T ≡ ∂S/∂E 和 dS 全微分性质)。
 
       - step: 2
         description: "能量守恒: dE_A + dE_B = 0"
@@ -1808,7 +1809,7 @@ derivations:
     conclusion: cor.fermi_dirac
     conclusion_statement: "f(E) = 1/[exp((E−μ)/(k_B T)) + 1]"
     premise:
-      - kernel.pauli_exclusion
+      - law.pauli_exclusion
       - kernel.boltzmann_entropy
 
     variables:
@@ -1820,7 +1821,7 @@ derivations:
       - step: 1
         description: "Fermi 子约束: n_i ∈ {0,1}"
         expression: ""
-        justification: "R4 (Pauli 不相容原理): 每个单粒子量子态至多被一个费米子占据。"
+        justification: "law.pauli_exclusion (自旋-统计定理，← R1+R4): 每个单粒子量子态至多被一个费米子占据。"
 
       - step: 2
         description: "巨正则系综中最大化熵"

@@ -653,16 +653,7 @@ claims:
   - quantum_regime
   layer: kernel
   _from: []
-- id: kernel.pauli_exclusion
-  statement: 'A multi-fermion wave function is totally antisymmetric under particle exchange: psi(r1,s1; r2,s2) = -psi(r2,s2;
-    r1,s1). No two identical fermions can occupy the same quantum state simultaneously'
-  about:
-  - qty.spin
-  - qty.state_vector
-  under:
-  - quantum_regime
-  layer: kernel
-  _from: []
+
 - id: kernel.light_speed_invariance
   statement: The speed of light in vacuum c = 2.99792458 x 10^8 m/s is the same in all inertial reference frames. It is the
     maximum speed of causal influence
@@ -703,16 +694,7 @@ claims:
   - relativistic_regime
   layer: kernel
   _from: []
-- id: kernel.second_law
-  statement: 'The entropy of an isolated system never decreases: Delta_S >= 0. All natural processes proceed in the direction
-    of increasing total entropy'
-  about:
-  - qty.entropy
-  under:
-  - isolated_system
-  - macroscopic_limit
-  layer: kernel
-  _from: []
+
 - id: kernel.boltzmann_entropy
   statement: 'Entropy is proportional to the logarithm of the number of accessible microstates: S = k_B * ln(W). This provides
     the statistical foundation for the second law'
@@ -827,7 +809,6 @@ claims:
   - classical_limit
   layer: law
   _from:
-  - law.noether_theorem
   - law.noether_theorem
 - id: law.newton_gravitation
   statement: F_12 = -G*m1*m2/r^2 * r-hat
@@ -960,7 +941,6 @@ claims:
   - thermal_equilibrium
   layer: law
   _from:
-  - kernel.second_law
   - kernel.boltzmann_entropy
 - id: law.first_law_thermo
   statement: dU = T*dS - P*dV + mu*dN
@@ -1058,7 +1038,7 @@ claims:
   layer: law
   _from:
   - law.noether_theorem
-  - law.noether_theorem
+  - kernel.spacetime_dimensionality
 - id: law.momentum_conservation
   statement: 'dP/dt = 0 (isolated); locally: partial_mu*T^mui = 0'
   about:
@@ -1069,7 +1049,7 @@ claims:
   layer: law
   _from:
   - law.noether_theorem
-  - law.noether_theorem
+  - kernel.spacetime_dimensionality
 - id: law.angular_momentum_conservation
   statement: dL/dt = 0 (isolated, central forces)
   about:
@@ -1079,7 +1059,7 @@ claims:
   layer: law
   _from:
   - law.noether_theorem
-  - law.noether_theorem
+  - kernel.spacetime_dimensionality
 - id: law.charge_conservation
   statement: 'partial_mu*J^mu = 0; globally: dQ/dt = 0'
   about:
@@ -1134,7 +1114,7 @@ claims:
   - quantum_regime
   layer: law
   _from:
-  - kernel.pauli_exclusion
+  - law.pauli_exclusion
   - kernel.boltzmann_entropy
 - id: cor.bose_einstein
   statement: f(E) = 1/(exp((E - mu)/(k_B*T)) - 1)

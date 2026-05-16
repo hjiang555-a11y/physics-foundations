@@ -109,6 +109,7 @@ effective_laws:
   derived_from:
   - kernel.equivalence_principle
   - kernel.general_covariance
+  - kernel.least_action
   - kernel.spacetime_dimensionality
 - id: law.gauss_electric
   relation: ∇·E = ρ_q / ε₀
@@ -224,6 +225,7 @@ effective_laws:
   - kernel.lorentz_invariance
   - kernel.superposition_principle
   - kernel.unitary_evolution
+  - kernel.spacetime_dimensionality
 - id: law.energy_frequency
   relation: E = h·ν
   quantities:
@@ -281,6 +283,8 @@ effective_laws:
   layer: effective_law
   derived_from:
   - kernel.boltzmann_entropy
+  - kernel.equal_prior_probability
+  - kernel.spacetime_dimensionality
 - id: law.second_law_thermo
   relation: >
     The entropy of an isolated system never decreases: ΔS ≥ 0.
@@ -455,7 +459,6 @@ effective_laws:
   - law.noether_theorem
   - kernel.gauge_interactions
   - kernel.spacetime_dimensionality
-  - contingent.sm_gauge_group
 - id: law.em_wave_equation
   relation: '∇²E = (1/c²)·∂²E/∂t², ∇²B = (1/c²)·∂²B/∂t², c = 1/√(ε₀·μ₀)
 

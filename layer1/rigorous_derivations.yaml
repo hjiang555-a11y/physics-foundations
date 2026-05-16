@@ -2,7 +2,7 @@
 # Sci-hf 严格推导 — Rigorous Derivations (Round 2, Batch G1-G3)
 # ─────────────────────────────────────────────────────────────────
 #
-# 本文件包含从 R1–R6 核心原则到全部 30 条定理的严格推导。
+# 本文件包含从 R1–R6 核心原则到全部 32 条定理的严格推导。
 # 每条推导满足：
 #   1. 所有变量完整定义（符号、类型、量纲、定义域、物理含义）
 #   2. 每步可追溯至 R1–R6 或已证定理
@@ -440,6 +440,7 @@ derivations:
     conclusion_statement: "F = 0 ⇒ dv/dt = 0（匀速直线运动）"
     premise:
       - kernel.least_action
+      - law.euler_lagrange
       - kernel.spacetime_dimensionality
 
     variables:
@@ -1123,6 +1124,9 @@ derivations:
     conclusion_statement: "E = hν (光子能量量子)"
     premise:
       - kernel.canonical_commutation
+      - kernel.least_action
+      - kernel.unitary_evolution
+      - kernel.spacetime_dimensionality
 
     variables:
       - { symbol: "ν", type: "ℝ⁺", dim: "[T⁻¹]", domain: "ν > 0", meaning: "电磁辐射频率" }

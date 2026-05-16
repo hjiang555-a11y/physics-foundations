@@ -1,8 +1,8 @@
 # Reference corpus
 
-`reference/` 是 Sci-hf 的科学知识参考区，用于把“可读物理资料”逐步收束为“可机验科学语言内核”。
+`reference/` 是 Sci-hf 的科学知识参考区，用于把"可读物理资料"逐步收束为"可机验科学语言内核"。
 
-当前第一阶段建设重点是 `reference/layer1/`：公理硬核层、有效定律、物理量注册表、推导图与 `.scihf` 语言最小规范。
+当前已完成 **R1-R6 充分必要性三轮审计**（2026-05-16）：6 条核心原则 → 32 条有效定律，双文件推导覆盖（`derivations.yaml` + `rigorous_derivations.yaml`），所有推导链可追溯至 kernel 根节点，YAML 验证通过。
 
 ## 目录职责
 
@@ -40,9 +40,8 @@
 - 内核区新增内容必须优先明确 ID、layer、scope、quantities 与 provenance。
 - scope 比较前必须经过 `scope_aliases` 归一化。
 - `reference/layer1` 的提取顺序、node/token 列表与去重规则以 `layer1/EXTRACTION.md` 为准。
-- `rules.md` 的 R1-R6 是物理世界最底层的 6 条核心原则，直接从 kernel 框架提取；每条原则包含描述、数学表达式与变量说明。Noether 定理和自旋-统计定理是 R2/R4 的数学推论，不列为独立规则。
-- 科学描述语言的充分必要性、source 最小性、scope 与 layer 放置规则见 `../docs/scientific-description-language-rules.md`。
-- source/derivation 图审查器是当前内核层确定性验证线；不一次性实现完整数学 parser。
+- `rules.md` 的 R1-R6 是物理世界最底层的 6 条核心原则。R1 包含三个独立子原则（1a/1b 因果结构 + 1c 等效原理）；R6 包含两个独立公设（6a S=k·lnW + 6b 等概率先验）。32 条有效定律的推导链（含必要性/充分性标注）见 `layer1/rigorous_derivations.yaml`。
+- Noether 定理和自旋-统计定理（Pauli 不相容原理）是 R2/R4 的数学推论，不列为独立规则；但后者在推导文件中为结构性大纲+深度声明。
 
 ## 自动化审查
 

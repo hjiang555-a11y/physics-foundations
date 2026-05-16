@@ -48,7 +48,11 @@
 运行：
 
 ```
-python3 -m mvp.source_graph --layer1 reference/layer1 --output docs/layer1-source-graph-review.md
+python3 validate_derivations.py layer1/
 ```
 
-将对内核 / 规则 / 经验事实 / 有效定律 / 推导图执行 `SOURCE.md` V1–V5 检查，最新报告见 [`docs/layer1-source-graph-review.md`](../docs/layer1-source-graph-review.md)。
+将对内核 / 规则 / 经验事实 / 有效定律 / 推导图执行 `SOURCE.md` V1–V5 检查。当前状态：**PASS — 0 errors, 0 warnings**。
+
+## 后续计划
+
+详见 [`ROADMAP.md`](ROADMAP.md)。

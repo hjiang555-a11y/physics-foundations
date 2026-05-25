@@ -14,7 +14,7 @@
 # Extraction order: see EXTRACTION.md
 #
 # R1–R6 mapping:
-#   R1 → kernel.lorentz_invariance, kernel.light_speed_invariance,
+#   R1 → kernel.lorentz_invariance,
 #         kernel.spacetime_dimensionality, kernel.equivalence_principle,
 #         kernel.general_covariance
 #   R2 → kernel.least_action
@@ -105,7 +105,7 @@ Q(R, [M·L²·T⁻²·Θ⁻¹·N⁻¹], physical_constant)
 
 # ═══════════════════════════════════════════════════════════════
 # R1: 因果时空结构 (Causal Spacetime Structure)
-#     kernel.light_speed_invariance, kernel.lorentz_invariance,
+#     kernel.lorentz_invariance,
 #     kernel.equivalence_principle, kernel.general_covariance,
 #     kernel.spacetime_dimensionality
 # ═══════════════════════════════════════════════════════════════
@@ -408,7 +408,7 @@ Q(R, [M·L²·T⁻²·Θ⁻¹·N⁻¹], physical_constant)
       x' = γ·(x − v·t)
       γ = 1 / (1 − v^2/c^2)^(1/2)
       | inertial_frame, relativistic_regime
-      ← kernel.light_speed_invariance, kernel.lorentz_invariance,
+      ← kernel.lorentz_invariance,
         kernel.spacetime_dimensionality
 
 [law] E^2 = p^2·c^2 + m^2·c^4 | relativistic_regime

@@ -1127,6 +1127,7 @@ derivations:
       - kernel.least_action
       - kernel.unitary_evolution
       - kernel.spacetime_dimensionality
+      - kernel.gauge_interactions
 
     variables:
       - { symbol: "ν", type: "ℝ⁺", dim: "[T⁻¹]", domain: "ν > 0", meaning: "电磁辐射频率" }
@@ -1670,6 +1671,9 @@ derivations:
     premise:
       - kernel.boltzmann_entropy
       - kernel.superposition_principle
+      - kernel.unitary_evolution
+      - kernel.canonical_commutation
+      - kernel.operator_observable
 
     variables:
       - { symbol: "S", type: "ℝ_{\\ge 0}", dim: "[M·L²·T⁻²·Θ⁻¹]", domain: "S ≥ 0", meaning: "熵" }

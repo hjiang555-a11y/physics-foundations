@@ -66,6 +66,7 @@ derivations:
   premise:
   - kernel.least_action
   - kernel.spacetime_dimensionality
+  - law.euler_lagrange
   steps:
   - In the absence of external forces, V(r) = constant, so grad(V) = 0
   - Lagrangian reduces to L = (1/2)*m*v^2 (free particle)
@@ -104,6 +105,7 @@ derivations:
   premise:
   - kernel.equivalence_principle
   - kernel.general_covariance
+  - kernel.least_action
   - kernel.spacetime_dimensionality
   steps:
   - 'Start from Einstein field equations: G_munu = (8*pi*G/c^4)*T_munu'
@@ -277,6 +279,10 @@ derivations:
 - id: deriv.energy_frequency
   premise:
   - kernel.canonical_commutation
+  - kernel.least_action
+  - kernel.spacetime_dimensionality
+  - kernel.unitary_evolution
+  - kernel.gauge_interactions
   steps:
   - 'Quantize the harmonic oscillator: H = p^2/(2m) + (1/2)*m*omega^2*x^2'
   - 'Define ladder operators: a = sqrt(m*omega/(2*hbar))*x + i*sqrt(1/(2*m*hbar*omega))*p'
@@ -437,6 +443,9 @@ derivations:
   premise:
   - kernel.boltzmann_entropy
   - kernel.superposition_principle
+  - kernel.unitary_evolution
+  - kernel.canonical_commutation
+  - kernel.operator_observable
   steps:
   - 'Boltzmann entropy: S = k_B*ln(W), where W = number of accessible microstates'
   - At T->0, a perfect crystal occupies its quantum ground state
@@ -463,6 +472,7 @@ derivations:
   premise:
   - kernel.boltzmann_entropy
   - kernel.equal_prior_probability
+  - kernel.spacetime_dimensionality
   steps:
   - Two systems A and B in thermal contact reach equilibrium when their temperatures
     equalize
@@ -483,7 +493,6 @@ derivations:
   reversible: true
 - id: deriv.lorentz_transformation
   premise:
-  - kernel.light_speed_invariance
   - kernel.lorentz_invariance
   - kernel.spacetime_dimensionality
   steps:

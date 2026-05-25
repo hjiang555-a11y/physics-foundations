@@ -241,8 +241,9 @@ effective_laws:
   - kernel.least_action
   - kernel.unitary_evolution
   - kernel.spacetime_dimensionality
+  - kernel.gauge_interactions
 - id: law.de_broglie_wavelength
-  relation: λ = h / p
+  relation: 'λ = h / p  [NOTE: empirical generalization, not pure logical deduction from E=hν]'
   quantities:
   - qty.length
   - qty.momentum
@@ -334,6 +335,9 @@ effective_laws:
   derived_from:
   - kernel.boltzmann_entropy
   - kernel.superposition_principle
+  - kernel.unitary_evolution
+  - kernel.canonical_commutation
+  - kernel.operator_observable
 - id: law.ideal_gas
   relation: P·V = n·R·T
   quantities:

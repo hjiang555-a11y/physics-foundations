@@ -654,14 +654,6 @@ claims:
   layer: kernel
   _from: []
 
-- id: kernel.light_speed_invariance
-  statement: The speed of light in vacuum c = 2.99792458 x 10^8 m/s is the same in all inertial reference frames. It is the
-    maximum speed of causal influence
-  about:
-  - cst.speed_of_light
-  under: []
-  layer: kernel
-  _from: []
 - id: kernel.equivalence_principle
   statement: 'Inertial mass equals gravitational mass: m_i = m_g. Locally, it is impossible to distinguish a gravitational
     field from an accelerated reference frame'
@@ -998,7 +990,6 @@ claims:
   - relativistic_regime
   layer: law
   _from:
-  - kernel.light_speed_invariance
   - kernel.lorentz_invariance
 - id: law.mass_energy
   statement: 'E^2 = p^2*c^2 + m^2*c^4; rest frame: E = m*c^2'

@@ -130,14 +130,14 @@ R1 的三个子原则各自提供：
 ### R1.8 子组件与 R1-R6 映射
 
 R1 的五个子组件逻辑关系：
-- **(1a+1b)** — `kernel.lorentz_invariance`, `kernel.light_speed_invariance`（因果-相对论结构，彼此等价）
+- **(1a+1b)** — `kernel.lorentz_invariance`（因果-相对论结构；`kernel.light_speed_invariance` 为等价表述，已合并入 `kernel.lorentz_invariance`）
 - **(1c)** — `kernel.equivalence_principle`, `kernel.general_covariance`（引力几何化路径，独立于 1a/1b）
 - **contingent** — `kernel.spacetime_dimensionality`（D=3 为偶然事实）
 
 | 子组件 | frameworks.yaml ID | 逻辑分组 |
 |--------|-------------------|---------|
 | 3+1 时空维度 | `kernel.spacetime_dimensionality` | contingent 事实 |
-| 光速不变 | `kernel.light_speed_invariance` | 1a ⇔ 1b |
+| 光速不变 / Lorentz 因果结构 | `kernel.lorentz_invariance` | 1a ⇔ 1b（`kernel.light_speed_invariance` 为等价表述，已合并） |
 | Lorentz 不变性 + 因果结构 | `kernel.lorentz_invariance` | 1a ⇔ 1b |
 | 等效原理（$m_i=m_g$） | `kernel.equivalence_principle` | 1c（独立公设） |
 | 广义协变性 | `kernel.general_covariance` | 1c |

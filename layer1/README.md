@@ -87,7 +87,7 @@
 
 ## Atom 清单（source graph reviewable atoms）
 
-自动审查图当前为 **59 nodes / 89 edges**，V1–V5 全部 PASS。下表是 `mvp.source_graph` 从 YAML 中提取的可审查原子；quantity/condition 原子另见 `quantities_registry.yaml` 与 `claims.yaml`。
+自动审查图当前为 **59 nodes / 105 edges**，V1–V5 全部 PASS。下表是 `mvp.source_graph` 从 YAML 中提取的可审查原子；quantity/condition 原子另见 `quantities_registry.yaml` 与 `claims.yaml`。
 
 | Atom ID | Layer | Source file | Logical sources |
 |---|---|---|---|
@@ -112,7 +112,6 @@
 | `kernel.gauge_interactions` | `kernel` | `frameworks.yaml` | — |
 | `kernel.general_covariance` | `kernel` | `frameworks.yaml` | — |
 | `kernel.least_action` | `kernel` | `frameworks.yaml` | — |
-| `kernel.light_speed_invariance` | `kernel` | `frameworks.yaml` | — |
 | `kernel.lorentz_invariance` | `kernel` | `frameworks.yaml` | — |
 | `kernel.operator_observable` | `kernel` | `frameworks.yaml` | — |
 | `kernel.spacetime_dimensionality` | `kernel` | `frameworks.yaml` | — |
@@ -125,7 +124,7 @@
 | `law.einstein_field` | `effective_law` | `effective_laws.yaml` | `kernel.equivalence_principle`, `kernel.general_covariance`, `kernel.least_action`, `kernel.spacetime_dimensionality` |
 | `law.em_wave_equation` | `effective_law` | `effective_laws.yaml` | `law.gauss_electric`, `law.gauss_magnetic`, `law.faraday_induction`, `law.ampere_maxwell`, `kernel.spacetime_dimensionality` |
 | `law.energy_conservation` | `effective_law` | `effective_laws.yaml` | `law.noether_theorem`, `kernel.spacetime_dimensionality` |
-| `law.energy_frequency` | `effective_law` | `effective_laws.yaml` | `kernel.canonical_commutation` |
+| `law.energy_frequency` | `effective_law` | `effective_laws.yaml` | `kernel.canonical_commutation`, `kernel.least_action`, `kernel.spacetime_dimensionality`, `kernel.unitary_evolution`, `kernel.gauge_interactions` |
 | `law.euler_lagrange` | `effective_law` | `effective_laws.yaml` | `kernel.least_action`, `kernel.spacetime_dimensionality` |
 | `law.faraday_induction` | `effective_law` | `effective_laws.yaml` | `kernel.gauge_interactions`, `kernel.spacetime_dimensionality` |
 | `law.first_law_thermo` | `effective_law` | `effective_laws.yaml` | `law.energy_conservation`, `kernel.boltzmann_entropy`, `kernel.spacetime_dimensionality` |
@@ -133,7 +132,7 @@
 | `law.gauss_magnetic` | `effective_law` | `effective_laws.yaml` | `kernel.gauge_interactions`, `kernel.spacetime_dimensionality` |
 | `law.ideal_gas` | `effective_law` | `effective_laws.yaml` | `law.first_law_thermo`, `kernel.boltzmann_entropy`, `kernel.spacetime_dimensionality` |
 | `law.lorentz_force` | `effective_law` | `effective_laws.yaml` | `kernel.gauge_interactions`, `kernel.spacetime_dimensionality` |
-| `law.lorentz_transform` | `effective_law` | `effective_laws.yaml` | `kernel.light_speed_invariance`, `kernel.lorentz_invariance`, `kernel.spacetime_dimensionality` |
+| `law.lorentz_transform` | `effective_law` | `effective_laws.yaml` | `kernel.lorentz_invariance`, `kernel.spacetime_dimensionality` |
 | `law.mass_energy` | `effective_law` | `effective_laws.yaml` | `kernel.lorentz_invariance`, `kernel.spacetime_dimensionality` |
 | `law.momentum_conservation` | `effective_law` | `effective_laws.yaml` | `law.noether_theorem`, `kernel.spacetime_dimensionality` |
 | `law.newton_first` | `effective_law` | `effective_laws.yaml` | `kernel.least_action`, `kernel.spacetime_dimensionality` |

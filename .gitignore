@@ -1,0 +1,5 @@
+# Sisyphus working files
+.sisyphus/
+
+# Symlinks to external directories
+mvp

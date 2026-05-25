@@ -3,3 +3,6 @@
 
 # Symlinks to external directories
 mvp
+# Generated visualization output
+physics_foundations_graph.dot
+*.png

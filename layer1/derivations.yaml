@@ -18,28 +18,41 @@ derivations:
   - Euler (1744)
   - Lagrange (1788)
   - Goldstein §2.1
+  necessity_conditions:
+  - 'R2 (δS = 0): 若无，Step 8 无依据'
+  - '固定端点变分: 若无 δq(t₁)=δq(t₂)=0，Step 6 边界项不消失'
+  - 'L ∈ C²: L 必须二阶连续可微，否则 Taylor 展开不合法'
+  - 'δqᵢ 任意且独立: 若无，变分学引理不适用'
+  - 'R1 定义的时间坐标 t: 积分参数必须是一维连续统'
+  sufficiency_conditions:
+  - 给定 C² 拉格朗日量 L(q,q̇,t) 和固定端点，δS=0 ⇔ Euler-Lagrange 方程
+  - '[S] R2 + 固定端点 + C² L ⇒ Euler-Lagrange'
   reversible: true
 - id: deriv.noether_theorem
   premise:
   - kernel.least_action
   - kernel.spacetime_dimensionality
   steps:
-  - Start from an action S whose value is invariant under a continuous one-parameter
-    transformation.
-  - Apply the least-action condition to the transformed path and keep first-order
-    terms in the transformation parameter.
-  - Use integration by parts and the Euler-Lagrange on-shell condition to isolate
-    a total divergence or total time derivative.
-  - The total derivative defines the Noether current or charge associated with the
-    continuous symmetry.
-  - Therefore every continuous symmetry of the action corresponds to a conserved
-    current within the stated spacetime structure.
+  - Start from an action S whose value is invariant under a continuous one-parameter transformation.
+  - Apply the least-action condition to the transformed path and keep first-order terms in the transformation parameter.
+  - Use integration by parts and the Euler-Lagrange on-shell condition to isolate a total divergence or total time derivative.
+  - The total derivative defines the Noether current or charge associated with the continuous symmetry.
+  - Therefore every continuous symmetry of the action corresponds to a conserved current within the stated spacetime structure.
   conclusion: law.noether_theorem
   mathematical_link: continuous symmetry of S + delta S = 0 => conserved Noether current
   validity_scope: []
   sources:
   - Noether (1918)
   - Goldstein §12.7
+  necessity_conditions:
+  - 'R2 (δS = 0): Euler-Lagrange 方程是推导的必要中间步骤（Step 4）'
+  - 'R1 (时间坐标): 全导数 d/dt 要求时间在 R1 定义下是连续坐标'
+  - '连续对称性: 必须有 Lie 群结构 → 无穷小生成元 Qᵢ 存在'
+  - 'C² L: 偏导数存在且连续'
+  - 'Euler-Lagrange 方程成立: 沿真实路径（on-shell）'
+  sufficiency_conditions:
+  - '[S] 连续对称性 + Euler-Lagrange 方程 ⇒ 守恒流存在'
+  - Noether 定理是充要的：每个守恒量对应一个对称性（逆 Noether 定理也成立）
   reversible: true
 - id: deriv.newton_second
   premise:
@@ -61,6 +74,13 @@ derivations:
   sources:
   - Goldstein §1.4, §2.1
   - Landau & Lifshitz §1, §2
+  necessity_conditions:
+  - Euler-Lagrange 方程 [N]（来自 R2）
+  - 'L = T − V 的形式 [N]: 势能 V 必须存在（保守力）'
+  - 'R1 的惯性系 [N]: 仅在此类参考系中成立'
+  - 'm 为常数: 对于变质量系统（如火箭），F = dp/dt 仍正确但 F ≠ ma'
+  sufficiency_conditions:
+  - '[S] L = ½mv² − V(r) + Euler-Lagrange ⇒ F = dp/dt'
   reversible: true
 - id: deriv.newton_first
   premise:
@@ -80,26 +100,37 @@ derivations:
   sources:
   - Goldstein §1.1
   - Landau & Lifshitz §3
+  necessity_conditions:
+  - 'R2 (δS = 0) [N]: Euler-Lagrange 方程的来源'
+  - 'R1: 惯性参考系的存在性 [N]: Newton 定律仅在惯性系成立'
+  - 'm 为常数 [N]: dm/dt = 0（非相对论极限）'
+  sufficiency_conditions:
+  - '[S] 自由粒子 Lagrangian + Euler-Lagrange ⇒ Newton 第一定律'
+  - 第一定律是第二定律在 F=0 的特殊情况
   reversible: true
 - id: deriv.newton_third
   premise:
   - law.noether_theorem
   - kernel.spacetime_dimensionality
   steps:
-  - Space-translation invariance of the action => momentum conservation via Noether's
-    theorem
+  - Space-translation invariance of the action => momentum conservation via Noether's theorem
   - 'For two-body interaction: dP_total/dt = 0 => p1 + p2 = constant'
   - 'Differentiating: dp1/dt + dp2/dt = 0 => F12 + F21 = 0'
   - Therefore F_12 = -F_21 (equal magnitude, opposite direction)
   conclusion: law.newton_third
-  mathematical_link: Space-translation symmetry -> d(m1*v1 + m2*v2)/dt = 0 -> F12
-    + F21 = 0
+  mathematical_link: Space-translation symmetry -> d(m1*v1 + m2*v2)/dt = 0 -> F12 + F21 = 0
   validity_scope:
   - classical_limit
   - inertial_frame
   sources:
   - Goldstein §12.7
   - Noether (1918)
+  necessity_conditions:
+  - 动量守恒 [N]（来自 Noether + 空间平移对称性）
+  - 系统孤立 [N]（无外力）
+  sufficiency_conditions:
+  - '[S] 动量守恒 + Newton 第二定律 ⇒ Newton 第三定律弱形式'
+  - 注意：强形式（F₁₂ 和 r₁−r₂ 共线，即 collinear）仅在有心力下成立，在电磁学中破缺
   reversible: true
 - id: deriv.newton_gravitation
   premise:
@@ -116,14 +147,20 @@ derivations:
   - 'Spherically symmetric solution: phi = -G*M/r'
   - 'Force on test particle: F = -m*grad(phi) = -G*m*M/r^2'
   conclusion: law.newton_gravitation
-  mathematical_link: 'GR weak-field limit: G_00 = (8*pi*G/c^4)*T_00 => del^2(phi)
-    = 4*pi*G*rho => F = -G*m*M/r^2'
+  mathematical_link: 'GR weak-field limit: G_00 = (8*pi*G/c^4)*T_00 => del^2(phi) = 4*pi*G*rho => F = -G*m*M/r^2'
   validity_scope:
   - weak_field_limit
   - non_relativistic_limit
   sources:
   - Weinberg Gravitation and Cosmology §3.1
   - Misner, Thorne & Wheeler §17.4
+  necessity_conditions:
+  - '弱场极限 [N]: |h_{μν}| ≪ 1'
+  - '低速极限 [N]: v ≪ c'
+  - '等效原理 [N]: m_i = m_g'
+  - '静态场 [N]: ∂_t g_{μν} = 0'
+  sufficiency_conditions:
+  - '[S] Einstein 场方程 + 弱场低速极限 ⇒ Newton 万有引力'
   reversible: false
 - id: deriv.maxwell_from_gauge
   premise:
@@ -138,17 +175,23 @@ derivations:
   - 'Varying A_mu yields Euler-Lagrange form: partial_mu*F^munu = J^nu'
   - 'The nu=0 component gives Gauss law: div(E) = rho_q'
   - 'The nu=1,2,3 components give Ampere-Maxwell law: curl(B) = J + partial(E)/partial(t)'
-  - 'Bianchi identity on F_munu gives the homogeneous pair: div(B) = 0, curl(E) =
-    -partial(B)/partial(t)'
+  - 'Bianchi identity on F_munu gives the homogeneous pair: div(B) = 0, curl(E) = -partial(B)/partial(t)'
   conclusion: law.ampere_maxwell
-  mathematical_link: delta_S/delta_A_mu = 0 => partial_mu*F^munu = J^nu => div(E)=rho,
-    curl(B)=J+E-dot
+  mathematical_link: delta_S/delta_A_mu = 0 => partial_mu*F^munu = J^nu => div(E)=rho, curl(B)=J+E-dot
   validity_scope:
   - classical_limit
   sources:
   - Jackson §12.2
   - Peskin & Schroeder §15.1
   - Gross PNAS 93, 14256 (1996)
+  necessity_conditions:
+  - 'R3 (U(1) 规范不变性) [N]: 无规范原理 → 无 A_μ → 无 F_{μν} → 无 Maxwell 方程'
+  - 'R2 (最小作用量) [N]: Euler-Lagrange 方程给出动力学 ∂_ν F^{νμ} = μ₀ J^μ'
+  - 'R1 (Lorentz 不变性) [N]: Lagrangian −¼F_{μν}F^{μν} 必须是 Lorentz 标量；Bianchi 恒等式依赖时空的可微结构'
+  - 'R1 (3+1 维) [N]: 电场 3 分量 + 磁场 3 分量 = 6（= F_{μν} 的独立分量数，来自 D(D−1)/2=6）'
+  sufficiency_conditions:
+  - '[S] U(1) gauge + R1 + R2 ⇒ Maxwell 方程组完备'
+  - Maxwell 方程是 U(1) 规范理论在 3+1 维的唯一低能有效理论（无高阶导数项时）
   reversible: true
 - id: deriv.lorentz_force
   premise:
@@ -168,6 +211,12 @@ derivations:
   sources:
   - Jackson §12.1
   - Goldstein §1.5
+  necessity_conditions:
+  - 'R3 (最小耦合) [N]: p → p − qA 的替换来自规范不变性要求'
+  - Euler-Lagrange 方程 [N]
+  - E = −∇φ − ∂A/∂t 和 B = ∇×A 的定义 [N]
+  sufficiency_conditions:
+  - '[S] 最小耦合 Lagrangian + Euler-Lagrange ⇒ Lorentz 力'
   reversible: true
 - id: deriv.gauss_electric
   premise:
@@ -188,6 +237,12 @@ derivations:
   sources:
   - Jackson §12.2
   - Griffiths §2.2
+  necessity_conditions:
+  - 'U(1) 规范不变性 [N]: 定义 A_μ 和 F_{μν}'
+  - '最小作用量 [N]: 给出 ∂_ν F^{νμ} = μ₀ J^μ'
+  - '3+1 维 [N]: ∇·E 是三维散度，依赖空间维数 D=3'
+  sufficiency_conditions:
+  - '[S] ∂_ν F^{ν0} = μ₀ J⁰ + 场强分量对应 ⇒ ∇·E = ρ_q/ε₀'
   reversible: true
 - id: deriv.gauss_magnetic
   premise:
@@ -195,8 +250,7 @@ derivations:
   - kernel.spacetime_dimensionality
   steps:
   - F_munu = partial_mu*A_nu - partial_nu*A_mu (definition of field strength)
-  - 'Bianchi identity: partial_lambda*F_munu + partial_mu*F_nulambda + partial_nu*F_lambdamu
-    = 0'
+  - 'Bianchi identity: partial_lambda*F_munu + partial_mu*F_nulambda + partial_nu*F_lambdamu = 0'
   - Take spatial components only (lambda,mu,nu = 1,2,3)
   - partial_i*F_jk + partial_j*F_ki + partial_k*F_ij = 0
   - F_ij = epsilon_ijk*B^k, so partial_i*B^i = 0
@@ -208,14 +262,18 @@ derivations:
   - Jackson §5.7
   - Nakahara §10.1.2
   - Geometric identity from F = dA
+  necessity_conditions:
+  - 'F = dA (B = ∇×A) [N]: 磁场是无源场，因为它是矢势的旋度'
+  - 'R3 [N]: A 本身来自规范补偿场要求'
+  sufficiency_conditions:
+  - '[S] B = ∇×A ⇒ ∇·B ≡ 0（恒等式，不需要任何动力学）'
   reversible: true
 - id: deriv.faraday_induction
   premise:
   - kernel.gauge_interactions
   - kernel.spacetime_dimensionality
   steps:
-  - 'Bianchi identity: partial_lambda*F_munu + partial_mu*F_nulambda + partial_nu*F_lambdamu
-    = 0'
+  - 'Bianchi identity: partial_lambda*F_munu + partial_mu*F_nulambda + partial_nu*F_lambdamu = 0'
   - Take one time and two spatial indices (0,i,j)
   - partial_0*F_ij + partial_i*F_j0 + partial_j*F_0i = 0
   - F_ij = epsilon_ijk*B^k, F_i0 = E^i
@@ -228,6 +286,11 @@ derivations:
   - Jackson §5.15
   - Feynman II Ch.17
   - Geometric identity from F = dA
+  necessity_conditions:
+  - 'Bianchi 恒等式 [N]: ∂_0F_{ij}+∂_iF_{j0}+∂_jF_{0i}=0 ⇒ ∇×E = −∂B/∂t'
+  - 'R3 [N]: F_{μν} = ∂_μ A_ν − ∂_ν A_μ'
+  sufficiency_conditions:
+  - '[S] F = dA + E,B 的场强对应 ⇒ ∇×E = −∂B/∂t'
   reversible: true
 - id: deriv.schroedinger_equation
   premise:
@@ -243,14 +306,21 @@ derivations:
   - Therefore H = -(hbar^2/(2m))*del^2 + V(r)
   - 'Yields: i*hbar*partial(psi)/partial(t) = [-(hbar^2/(2m))*del^2 + V(r)]*psi(r,t)'
   conclusion: law.schroedinger_equation
-  mathematical_link: i*hbar*d/dt|psi> = H|psi>, p -> -i*hbar*grad => i*hbar*psi-dot
-    = -(hbar^2/2m)*del^2(psi) + V*psi
+  mathematical_link: i*hbar*d/dt|psi> = H|psi>, p -> -i*hbar*grad => i*hbar*psi-dot = -(hbar^2/2m)*del^2(psi) + V*psi
   validity_scope:
   - quantum_regime
   - non_relativistic_limit
   sources:
   - Dirac Principles of QM §22
   - Feynman Lectures Vol.III Ch.16
+  necessity_conditions:
+  - 'R4b (幺正演化) [N]: iħ d|ψ⟩/dt = Ĥ|ψ⟩ 是量子动力学的源头'
+  - 'R4c (正则对易 [x̂,p̂]=iħ) [N]: 确定动量算符的形式 p̂=−iħ∇。若 [x̂,p̂]=0 ⟹ 无量子效应'
+  - 'R4d (算符对应) [N]: 经典 H → 算符 Ĥ 的升格规则'
+  - 'R1 (时间坐标 t) [N]: 时间演化需要连续时间参数'
+  sufficiency_conditions:
+  - '[S] R4b + R4c + R4d + 经典 H(p,r) ⇒ Schrödinger 方程'
+  - '注意: 这是非相对论极限。相对论推广需 Dirac 或 Klein-Gordon 方程 (R4+R1)'
   reversible: true
 - id: deriv.uncertainty_principle
   premise:
@@ -262,10 +332,8 @@ derivations:
   - Start with [x, p] = i*hbar
   - 'Robertson-Schroedinger inequality: sigma_A*sigma_B >= |<[A,B]>|/2'
   - 'For A = x, B = p: sigma_x*sigma_p >= hbar/2'
-  - Equality holds for Gaussian wave packets (coherent states — minimum uncertainty
-    states)
-  - 'Energy-time form: from [H, t] not well-defined (time is parameter, not operator);
-    instead use d<A>/dt relation'
+  - Equality holds for Gaussian wave packets (coherent states — minimum uncertainty states)
+  - 'Energy-time form: from [H, t] not well-defined (time is parameter, not operator); instead use d<A>/dt relation'
   - 'For energy: Delta_E*Delta_t >= hbar/2 (Mandelstam-Tamm bound)'
   conclusion: law.uncertainty_principle
   mathematical_link: '[x,p]=i*hbar -> sigma_x*sigma_p >= hbar/2 (Kennard 1927)'
@@ -275,6 +343,13 @@ derivations:
   - Heisenberg Z.Phys. 43, 172 (1927)
   - Kennard Z.Phys. 44, 326 (1927)
   - Griffiths QM §3.5
+  necessity_conditions:
+  - 'R4c ([x̂,p̂]=iħ) [N]: 不确定性的源头是对易关系的非零性'
+  - 'R5 (Born 规则) [N]: 方差 ⟨(Â−⟨Â⟩)²⟩ 的定义依赖概率解释'
+  - 'R4d (厄米算符) [N]: Cauchy-Schwarz 不等式仅在厄米算符的内积语境中适用'
+  sufficiency_conditions:
+  - '[S] R4c + R4d + R5 ⇒ 不确定性原理'
+  - '等号成立条件: Gaussian 波包（最小不确定态 = 相干态）'
   reversible: false
 - id: deriv.energy_frequency
   premise:
@@ -297,6 +372,11 @@ derivations:
   sources:
   - Dirac Principles of QM §34
   - Griffiths QM §2.3
+  necessity_conditions:
+  - 'R4c ([x̂,p̂]=iħ) [N]: 没有对易关系就没有离散能谱'
+  - '谐振子模型 [N]: 自由电磁场的每个模式是独立谐振子'
+  sufficiency_conditions:
+  - '[S] [x̂,p̂]=iħ + 谐振子 H ⇒ E_n = ħω(n+½) ⇒ E_photon = hν'
   reversible: true
 - id: deriv.de_broglie_wavelength
   premise:
@@ -308,14 +388,18 @@ derivations:
   - 'Experimental verification: Davisson-Germer (1927) electron diffraction'
   - The generalization is empirical — it is not logically forced by E=h*nu alone
   conclusion: law.de_broglie_wavelength
-  mathematical_link: E=h*nu, p=E/c (photon) => lambda = h/p => generalized to all
-    matter
+  mathematical_link: E=h*nu, p=E/c (photon) => lambda = h/p => generalized to all matter
   validity_scope:
   - quantum_regime
   sources:
   - de Broglie (1924)
   - Davisson & Germer (1927)
   - Eisberg & Resnick §3.1
+  necessity_conditions:
+  - 'E = hν [N]: 光子能量量子化是物质波假设的类比来源'
+  - 'p 定义 [N]: 需要经典动量的明确定义'
+  sufficiency_conditions:
+  - '[S] E=hν + 光子类比 + 实验验证 ⇒ λ=h/p 对所有物质粒子成立'
   reversible: true
 - id: deriv.energy_conservation
   premise:
@@ -336,6 +420,12 @@ derivations:
   sources:
   - Noether (1918)
   - Goldstein §12.7
+  necessity_conditions:
+  - Noether 定理 (law.noether_theorem)
+  - '∂L/∂t = 0 [N]: 拉格朗日量不显含时间 — 若显含时间，能量不守恒'
+  - 'R1 定义的时间坐标: 时间平移的数学基础'
+  sufficiency_conditions:
+  - '[S] ∂L/∂t = 0 + Noether ⇒ dE/dt = 0'
   reversible: true
 - id: deriv.momentum_conservation
   premise:
@@ -355,6 +445,12 @@ derivations:
   sources:
   - Noether (1918)
   - Goldstein §12.7
+  necessity_conditions:
+  - Noether 定理
+  - '空间平移对称性 [N]: ∂L/∂r = 0（无外力场）'
+  - R1 定义的空间坐标与维数
+  sufficiency_conditions:
+  - '[S] 空间平移不变性 + Noether ⇒ 动量守恒'
   reversible: true
 - id: deriv.angular_momentum_conservation
   premise:
@@ -367,13 +463,17 @@ derivations:
   - 'For central forces (F parallel to r): r × F = 0'
   - Therefore angular momentum L = constant for isolated systems with central forces
   conclusion: law.angular_momentum_conservation
-  mathematical_link: Rotation invariance -> Q = r×p => dL/dt = tau; zero net torque
-    => L = constant
+  mathematical_link: Rotation invariance -> Q = r×p => dL/dt = tau; zero net torque => L = constant
   validity_scope:
   - isolated_system
   sources:
   - Noether (1918)
   - Goldstein §12.7
+  necessity_conditions:
+  - R1 的 D=3 ⇒ SO(3) 旋转群 [N]
+  - 有心力 [N]（势能 V(r) 仅依赖 |r|）
+  sufficiency_conditions:
+  - '[S] SO(3) 旋转对称性 + Noether ⇒ 角动量矢量守恒'
   reversible: true
 - id: deriv.charge_conservation
   premise:
@@ -381,8 +481,7 @@ derivations:
   - kernel.gauge_interactions
   - kernel.spacetime_dimensionality
   steps:
-  - 'The Lagrangian for a charged field psi is invariant under U(1) gauge transformation:
-    psi -> exp(i*alpha)*psi'
+  - 'The Lagrangian for a charged field psi is invariant under U(1) gauge transformation: psi -> exp(i*alpha)*psi'
   - The conserved Noether current is J^mu = i*e*(psi-dagger*partial^mu*psi - psi*partial^mu*psi-dagger)
   - Noether's theorem => partial_mu*J^mu = 0
   - 'Integrate over spatial volume: integral div(J)*d^3r = -integral partial_rho/partial(t)*d^3r'
@@ -395,6 +494,13 @@ derivations:
   - Jackson §5.2
   - Noether (1918)
   - Peskin & Schroeder §2.2
+  necessity_conditions:
+  - Noether 定理 [N]
+  - 'U(1) 全局对称性 [N]: 若无此对称性，无对应守恒流'
+  - R3 (规范不变性的全局极限)
+  - R1 (时空作为积分域)
+  sufficiency_conditions:
+  - '[S] U(1) 全局对称性 + Noether ⇒ 电荷守恒'
   reversible: true
 - id: deriv.thermo_first_law
   premise:
@@ -406,8 +512,7 @@ derivations:
   - 'Reversible process: dQ_rev = T*dS (definition of thermodynamic entropy)'
   - 'Mechanical work on simple fluid: dW = P*dV'
   - 'Substituting: dU = T*dS - P*dV'
-  - 'Generalization with chemical potential and particle number: dU = T*dS - P*dV
-    + mu*dN'
+  - 'Generalization with chemical potential and particle number: dU = T*dS - P*dV + mu*dN'
   - U is a state function => dU is an exact differential
   conclusion: law.first_law_thermo
   mathematical_link: dU = dQ - dW, dQ_rev = TdS, dW = PdV => dU = TdS - PdV
@@ -418,6 +523,12 @@ derivations:
   - Clausius (1850)
   - Pathria & Beale §1.3
   - Fermi Thermodynamics Ch.2
+  necessity_conditions:
+  - 能量守恒 [N] (来自 Noether — G2)
+  - 'R6 (T 和 S 的定义) [N]: T = (∂U/∂S)_{V,N} 是推导的必要前提'
+  - '可逆过程 [N]: δQ = T dS 仅在可逆过程中成立'
+  sufficiency_conditions:
+  - '[S] 能量守恒 + R6 + 可逆 ⇒ dU = TdS − PdV'
   reversible: true
 - id: deriv.ideal_gas
   premise:
@@ -438,6 +549,13 @@ derivations:
   sources:
   - Pathria & Beale §1.4
   - Fermi Thermodynamics
+  necessity_conditions:
+  - 'R6 (S = k_B ln W) [N]: 微观状态计数的统计基础'
+  - 'R1 (D=3 ⇒ V ∝ L³) [N]: 体积的量纲和微观状态计数的空间维数依赖'
+  - '稀薄气体近似 [N]: 粒子间无相互作用'
+  - '经典极限 [N]: 不考虑量子统计效应（Bose/Fermi）'
+  sufficiency_conditions:
+  - '[S] R6 + 3D + 稀薄气体 ⇒ PV = N k_B T'
   reversible: false
 - id: deriv.thermo_third_law
   premise:
@@ -451,12 +569,10 @@ derivations:
   - At T->0, a perfect crystal occupies its quantum ground state
   - 'If ground state is non-degenerate: exactly 1 microstate => W = 1'
   - Therefore S = k_B*ln(1) = 0 as T -> 0
-  - 'Degenerate ground state: if g ground states are degenerate, S -> k_B*ln(g) >
-    0'
-  - This residual entropy is observed in systems with frustrated ground states (e.g.
-    water ice)
-  - Non-degenerate ground state requires quantum mechanics (discrete spectrum) — classical
-    systems would have S -> -infinity (Gibbs paradox avoidance)
+  - 'Degenerate ground state: if g ground states are degenerate, S -> k_B*ln(g) > 0'
+  - This residual entropy is observed in systems with frustrated ground states (e.g. water ice)
+  - Non-degenerate ground state requires quantum mechanics (discrete spectrum) — classical systems would have S -> -infinity
+    (Gibbs paradox avoidance)
   conclusion: law.third_law_thermo
   mathematical_link: S = k_B*ln(W), T->0 => W->1 => S->0 (non-degenerate ground state)
   validity_scope:
@@ -467,6 +583,11 @@ derivations:
   - Planck (1911)
   - Pathria & Beale §3.6
   - Simon (1937)
+  necessity_conditions:
+  - '离散能谱 [N]: 量子系统在束缚势下具有离散能级（来自 law.schroedinger_equation）。无量子力学则基态不一定是离散唯一的（经典系统 S→−∞, Gibbs 悖论）'
+  - 'R6 (S=k_B ln W) [N]: 熵的统计定义'
+  sufficiency_conditions:
+  - '[S] law.schroedinger_equation (离散能谱) + R6 ⇒ T→0 时 S→k_B ln g₀'
   reversible: false
 - id: deriv.zeroth_law
   premise:
@@ -474,15 +595,13 @@ derivations:
   - kernel.equal_prior_probability
   - kernel.spacetime_dimensionality
   steps:
-  - Two systems A and B in thermal contact reach equilibrium when their temperatures
-    equalize
+  - Two systems A and B in thermal contact reach equilibrium when their temperatures equalize
   - 'Temperature equality defines thermal equilibrium: T_A = T_B'
   - If T_A = T_B and T_B = T_C, then T_A = T_C by transitivity of equality
   - This transitivity is the zeroth law — it makes thermometry possible
   - Zeroth law is logically prior to the first and second laws, hence the name
   conclusion: law.zeroth_law
-  mathematical_link: T_A = T_B and T_B = T_C => T_A = T_C (transitivity of thermal
-    equilibrium)
+  mathematical_link: T_A = T_B and T_B = T_C => T_A = T_C (transitivity of thermal equilibrium)
   validity_scope:
   - thermal_equilibrium
   - macroscopic_limit
@@ -490,6 +609,11 @@ derivations:
   - Fowler (1931, named retroactively)
   - Zemansky §1.3
   - Pathria & Beale §1.1
+  necessity_conditions:
+  - 'R6 (热平衡定义) [N]: 1/T ≡ ∂S/∂E'
+  - 'R6 (熵极值) [N]: 孤立系熵取最大'
+  sufficiency_conditions:
+  - '[S] R6 + 能量守恒 ⇒ T 的传递性'
   reversible: true
 - id: deriv.lorentz_transformation
   premise:
@@ -499,10 +623,8 @@ derivations:
   - 'Postulate: c is invariant -> s^2 = c^2*t^2 - x^2 is Lorentz invariant'
   - 'Linear transformation between inertial frames: x'' = A*x + B*t, t'' = C*x + D*t'
   - 'Impose invariance of s^2: c^2*t''^2 - x''^2 = c^2*t^2 - x^2 for all x, t'
-  - Solve for coefficients A, B, C, D using standard configuration (origins coincide
-    at t=0)
-  - 'Result: t'' = gamma*(t - v*x/c^2), x'' = gamma*(x - v*t), with gamma = 1/sqrt(1
-    - v^2/c^2)'
+  - Solve for coefficients A, B, C, D using standard configuration (origins coincide at t=0)
+  - 'Result: t'' = gamma*(t - v*x/c^2), x'' = gamma*(x - v*t), with gamma = 1/sqrt(1 - v^2/c^2)'
   conclusion: law.lorentz_transform
   mathematical_link: c^2*t'^2 - x'^2 = c^2*t^2 - x^2 => t'=gamma*(t-v*x/c^2), x'=gamma*(x-v*t)
   validity_scope:
@@ -511,6 +633,13 @@ derivations:
   sources:
   - Einstein Ann.Phys. 17, 891 (1905)
   - French Special Relativity Ch.4
+  necessity_conditions:
+  - 'c 不变 [N]: 若无 c=常数 ⇒ 退化为 Galilei 变换 (c→∞)'
+  - '时空间隔不变 [N]: Lorentz 不变性是狭义相对论的核心结构'
+  - '线性变换 [N]: 时空均匀性要求'
+  - '|v|<c [N]: v=c 时 γ 发散（类光极限）；v>c 时 γ 为虚数（超光速不物理）'
+  sufficiency_conditions:
+  - '[S] c 不变 + 间隔不变 + 线性 ⇒ Lorentz 变换'
   reversible: true
 - id: deriv.mass_energy_equivalence
   premise:
@@ -523,13 +652,18 @@ derivations:
   - 'Rearrange: E^2 = p^2*c^2 + m^2*c^4'
   - 'In rest frame (p = 0): E = m*c^2'
   conclusion: law.mass_energy
-  mathematical_link: p_mu*p^mu = m^2*c^2 => E^2 = p^2*c^2 + m^2*c^4 => E = m*c^2 (rest
-    frame)
+  mathematical_link: p_mu*p^mu = m^2*c^2 => E^2 = p^2*c^2 + m^2*c^4 => E = m*c^2 (rest frame)
   validity_scope:
   - relativistic_regime
   sources:
   - Einstein Ann.Phys. 18, 639 (1905)
   - French Special Relativity Ch.7
+  necessity_conditions:
+  - 'R1 Lorentz 不变性 [N]: p_μ p^μ 必须是不变量'
+  - 'R1 固有时定义 [N]: dτ 是 Lorentz 不变量，保证四维动量的 Lorentz 矢量性'
+  - 'm > 0 [N]: 对于无质量粒子 (m=0)，E = pc'
+  sufficiency_conditions:
+  - '[S] R1 + 四维动量定义 ⇒ E² = p²c² + m²c⁴'
   reversible: true
 - id: deriv.einstein_field_equations
   premise:
@@ -538,8 +672,7 @@ derivations:
   - kernel.least_action
   - kernel.spacetime_dimensionality
   steps:
-  - 'Einstein-Hilbert action: S = integral [R/(2*kappa) + L_matter]*sqrt(-g)*d^4x,
-    with kappa = 8*pi*G/c^4'
+  - 'Einstein-Hilbert action: S = integral [R/(2*kappa) + L_matter]*sqrt(-g)*d^4x, with kappa = 8*pi*G/c^4'
   - 'Vary with respect to g^munu: delta(S) = 0'
   - 'Variation of Ricci scalar: delta(sqrt(-g)*R) = sqrt(-g)*(R_munu - (1/2)*R*g_munu)*delta(g^munu)'
   - 'Define Einstein tensor: G_munu = R_munu - (1/2)*R*g_munu'
@@ -555,6 +688,15 @@ derivations:
   - Einstein (1915)
   - Hilbert (1915)
   - Weinberg Gravitation and Cosmology §7.1
+  necessity_conditions:
+  - 'R1 (等效原理) [N]: m_i = m_g ⇒ 引力 = 时空几何 ⇒ 度规是动力学场'
+  - 'R1 (广义协变性) [N]: 物理定律在所有坐标系中形式相同 ⇒ 作用量必须是标量'
+  - 'R2 (δS=0) [N]: 给出运动方程'
+  - '4 维时空 [N]: G_{μν} 是 4 维中唯一满足 ∇_μ G^{μν}=0 的二阶张量'
+  sufficiency_conditions:
+  - '[S] R1 + R2 + 4D ⇒ Einstein 场方程（唯一可能性，Lovelock 定理）'
+  - 在 4 维时空中，Einstein-Hilbert 作用量是唯一给出二阶场方程且满足 ∇_μ G^{μν}=0 的引力理论
+  - 注：R1+R2 本身不强制选择 EH 作用量——它们只要求作用量为一般协变标量。Lovelock 定理（1971）证明在 4D 中，EH 作用是唯一产生二阶运动方程的纯度规作用量。这是数学唯一性定理，不是物理假设。
   reversible: true
 - id: deriv.em_wave_equation
   premise:
@@ -568,20 +710,24 @@ derivations:
   - 'Curl of Faraday law: curl(curl(E)) = -curl(partial(B)/partial(t))'
   - 'Vector identity: curl(curl(E)) = grad(div(E)) - del^2(E)'
   - Divergence of E is zero in vacuum (Gauss law with rho_q = 0)
-  - 'Right side: -partial(curl(B))/partial(t) = -partial(mu0*epsilon0*partial(E)/partial(t))/partial(t)
-    = -mu0*epsilon0*partial^2(E)/partial(t)^2'
+  - 'Right side: -partial(curl(B))/partial(t) = -partial(mu0*epsilon0*partial(E)/partial(t))/partial(t) = -mu0*epsilon0*partial^2(E)/partial(t)^2'
   - 'Therefore: del^2(E) = mu0*epsilon0*partial^2(E)/partial(t)^2'
   - 'Identifying c = 1/sqrt(mu0*epsilon0): del^2(E) = (1/c^2)*partial^2(E)/partial(t)^2'
   - Same derivation for B yields del^2(B) = (1/c^2)*partial^2(B)/partial(t)^2
   conclusion: law.em_wave_equation
-  mathematical_link: curl(curl(E)) = -mu0*epsilon0*E-ddot => del^2(E) = (1/c^2)*E-ddot,
-    c = 1/sqrt(mu0*epsilon0)
+  mathematical_link: curl(curl(E)) = -mu0*epsilon0*E-ddot => del^2(E) = (1/c^2)*E-ddot, c = 1/sqrt(mu0*epsilon0)
   validity_scope:
   - vacuum
   sources:
   - Maxwell (1865)
   - Feynman II Ch.18
   - Griffiths §9.2
+  necessity_conditions:
+  - 'Maxwell 方程组 [N]: 四个方程全部需要'
+  - '真空条件 [N]: ρ_q=0, J=0（否则有源项）'
+  - '∇·E = 0 [N]: (1) 是取消 ∇(∇·E) 项的必要条件'
+  sufficiency_conditions:
+  - '[S] 真空 Maxwell 方程 ⇒ E 和 B 满足波动方程（波速 c = 1/√(ε₀μ₀)）'
   reversible: true
 - id: deriv.kepler_third
   premise:
@@ -605,6 +751,12 @@ derivations:
   sources:
   - Newton Principia Book I Sect.III
   - Goldstein §3.7
+  necessity_conditions:
+  - 'Newton 第二定律 [N]: F = ma'
+  - 'Newton 万有引力 [N]: F = GMm/r²'
+  - '圆轨道 [N]: 偏心率 e=0 的简化'
+  sufficiency_conditions:
+  - '[S] Newton 力学 + 万有引力 ⇒ Kepler 第三定律'
   reversible: true
 - id: deriv.pauli_exclusion
   premise:
@@ -613,15 +765,12 @@ derivations:
   - kernel.unitary_evolution
   - kernel.spacetime_dimensionality
   steps:
-  - "Microcausality (R1): spacelike separated field operators (anti)commute per Lorentz invariance"
-  - "Spin-statistics theorem (Fierz 1939, Pauli 1940): half-integer spin fields must anticommute"
-  - "Anticommutation → multi-fermion wavefunction is totally antisymmetric: ψ(r₁,s₁; r₂,s₂) = −ψ(r₂,s₂; r₁,s₁)"
-  - "Antisymmetry → no two identical fermions occupy the same quantum state (Pauli exclusion)"
+  - 'Microcausality (R1): spacelike separated field operators (anti)commute per Lorentz invariance'
+  - 'Spin-statistics theorem (Fierz 1939, Pauli 1940): half-integer spin fields must anticommute'
+  - 'Anticommutation → multi-fermion wavefunction is totally antisymmetric: ψ(r₁,s₁; r₂,s₂) = −ψ(r₂,s₂; r₁,s₁)'
+  - Antisymmetry → no two identical fermions occupy the same quantum state (Pauli exclusion)
   conclusion: law.pauli_exclusion
-  caveat: >-
-    Structural sketch of spin-statistics theorem (Wightman axioms, Streater & Wightman 1964).
-    Full rigorous derivation requires axiomatic QFT beyond project scope.
-  mathematical_link: "Lorentz + microcausality → spin-statistics → antisymmetric ψ → Pauli exclusion"
+  mathematical_link: Lorentz + microcausality → spin-statistics → antisymmetric ψ → Pauli exclusion
   validity_scope:
   - quantum_regime
   - relativistic_regime
@@ -629,15 +778,24 @@ derivations:
   - Fierz (1939)
   - Pauli (1940)
   - Streater & Wightman §4.4
+  necessity_conditions:
+  - 'R1 (Lorentz 不变性 + 微观因果性) [N]: Step 1 的核心前提'
+  - 'R4a (叠加原理) [N]: Hilbert 空间正定度量为 Wightman 公理的前提'
+  - 'R4b (幺正演化) [N]: 谱条件 (正能量) 依赖幺正表示'
+  - '3+1 维时空 [N]: 自旋-统计定理在 D≠4 时可给出不同结论 (如 anyon)'
+  - '半整数自旋 [N]: 仅对费米子成立；整数自旋 ⇒ Bose 统计'
+  sufficiency_conditions:
+  - '[S] Lorentz 不变性 + 量子公设 + 微观因果性 ⇒ 自旋-统计定理 (费米子侧)'
   reversible: false
+  caveat: Structural sketch of spin-statistics theorem (Wightman axioms, Streater & Wightman 1964). Full rigorous derivation
+    requires axiomatic QFT beyond project scope.
 - id: deriv.fermi_dirac_distribution
   premise:
   - law.pauli_exclusion
   - kernel.boltzmann_entropy
   steps:
   - Start from Boltzmann entropy S = k_B*ln(W)
-  - 'Count microstates for fermions: each single-particle state can be occupied by
-    at most 1 particle (Pauli)'
+  - 'Count microstates for fermions: each single-particle state can be occupied by at most 1 particle (Pauli)'
   - The occupation number n_i ∈ {0,1} (Pauli exclusion constraint)
   - Maximize entropy subject to fixed N, E constraints using Lagrange multipliers
   - 'Result: f(E) = 1/(exp((E - mu)/(k_B*T)) + 1)'
@@ -651,6 +809,12 @@ derivations:
   - Fermi (1926)
   - Dirac (1926)
   - Pathria & Beale Statistical Mechanics §8.2
+  necessity_conditions:
+  - 'Pauli 不相容 [N]: n_i ∈ {0,1}。若无此约束，分布退化为 Maxwell-Boltzmann'
+  - 'R6 [N]: 熵最大化的统计方法'
+  - '热平衡 [N]: T 的统一定义'
+  sufficiency_conditions:
+  - '[S] Pauli + R6 + 热平衡 ⇒ Fermi-Dirac 分布'
   reversible: true
 - id: deriv.bose_einstein_distribution
   premise:
@@ -658,13 +822,11 @@ derivations:
   - kernel.boltzmann_entropy
   steps:
   - Start from Boltzmann entropy S = k_B*ln(W)
-  - 'Count microstates for bosons: no restriction on occupation number (superposition
-    allows arbitrary n_i)'
+  - 'Count microstates for bosons: no restriction on occupation number (superposition allows arbitrary n_i)'
   - The occupation number n_i ∈ {0, 1, 2, ...}
   - Maximize entropy subject to fixed N, E constraints using Lagrange multipliers
   - 'Result: f(E) = 1/(exp((E - mu)/(k_B*T)) - 1)'
-  - The -1 in denominator leads to Bose-Einstein condensation when mu approaches the
-    ground-state energy at low T
+  - The -1 in denominator leads to Bose-Einstein condensation when mu approaches the ground-state energy at low T
   conclusion: cor.bose_einstein
   mathematical_link: n_i ∈ {0,1,2,...} => f(E) = 1/(exp(beta*(E-mu)) - 1)
   validity_scope:
@@ -674,6 +836,12 @@ derivations:
   - Bose (1924)
   - Einstein (1925)
   - Pathria & Beale Statistical Mechanics §8.1
+  necessity_conditions:
+  - '叠加原理 [N]: n_i 无上限约束'
+  - R6 [N]
+  sufficiency_conditions:
+  - '[S] 叠加原理 + R6 + 热平衡 ⇒ Bose-Einstein 分布'
+  - 分母中的 −1 ⇒ 当 μ→0 时 f 发散 ⇒ Bose-Einstein 凝聚
   reversible: true
 - id: deriv.inverse_square_law
   premise:
@@ -690,6 +858,12 @@ derivations:
   sources:
   - Ehrenfest (1917)
   - Gauss law in D dimensions
+  necessity_conditions:
+  - 'D=3 空间维数 [N]: 若无，Gauss 定律的通量 ∝ r^(D-1) 项改变，力律变为 F ∝ 1/r^(D-1)'
+  - '量纲一致性 (rule.dimensional_consistency): Gauss 定律需要一致的量纲运算'
+  - 'Gauss 定律有效性: 通量论证依赖对称源（点源球对称）'
+  sufficiency_conditions:
+  - '[S] D=3 + Gauss 定律 + 球对称 ⇒ F ∝ 1/r^2（反平方律）'
   reversible: false
 - id: deriv.so3_rotation_group
   premise:
@@ -705,6 +879,12 @@ derivations:
   sources:
   - SO(D) group theory
   - Goldstein §4.10
+  necessity_conditions:
+  - 'D=3 空间维数 [N]: SO(D) 的生成元数目为 D(D-1)/2，仅 D=3 时恰好为 3'
+  - '旋转不变性: 若空间非各向同性，旋转群结构不成立'
+  - 'Lie 群结构: SO(3) 为非交换紧 Lie 群，其表示论是角动量量子化的基础'
+  sufficiency_conditions:
+  - '[S] D=3 + 旋转不变性 ⇒ SO(3) 旋转群（3 个生成元，so(3) Lie 代数）'
   reversible: false
 - id: deriv.volume_dimension
   premise:
@@ -721,6 +901,12 @@ derivations:
   sources:
   - BIPM SI Brochure §2.3.3
   - Dimensional analysis
+  necessity_conditions:
+  - 'D=3 空间维数 [N]: 体积 V ∝ r^D，仅 D=3 时 [V] = [L³]'
+  - '量纲一致性 (rule.dimensional_consistency): PV 必须与 nRT 量纲一致'
+  - '热力学第一定律有效性: PV 项来源于功的力学定义 dW = P dV'
+  sufficiency_conditions:
+  - '[S] D=3 + 量纲一致性 ⇒ [V]=[L³], dim(PV)=[M·L²·T⁻²]=dim(nRT)'
   reversible: false
 - id: deriv.minkowski_signature
   premise:
@@ -732,13 +918,18 @@ derivations:
   - 'Signature: (+, -, -, -) or equivalently (-, +, +, +)'
   - This determines the light-cone structure and causal order
   conclusion: contingent.minkowski_signature
-  mathematical_link: 3+1 => metric signature (+, -, -, -) => ds^2 = c^2*dt^2 - dx^2
-    - dy^2 - dz^2
+  mathematical_link: 3+1 => metric signature (+, -, -, -) => ds^2 = c^2*dt^2 - dx^2 - dy^2 - dz^2
   validity_scope:
   - relativistic_regime
   sources:
   - Minkowski (1908)
   - Einstein (1905)
+  necessity_conditions:
+  - 'Lorentz 不变性 [N]: 要求 ds² 在所有惯性系中保持不变，确定 (±, ∓, ∓, ∓) 符号模式'
+  - 'D=3+1 时空维数 [N]: Minkowski 度规的符号差 (1,3) 由 3 空间维 + 1 时间维决定'
+  - '因果结构需求: 类时、类光、类空间隔的区分依赖度规符号'
+  sufficiency_conditions:
+  - '[S] Lorentz 不变性 + D=3+1 ⇒ Minkowski 度规符号差 (+, -, -, -) / (-, +, +, +)'
   reversible: false
 - id: deriv.gw_polarizations
   premise:
@@ -756,14 +947,19 @@ derivations:
   sources:
   - Misner, Thorne & Wheeler §35.4
   - Weinberg GR §10.2
+  necessity_conditions:
+  - 'D=4 时空维数 [N]: TT 规范下独立极化分量为 D(D-3)/2，仅 D=4 时得 2'
+  - '广义协变性 (kernel.general_covariance): 规范自由度将 10 个 h_munu 分量缩减至 6 个物理分量'
+  - '线性化 GR 有效: 弱场近似 h_munu ≪ 1 是 TT 规范的前提'
+  sufficiency_conditions:
+  - '[S] D=4 + 线性化 GR + TT 规范 ⇒ h_+, h_× 两个独立极化'
   reversible: false
 - id: deriv.stable_kepler_orbits
   premise:
   - kernel.spacetime_dimensionality
   steps:
   - 'Effective potential: V_eff = -k/r^(D-2) + L^2/(2*m*r^2)'
-  - 'For D>3: the centrifugal barrier L^2/r^2 dominates at small r less strongly than
-    1/r^(D-2)'
+  - 'For D>3: the centrifugal barrier L^2/r^2 dominates at small r less strongly than 1/r^(D-2)'
   - 'Result: no stable minimum in V_eff for D>3'
   - D=3 is the only dimension where stable closed orbits exist
   conclusion: contingent.stable_kepler_orbits
@@ -775,25 +971,35 @@ derivations:
   - Ehrenfest (1917)
   - Tangherlini (1963)
   - Barrow & Tipler §4.8
+  necessity_conditions:
+  - 'D=3 空间维数 [N]: V_eff = -k/r^(D-2) + L²/(2mr²)，D>3 时离心势不能支配引力势，无法形成稳定极小'
+  - '保守力 [N]: 有效势能方法 (V_eff) 要求力是保守的 (F = -∇V)'
+  - '经典极限: 轨道稳定性分析在经典力学框架内'
+  sufficiency_conditions:
+  - '[S] D=3 + 保守引力势 ⇒ V_eff 存在稳定极小值 ⇒ 稳定椭圆轨道存在'
   reversible: false
 - id: deriv.huygens_principle
   premise:
   - kernel.spacetime_dimensionality
   steps:
-  - 'Wave equation in D spatial dimensions: (del^2 - (1/c^2)*partial^2/partial_t^2)*phi
-    = 0'
+  - 'Wave equation in D spatial dimensions: (del^2 - (1/c^2)*partial^2/partial_t^2)*phi = 0'
   - 'Green function: G(r,t) ∝ delta(t - r/c) for D=3 (odd) -> sharp wavefront'
   - 'For even D: G(r,t) has tail -> signal smears, echoes follow main pulse'
   - D=3 (odd) is necessary for clean signal propagation (Huygens principle)
   conclusion: contingent.huygens_principle
-  mathematical_link: D=3 (odd) => Green function has sharp delta-function wavefront
-    => Huygens principle holds
+  mathematical_link: D=3 (odd) => Green function has sharp delta-function wavefront => Huygens principle holds
   validity_scope:
   - vacuum
   sources:
   - Hadamard (1923)
   - Courant & Hilbert §VI.12
   - Baker & Copson (1939)
+  necessity_conditions:
+  - 'D=3 空间维数（奇数）[N]: 波动方程的 Green 函数仅在奇数 D 时有尖锐的 δ-函数波前'
+  - '自由空间传播: 若存在介质色散，信号仍会拖尾'
+  - '波方程的线性性: Green 函数方法要求线性叠加原理成立'
+  sufficiency_conditions:
+  - '[S] D=3 奇数 + 自由空间波动方程 ⇒ Green 函数 G(r,t) ∝ δ(t - r/c)（尖锐波前，无拖尾）'
   reversible: false
 - id: deriv.second_law_thermo
   premise:
@@ -801,14 +1007,17 @@ derivations:
   - kernel.equal_prior_probability
   - kernel.spacetime_dimensionality
   steps:
-  - "Boltzmann entropy: S = k_B ln W, where W is the number of accessible microstates"
-  - "Equal a priori probability: in equilibrium, all W microstates occur with equal probability P_i = 1/W"
-  - |-
-    Spontaneous evolution proceeds toward macrostate with maximal W (most probable).
+  - 'Boltzmann entropy: S = k_B ln W, where W is the number of accessible microstates'
+  - 'Equal a priori probability: in equilibrium, all W microstates occur with equal probability P_i = 1/W'
+  - 'Spontaneous evolution proceeds toward macrostate with maximal W (most probable).
+
     In the thermodynamic limit (N → ∞), fluctuations ∼1/√N become negligible,
+
     making this statistical tendency deterministic: ΔS ≥ 0 for isolated systems.
+
     Equality holds only for reversible processes (quasi-static, the system always
-    remains infinitesimally close to equilibrium).
+
+    remains infinitesimally close to equilibrium).'
   conclusion: law.second_law_thermo
   mathematical_link: S = k_B ln W + P_i = 1/W → ΔS ≥ 0
   validity_scope:
@@ -817,8 +1026,14 @@ derivations:
   sources:
   - Boltzmann (1872-1875)
   - Pathria & Beale §1.4
+  necessity_conditions:
+  - 'R6a (S = k_B ln W) [N]: 微观-宏观熵的统计桥梁'
+  - 'R6b (等概率先验) [N]: 使微观计数 → 物理概率'
+  - '热力学极限 (N → ∞) [N]: 将概率趋势转化为确定律'
+  - '孤立系统 [N]: 无外界能量/物质交换'
+  sufficiency_conditions:
+  - '[S] R6a + R6b + 热力学极限 ⇒ ΔS ≥ 0'
   reversible: false
-
 dependencies:
 - dependent: law.newton_third
   depends_on:
@@ -890,7 +1105,6 @@ dependencies:
   - law.uncertainty_principle
   dependency_type: requires
   is_strict: false
-  bridge_condition: Uncertainty principle is a consequence of Schroedinger equation
-    (Kennard bound), not a prerequisite
+  bridge_condition: Uncertainty principle is a consequence of Schroedinger equation (Kennard bound), not a prerequisite
   sources:
   - Griffiths QM §3.5

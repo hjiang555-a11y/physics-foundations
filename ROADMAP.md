@@ -1,6 +1,6 @@
 # Physics Foundations — 路线图
 
-> 最后更新：2026-05-16 | 当前版本：R1-R6 充分必要性审计完成（Round 12）
+> 最后更新：2026-05-25 | 当前版本：R1-R6 充分必要性审计完成（Round 12），短期 S1-S3 完成
 
 ---
 
@@ -14,8 +14,11 @@
 | 32 条有效定律的双文件推导覆盖（derivations.yaml + rigorous_derivations.yaml） | ✅ |
 | 136 条显式必要性条件 [N] 标注 | ✅ |
 | 四轮充分必要性审计（kernel 层清理、L-form 来源、½mv² 对称性论证、热力学极限桥接、变量合并、Pauli 推导草图） | ✅ |
-| V1-V5 自动化推导验证器（`validate_derivations.py`，147 nodes, 39 derivations, ALL PASS） | ✅ |
+| V1-V5 自动化推导验证器（`validate_derivations.py`，146 nodes, 39 derivations, ALL PASS） | ✅ |
 | 全局文档对齐（32→30 引用修复、README 更新、迭代记录至 Round 12） | ✅ |
+| S1: derivations.yaml 必要性条件补全（39/39 条推导含 necessity_conditions + sufficiency_conditions） | ✅ |
+| S2: 依赖图 DOT 可视化（`tools/visualize_graph.py`，59 nodes / 105 edges，按层着色） | ✅ |
+| S3: GitHub Actions CI 集成（`.github/workflows/validate.yml`） | ✅ |
 
 ### 运行验证
 
@@ -26,26 +29,30 @@ python3 validate_derivations.py layer1/
 
 预期输出：`VERDICT: PASS — Errors: 0, Warnings: 0`
 
+### 依赖图生成
+
+```bash
+python3 tools/visualize_graph.py layer1/
+dot -Tpng physics_foundations_graph.dot -o graph.png
+```
+
 ---
 
 ## 后续方向
 
-### 短期（巩固 — 预期 1-3 天）
+### ~~短期（巩固 — 预期 1-3 天）~~ ✅ 已完成
 
-#### S1. `derivations.yaml` 必要性条件补全
-当前简版 `derivations.yaml` 的 32 条推导大部分只有 3-5 行大纲步骤，缺少 `necessity_conditions` 和 `sufficiency_conditions` 块。应逐条对照 `rigorous_derivations.yaml` 补充，使两个文件均达到完备标注。
+#### S1. `derivations.yaml` 必要性条件补全 ✅
+当前简版 `derivations.yaml` 的 39 条推导已全部补全 `necessity_conditions` 和 `sufficiency_conditions` 块（32 条对照 `rigorous_derivations.yaml`，7 条 contingent 手动撰写）。
 - **文件**：`layer1/derivations.yaml`
-- **工作量**：~2-3 小时
 
-#### S2. 依赖图可视化
-基于现有的 V1-V5 验证器，输出 DOT 格式依赖图，按层着色（kernel=红, law=蓝, corollary=绿, contingent=灰），便于审阅推导链完整性。
-- **文件**：新增 `tools/visualize_graph.py`
-- **工作量**：~1 小时
+#### S2. 依赖图可视化 ✅
+输出 DOT 格式依赖图，按层着色（kernel=红, law=蓝, corollary=绿, contingent=灰），59 节点 / 105 边，与 README atom 清单一致。
+- **文件**：`tools/visualize_graph.py`
 
-#### S3. CI 集成
-将 `validate_derivations.py` 加入 GitHub Actions，每次 push 自动运行 V1-V5 检查，拒绝引入断链的 PR。
-- **文件**：新增 `.github/workflows/validate.yml`
-- **工作量**：~30 分钟
+#### S3. CI 集成 ✅
+GitHub Actions workflow，push/PR 时自动运行 V1-V5 检查。
+- **文件**：`.github/workflows/validate.yml`
 
 ---
 

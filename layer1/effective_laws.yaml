@@ -532,3 +532,111 @@ effective_laws:
   derived_from:
   - kernel.superposition_principle
   - kernel.boltzmann_entropy
+- id: cor.nernst_unattainability
+  relation: >
+    It is impossible to reach the absolute zero of temperature (T = 0)
+    by any finite sequence of thermodynamic operations. This is the
+    strong form of the third law of thermodynamics (Nernst 1906),
+    stronger than the weak form S→0 as T→0.
+    Proof sketch: dS = C(T)/T dT. As T→0, C(T) → 0 (∝ T³ for phonons,
+    ∝ T for electrons). The integral ΔS = ∫₀^{T_f} C(T)/T dT converges,
+    but reaching T=0 from any T>0 requires removing the last increment
+    of entropy. Since ΔS is finite for any finite temperature interval
+    ending at T>0, but the number of operations needed diverges as
+    T→0 (each operation can only remove a finite ΔS), an infinite number
+    of steps would be required. Equivalently: the unattainability follows
+    because the isothermal entropy change in any finite process vanishes
+    as T→0, while the adiabatic cooling steps become progressively
+    smaller, requiring infinitely many iterations.
+  quantities:
+  - qty.entropy
+  - qty.temperature
+  - qty.energy
+  scope:
+  - zero_temperature_limit
+  - macroscopic_limit
+  provenance: "Nernst (1906, 1912); Planck (1911); Zemansky §7.5"
+  hardness: firm
+  layer: effective_law
+  derived_from:
+  - law.third_law_thermo
+  - kernel.boltzmann_entropy
+  - kernel.equal_prior_probability
+- id: cor.asymptotic_freedom
+  relation: >
+    In non-Abelian gauge theories (specifically QCD with SU(3)_C),
+    the running coupling constant α_s(μ) decreases logarithmically
+    as the energy scale μ increases: α_s(μ) ∝ 1/ln(μ/Λ_QCD).
+    This "asymptotic freedom" implies that quarks and gluons behave as
+    nearly free particles at high energies (short distances), while
+    the coupling grows strong at low energies (confinement).
+    Derived from the renormalization group β-function of SU(3) gauge
+    theory: β(g) = ∂g/∂ln μ = −β₀ g³/(16π²) + O(g⁵), with
+    β₀ = 11N_c/3 − 2n_f/3. For N_c=3 (QCD) and n_f=6: β₀ = 7 > 0
+    ⇒ negative β-function ⇒ asymptotic freedom.
+  quantities:
+  - qty.color_charge
+  - qty.energy
+  scope:
+  - quantum_regime
+  - relativistic_regime
+  provenance: "Gross & Wilczek (1973); Politzer (1973); Peskin & Schroeder §16.7"
+  hardness: firm
+  layer: effective_law
+  derived_from:
+  - contingent.sm_gauge_group
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality
+- id: cor.higgs_mechanism
+  relation: >
+    Spontaneous breaking of SU(2)_L × U(1)_Y → U(1)_EM via a complex
+    scalar doublet φ with vacuum expectation value v ≈ 246 GeV.
+    Three Goldstone bosons become longitudinal modes of W^± and Z
+    bosons, giving them mass: M_W = g₂v/2, M_Z = √(g₁²+g₂²)v/2.
+    The photon remains massless as the unbroken U(1)_EM gauge boson.
+    One physical scalar (Higgs boson h, m_h ≈ 125 GeV) remains.
+    The mechanism is contingent on the SM gauge group and Higgs
+    representation choice, but the structure principle — gauge symmetry
+    + spontaneous breaking → massive gauge bosons — is universal.
+  quantities:
+  - qty.higgs_vev
+  - qty.weak_mixing_angle
+  - qty.electric_charge
+  scope:
+  - quantum_regime
+  - relativistic_regime
+  provenance: "Higgs (1964); Englert & Brout (1964); Guralnik, Hagen & Kibble (1964); Weinberg (1967)"
+  hardness: firm
+  layer: effective_law
+  derived_from:
+  - contingent.sm_gauge_group
+  - contingent.sm_higgs_sector
+  - kernel.gauge_interactions
+- id: cor.ckm_matrix
+  relation: >
+    In the Standard Model with 3 generations of quarks, the quark
+    mass eigenstates are not aligned with the weak interaction
+    eigenstates. The mismatch is parameterized by the 3×3 unitary
+    Cabibbo-Kobayashi-Maskawa (CKM) matrix V_CKM, which has 4
+    independent physical parameters: 3 mixing angles and 1 CP-violating
+    phase. The CKM matrix is physically necessary because:
+    (1) quark Yukawa couplings to the Higgs doublet are arbitrary
+    complex 3×3 matrices → diagonalization leaves a misalignment
+    between up-type and down-type quark bases;
+    (2) for n_g ≥ 3 generations, the CKM matrix inevitably contains
+    a CP-violating complex phase (Kobayashi & Maskawa 1973);
+    (3) without CKM, flavor-changing weak interactions (e.g., s→u
+    transition in kaon decay) would be inexplicable.
+  quantities:
+  - qty.generation
+  scope:
+  - quantum_regime
+  provenance: "Cabibbo (1963); Kobayashi & Maskawa (1973); PDG 2024"
+  hardness: firm
+  layer: effective_law
+  derived_from:
+  - contingent.sm_gauge_group
+  - contingent.sm_fermion_content
+  - contingent.sm_higgs_sector
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality

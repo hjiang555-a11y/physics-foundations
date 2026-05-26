@@ -1285,7 +1285,6 @@ derivations:
     conclusion_statement: "t' = γ(t−vx/c²), x' = γ(x−vt), γ = 1/√(1−v²/c²)"
     premise:
       - kernel.lorentz_invariance  # R1
-      - kernel.lorentz_invariance      # R1
       - kernel.spacetime_dimensionality
 
     variables:
@@ -1436,23 +1435,68 @@ derivations:
 
     steps:
       - step: 1
+        description: "Lovelock 定理 (1971): D 维时空中最一般的二阶引力 Lagrangian"
+        expression: "L_grav = Σ_{k=0}^{⌊D/2⌋} c_k L_k"
+        justification: >
+          Lovelock 定理证明: 在 D 维时空中，由度规 g_{μν} 及其至多二阶导数构成、
+          产生至多二阶场方程的最一般 Lagrange 标量密度是 Lovelock Lagrangian。
+          其中 L_k 为 k 阶 Euler 密度:
+          L₀ = 1 (宇宙常数项)
+          L₁ = R (Ricci 标量, Einstein-Hilbert 项)
+          L₂ = R² − 4R_{μν}R^{μν} + R_{μνρσ}R^{μνρσ} (Gauss-Bonnet 项)
+          L_k (k ≥ 3) 为更高阶 Euler 密度。各项的变分均产生至多二阶的运动方程。
+          此定理不依赖任何特定维度假设 — 它是微分几何的纯数学结果。
+        reference: "Lovelock, J.Math.Phys. 12, 498 (1971); Padmanabhan §7.5"
+        condition: "[N] 广义协变性 (R1) — Lagrangian 必须是一般协变标量"
+
+      - step: 2
+        description: "维度截断: D=4 时仅 k=0,1 项存活"
+        expression: "⌊D/2⌋ = ⌊4/2⌋ = 2, 但 L₂ 在 4D 中为拓扑不变量"
+        justification: >
+          D=4 时, Lovelock 序列包含 k=0 (Λ), k=1 (R), k=2 (Gauss-Bonnet L₂)。
+          然而, Chern-Gauss-Bonnet 定理证明: 在 4 维紧致流形上,
+          ∫ √(−g) L₂ d⁴x = 32π² χ(M), 其中 χ(M) 为 Euler 示性数 (拓扑不变量)。
+          拓扑不变量的变分为零: δ∫ L₂ √(−g) d⁴x ≡ 0。
+          因此 L₂ 不贡献任何运动方程 — 它可从作用量中删去而不影响经典动力学。
+          更高阶项 L_k (k≥3) 在 4D 中恒为零 (微分形式的阶数超过流形维数)。
+        condition: "[N] D=4 — 这是维度特殊性的核心。若 D>4, L₂ 不再是拓扑项, 会产生非平凡的场方程修正"
+        reference: "Chern (1944); Gauss-Bonnet-Chern theorem"
+
+      - step: 3
+        description: "高阶曲率项为何不合法"
+        expression: "R², R_{μν}R^{μν}, R_{μνρσ}R^{μνρσ} 的变分产生四阶导数项 □R 等"
+        justification: >
+          Lovelock 定理已证明 L_k (k>2) 在 D=4 时恒为零。那么 R², R_{μν}R^{μν} 等标量呢?
+          这些不是 Euler 密度 — 它们是曲率张量的代数平方, 不构成 Lovelock Lagrangian。
+          它们的变分产生形如 □R 的四阶导数项 → Ostrogradsky 不稳定性 (鬼场)。
+          在有效场论框架中, 这些项仅在能量 ≪ Planck 尺度时被压低, 不构成低能引力理论的合法候选。
+        condition: "[N] 二阶场方程约束 — 若允许高阶导数, 经典理论存在鬼场 (ghost), 量子理论不可幺正"
+
+      - step: 4
+        description: "4D 中唯一合法的纯度规引力 Lagrangian"
+        expression: "L_grav = c₀ + c₁ R = −2Λ + R/(2κ)"
+        justification: >
+          综合 Steps 1-3: 在 4D 时空中, 要求一般协变 + 二阶场方程 ⇒
+          Lovelock Lagrangian = c₀·1 + c₁·R, 其中 c₀ = −2Λ, c₁ = 1/(2κ)。
+          这是 4D 时空中纯度规引力理论的唯一合法候选。
+          耦合常数 Λ, κ 的数值由实验确定 (宇宙学观测 + Newton 极限)。
+          Cross-ref M1: 与自旋-统计定理一样, Lovelock 定理的核心依赖于 D=4 —
+          两条独立定理从不同侧面印证了时空维数对本宇宙物理定律的唯一性约束。
+
+      - step: 5
         description: "Einstein-Hilbert 作用量"
         expression: "S = (1/(2κ)) ∫ R √(−g) d⁴x + S_matter"
         justification: >
-          R1 (广义协变性): 作用量必须是标量。√(−g) d⁴x 是不变体积元。
-          Lovelock 定理 (1971): 在 4 维时空中, Einstein-Hilbert 作用量 (R + 常数项)
-          是唯一由度规及其导数构成、产生二阶运动方程的作用量。
-          R 是唯一满足此条件的标量曲率不变量——更高阶曲率不变量
-          (如 R², R_{μν}R^{μν}) 给出四阶或更高阶运动方程。
-          系数 1/(2κ) 由 Newton 极限确定 (Step 6)。
-          S_matter 是物质场的作用量。
+          Step 4 的唯一候选。包含物质场作用量 S_matter。
+          系数 1/(2κ) 最终由 Newton 极限 (弱场低速) 的 Poisson 方程 ∇²φ = 4πGρ 确定: κ = 8πG/c⁴。
+        condition: "[N] R1 (等效原理 m_i=m_g) 保证引力效应等价于时空几何效应"
 
-      - step: 2
+      - step: 6
         description: "对度规 g^{μν} 变分"
         expression: "δS = 0 ⇒ δS_gravity/δg^{μν} + δS_matter/δg^{μν} = 0"
         justification: "R2: δS = 0。度规 g^{μν} 是引力场的动力学变量。"
 
-      - step: 3
+      - step: 7
         description: "引力部分的变分"
         expression: "δ(∫ R√(−g) d⁴x) = ∫ (R_{μν} − ½R g_{μν}) δg^{μν} √(−g) d⁴x"
         justification: >
@@ -1462,17 +1506,17 @@ derivations:
           δ√(−g) = −½√(−g)g_{μν}δg^{μν}。
         condition: "[N] g_{μν} ∈ C²（度规二阶可微）"
 
-      - step: 4
+      - step: 8
         description: "定义 Einstein 张量"
         expression: "G_{μν} ≡ R_{μν} − ½R g_{μν}"
         justification: "G_{μν} 的协变散度自动为零: ∇_μ G^{μν} ≡ 0 (Bianchi 恒等式)"
 
-      - step: 5
+      - step: 9
         description: "物质部分的变分定义应力-能量张量"
         expression: "T_{μν} ≡ −(2/√(−g)) δS_matter/δg^{μν}"
         justification: "这是 T_{μν} 的标准定义。对于任何广义协变的物质作用量，∇_μ T^{μν} = 0。"
 
-      - step: 6
+      - step: 10
         description: "场方程"
         expression: "G_{μν} = κ T_{μν} = (8πG/c⁴) T_{μν}"
         justification: >
@@ -1486,18 +1530,20 @@ derivations:
       - "R1 (等效原理) [N]: m_i = m_g ⇒ 引力 = 时空几何 ⇒ 度规是动力学场"
       - "R1 (广义协变性) [N]: 物理定律在所有坐标系中形式相同 ⇒ 作用量必须是标量"
       - "R2 (δS=0) [N]: 给出运动方程"
-      - "4 维时空 [N]: G_{μν} 是 4 维中唯一满足 ∇_μ G^{μν}=0 的二阶张量"
+      - "4 维时空 [N]: Lovelock 定理的核心 — 仅 D=4 时 ⌊D/2⌋=2 且 L₂ 为拓扑项, 唯一候选为 Λ+R"
+      - "二阶场方程约束 [N]: 若允许 R², R_{μν}R^{μν} 等高阶项 → Ostrogradsky 鬼场 → 理论不稳定、量子化后不幺正"
 
     sufficiency_conditions:
-      - "[S] R1 + R2 + 4D ⇒ Einstein 场方程（唯一可能性，Lovelock 定理）"
-      - "在 4 维时空中，Einstein-Hilbert 作用量是唯一给出二阶场方程且满足 ∇_μ G^{μν}=0 的引力理论"
-      - "注：R1+R2 本身不强制选择 EH 作用量——它们只要求作用量为一般协变标量。Lovelock 定理（1971）证明在 4D 中，EH 作用是唯一产生二阶运动方程的纯度规作用量。这是数学唯一性定理，不是物理假设。"
+      - "[S] R1 + R2 + 4D + 二阶方程约束 ⇒ Einstein 场方程（Lovelock 定理保证唯一性）"
+      - "Lovelock 定理 (1971) 证明在 4D 中, EH 作用是唯一产生二阶运动方程的纯度规作用量 — 这是数学唯一性定理, 不是物理假设"
+      - "Cross-ref M1: Lovelock (M2) 和自旋-统计 (M1) 均依赖 D=4 → 维度特殊性双重印证"
+      - "Cross-ref M3: Uniqueness from symmetry methodology — Lovelock (gravity) ⇔ gauge invariance → unique SM EFT"
 
     reversible: true
     validity_scope:
       - relativistic_regime
       - macroscopic_limit
-    mathematical_link: "δ∫R√(−g)d⁴x=0 → G_{μν}=κT_{μν}"
+    mathematical_link: "Lovelock (D=4: unique L=Λ+R) → δ∫R√(−g)d⁴x=0 → G_{μν}=κT_{μν}"
 
   - id: deriv.newton_gravitation
     conclusion: law.newton_gravitation
@@ -1878,89 +1924,236 @@ derivations:
       ψ(r₁,s₁; r₂,s₂) = −ψ(r₂,s₂; r₁,s₁)。
       推论: 无两个全同费米子占据同一量子态 (Pauli 不相容原理)。
     premise:
-      - kernel.lorentz_invariance        # R1
-      - kernel.superposition_principle    # R4a
-      - kernel.unitary_evolution          # R4b
+      - kernel.lorentz_invariance        # R1: Lorentz 不变性 + 微观因果性
+      - kernel.superposition_principle    # R4a: Hilbert 空间
+      - kernel.unitary_evolution          # R4b: 幺正演化 → 正能量
       - kernel.spacetime_dimensionality
 
     variables:
-      - { symbol: "ψ", type: "multi-particle wavefunction", dim: "依赖表示", meaning: "多粒子波函数" }
-      - { symbol: "s", type: "half-integer", dim: "[1]", meaning: "自旋量子数（半整数 = 费米子）" }
-      - { symbol: "φ(x)", type: "field operator", dim: "依赖表示", meaning: "量子场算符" }
-      - { symbol: "(x−y)² < 0", type: "condition", dim: "[L²]", meaning: "类空间隔条件（两个时空点之间无因果联系）" }
+      - { symbol: "ψ_l(x)", type: "field operator", dim: "依赖表示", meaning: "量子场算符，l 为 Lorentz 表示指标" }
+      - { symbol: "a(p,σ)", type: "operator", dim: "[L³]", meaning: "动量为 p、自旋投影为 σ 的粒子湮灭算符" }
+      - { symbol: "b^†(p,σ)", type: "operator", dim: "[L³]", meaning: "动量为 p、自旋投影为 σ 的反粒子产生算符" }
+      - { symbol: "u_l(p,σ)", type: "complex coefficient function", dim: "依赖表示", meaning: "正频解系数函数（粒子-反粒子配对系数）" }
+      - { symbol: "v_l(p,σ)", type: "complex coefficient function", dim: "依赖表示", meaning: "负频解系数函数" }
+      - { symbol: "D^{(j)}_{σ'σ}(W)", type: "representation matrix", dim: "[1]", meaning: "Lorentz 群 (j,0)⊕(0,j) 表示矩阵; W 为 Wigner 旋转" }
+      - { symbol: "j", type: "nonnegative half-integer", dim: "[1]", meaning: "粒子自旋: j ∈ {0, ½, 1, ¾, 2, …}" }
+      - { symbol: "(x−y)²", type: "ℝ", dim: "[L²]", meaning: "类空间隔条件，即 (x−y)² < 0" }
+      - { symbol: "P^μ", type: "operator", dim: "[M·L·T⁻¹]", meaning: "能量-动量四矢量算符; 谱条件: P⁰ ≥ 0, P² = m²" }
+      - { symbol: "η_{μν}", type: "metric tensor", dim: "[1]", meaning: "Minkowski 度规 diag(+1,−1,−1,−1)" }
 
     steps:
       - step: 1
-        description: "微因果性 (Microcausality)"
-        expression: "对类空间隔 (x−y)² < 0: [φ(x), φ(y)]_± = 0"
+        step_type: external_theorem
+        description: "Lorentz 群的有限维不可约表示分类"
+        expression: >
+          固有正时 Lorentz 群 L↑₊ 的有限维不可约表示由一对 (半)整数 (A,B) 标记。
+          表示空间维数为 (2A+1)(2B+1)。物理自旋 j 由 |A−B|, …, A+B 取值。
         justification: >
-          R1 (Lorentz 不变性 + 因果结构) 要求类空分离的场算符满足
-          (反)对易关系。两个类空分离的测量不能互相影响，故对应的
-          可观测量的算符必须 (反)对易。这是自旋-统计定理的核心输入。
+          Lorentz 群 Lie 代数 so(3,1) ≅ su(2)⊕su(2) 的表示论标准结果。
+          场算符必须按 Lorentz 群的某个有限维表示变换。
+        condition: "[N] R1: Lorentz 不变性定义场算符的变换律"
+        reference: "Weinberg Vol.I §2.5, §5.1"
 
       - step: 2
-        description: "自旋-统计连接 (Spin-Statistics Theorem)"
-        expression: >
-          Fierz (1939) — Pauli (1940) — Lüders & Zumino (1958):
-          在满足 Lorentz 不变性 + 谱条件 (正能量) + 微观因果性的
-          量子场论中，整数自旋场必须对易 (Bose 统计)，半整数自旋场
-          必须反对易 (Fermi 统计)。
+        step_type: in_project
+        description: "R4a 构造单粒子 Hilbert 空间"
+        expression: "单粒子态 |p,σ⟩ 构成 Hilbert 空间 H₁ 的完备基: ⟨p',σ'|p,σ⟩ = δ³(p'−p) δ_{σ'σ}"
         justification: >
-          这是量子场论中最深的结构定理。严格证明依赖 Wightman 公理体系
-          (正定度量、谱条件、局域性、Lorentz 协变性) 或 LSZ 约化公式 +
-          CPT 定理 + 自旋表示论。此处为结论性引用，不重构完整证明。
-          详见 Streater & Wightman "PCT, Spin & Statistics, and All That" (1964)。
+          R4a (叠加原理) 要求物理态构成 Hilbert 空间。单粒子态由动量 p (在质量壳 p²=m², p⁰>0 上) 和自旋投影 σ ∈ {−j,…,+j} 参数化。
+        condition: "[N] R4a: 没有 Hilbert 空间则无可定义的量子态"
 
       - step: 3
-        description: "费米子场的反对易性"
-        expression: "对半整数自旋 s: {φ(x), φ(y)} = 0 当 (x−y)² < 0"
-        justification: "Step 2 的直接结论。费米子场算符在类空间隔下反对易。"
+        step_type: external_theorem
+        description: "簇分解原理 (Cluster Decomposition) → 场必须由产生/湮灭算符构建"
+        expression: >
+          S 矩阵的簇分解性 ⇔ 相互作用 Hamilton 量密度 H(x) 必须由场算符构成,
+          且场算符由产生算符 a^†(p,σ) 和湮灭算符 b(p,σ) 的线性组合表达。
+        justification: >
+          簇分解原理（远距分离的实验不相关）是任何局域量子场论的基础要求。
+          Weinberg (Vol.I §4.3-4.4) 证明这是 S 矩阵满足簇分解性的充要条件。
+          这一定理独立于微扰论，是构造性量子场论的核心结果。
+        condition: "[N] 局域性要求 (R1 因果结构的推论)"
+        reference: "Weinberg Vol.I §4.4; Wightman 公理体系的局域性公理"
 
       - step: 4
-        description: "多粒子波函数的反对称性"
-        expression: "从场算符的反对易关系 ⇒ 多粒子态波函数在交换下反号"
+        step_type: external_theorem
+        description: "自由场的一般展开形式"
+        expression: >
+          ψ_l(x) = (2π)^{−3/2} Σ_σ ∫ d³p/(2p⁰)^{½} [κ u_l(p,σ) a(p,σ) e^{−ip·x}
+          + λ v_l(p,σ) b^†(p,σ) e^{+ip·x}]
+          其中 κ, λ 为归一化系数，p⁰ = √(p²+m²) > 0。
         justification: >
-          多粒子态 |r₁,s₁; r₂,s₂⟩ ∝ φ†(r₁,s₁)·φ†(r₂,s₂)|0⟩。
-          场算符的反对易性继承到波函数:
-          ψ(r₁,s₁; r₂,s₂) = ⟨0|φ(r₂,s₂)φ(r₁,s₁)|ψ⟩
-          = −⟨0|φ(r₁,s₁)φ(r₂,s₂)|ψ⟩ = −ψ(r₂,s₂; r₁,s₁)。
+          Step 3 的推论: 场算符必须同时包含正频湮灭项 (∝ e^{−ip·x} a) 和
+          负频反粒子产生项 (∝ e^{+ip·x} b^†)。二者缺一不可，否则无法同时满足
+          微观因果性和 Lorentz 协变性（此即反粒子存在的必然性）。
+        condition: "[N] 谱条件 (R4b 的幺正演化 → P^μ 的谱) 保证 p⁰ > 0"
+        reference: "Weinberg Vol.I §5.1; Streater & Wightman §3.3"
 
       - step: 5
-        description: "Pauli 不相容原理"
-        expression: "ψ(…, r_i, s_i; …, r_i, s_i; …) = 0"
+        step_type: external_theorem
+        description: "系数函数 u_l, v_l 由 Lorentz 表示矩阵确定"
+        expression: >
+          对自旋 j 的粒子，u_l(p,σ) 和 v_l(p,σ) 由 (j,0)⊕(0,j) 表示的
+          Lorentz 变换律完全确定（至多差一个总相位）:
+          u_l(Λp,σ) D^{(j)}_{σ'σ}(W(Λ,p)) = S_{lm}(Λ) u_m(p,σ')
+          其中 D^{(j)} 为自旋 j 的 SU(2) 表示，S(Λ) 为场所在 Lorentz 表示的矩阵。
         justification: >
-          反对称波函数在交换两个全同粒子时变号。
-          若两粒子占据同一量子态 (r,s 全同)，交换后波函数不变 (因全同)，
-          但反对称性要求变号: ψ = −ψ ⇒ ψ = 0。
-          此即 Pauli 不相容原理: 无两个全同费米子可占据同一量子态。
+          这是 Wigner 对 Lorentz 群正能表示的构造方法在量子场论中的直接推论。
+          场的 Lorentz 变换律将系数函数与表示矩阵绑定。
+        condition: "[N] R1 ≈ Lorentz 不变性; R4b ≈ 幺正性保证 D^{(j)} 的酉性"
+        reference: "Weinberg Vol.I §5.1 (Eq. 5.1.22-23); Wigner (1939)"
+
+      - step: 6
+        step_type: external_theorem
+        description: "产生/湮灭算符的对易或反对易代数"
+        expression: >
+          [a(p,σ), a^†(p',σ')]_± = δ³(p−p') δ_{σσ'}
+          [b(p,σ), b^†(p',σ')]_± = δ³(p−p') δ_{σσ'}
+          所有其他 (反)对易子为零。符号 + 表示反对易子 (费米子)，− 表示对易子 (玻色子)。
+        justification: >
+          R4a + R4b: Hilbert 空间上的算符代数。取对易子还是反对易子正是
+          自旋-统计定理要决定的。目前两种符号皆数学上自洽。
+        condition: "[N] R4a (叠加) + R4b (幺正) 赋予算符代数结构"
+
+      - step: 7
+        step_type: in_project
+        description: "微观因果性条件 (Microcausality)"
+        expression: "对 (x−y)² < 0 (类空间隔): [ψ_l(x), ψ_m(y)]_± = 0"
+        justification: >
+          R1 (微观因果性): 类空分离的事件之间不得有因果影响。所有物理
+          可观测量必须是场算符的双线性型，所以类空间隔下场算符必须对易或
+          反对易。注: 两个场算符的积 (如 ψ_l(x)ψ_m(y)) 本身不是可观测量，
+          但可观测量涉及场的双线性组合 (如电流 J^μ)，其类空对易性要求
+          [ψ_l, ψ_m]_± = 0。
+        condition: "[N] R1 (Lorentz 因果结构: 类空 ⇒ 无因果联系)"
+
+      - step: 8
+        step_type: external_theorem
+        description: "计算类空 (反)对易子"
+        expression: >
+          [ψ_l(x), ψ_m(y)]_± = (2π)^{−3} Σ_σ ∫ d³p/(2p⁰) [
+          κ² u_l(p,σ) u*_m(p,σ) e^{−ip·(x−y)}
+          ∓ λ² v_l(p,σ) v*_m(p,σ) e^{+ip·(x−y)} ]
+        justification: >
+          代入 Step 4 的场展开和 Step 6 的算符代数。积分中 "∓" 的符号:
+          取 − (对易子) 时第二项前为 −；取 + (反对易子) 时第二项前为 +。
+        condition: "[N] 假定 b 和 b^† 满足与 a, a^† 相同的 (反)对易关系 (CPT 对称性保证)"
+
+      - step: 9
+        step_type: external_theorem
+        description: "CPT 定理给出系数函数的关系"
+        expression: >
+          CPT 对称性 (Lorentz 不变性的推论, 见 Streater & Wightman §3.8) 要求:
+          v_l(p,σ) ∝ u*_l(p,σ) (至多差一个幺正旋转)。
+          这意味着 Σ_σ v_l v*_m ∝ Σ_σ u_l u*_m，二者对积分贡献的矩阵结构相同。
+        justification: >
+          CPT 定理是 Lorentz 不变性 + 局域性 + 谱条件在任意量子场论中的普遍推论。
+          此处仅需 CPT 的一个直接后果: 反粒子系数函数与粒子系数函数的矩阵结构一致。
+        condition: "[N] Lorentz 不变性 ⇒ CPT 定理 (不依赖自旋-统计选择)"
+        reference: "Streater & Wightman §3.8 'PCT Theorem'; Weinberg Vol.I §5.8"
+
+      - step: 10
+        step_type: external_theorem
+        description: "类空间隔下, 积分必须为零 → 符号选择"
+        expression: >
+          当 (x−y)² < 0 时, e^{−ip·(x−y)} 和 e^{+ip·(x−y)} 积分不各自为零,
+          但 u_l u*_m 的组合在统计符号取错时会引入因子 (−1)^{2j}:
+          整数自旋 (玻色子): 系数结构对称 ⇒ 取反对易子时 e^{-ipx} 和 e^{+ipx}
+          项无法抵消 ⇒ 必须取对易子 ⇒ Bose 统计
+          半整数自旋 (费米子): 系数结构反对称 ⇒ 取对易子时两项同号,
+          无法抵消 ⇒ 必须取反对易子 ⇒ Fermi 统计
+        justification: >
+          这是自旋-统计定理的数学核心。具体论证如下:
+          对于 (j,0)⊕(0,j) 表示, u_l(p,σ) u*_m(p,σ) 可写为自旋 j 表示的
+          SL(2,C) 协变多项式 × (−1)^{2j} 因子。在类空间隔下:
+          若 j 为整数: u u* 项在 p → −p 下为偶 ⇒ 对换 e^{−ipx} 和 e^{+ipx} 的符号后,
+          两项同号 (对易子) 或异号 (反对易子)。类空积分强制异号 ⇒ 必须取对易子。
+          若 j 为半整数: u u* 项在 p → −p 下为奇 ⇒ 符号相反 ⇒ 必须取反对易子。
+        condition: "[N] 此步是推导的核心: Lorentz 表示论 + 解析延拓 + 类空约束"
+        reference: "Weinberg Vol.I §5.7 (pp.237-241); Streater & Wightman §4.4"
+
+      - step: 11
+        step_type: in_project
+        description: "费米子侧结论: 场算符反对易"
+        expression: "对半整数自旋 j (费米子): {ψ_l(x), ψ_m(y)} = 0 当 (x−y)² < 0"
+        justification: >
+          Step 10 对半整数自旋的直接结论。这也是 Step 7 (微观因果性)
+          在取反对易子形式下的满足条件。注意: 场算符本身非物理——仅
+          双线性可观测量 (如 J^μ, T^{μν}) 需要类空对易, 而 ψ(x)ψ(y) 的
+          反对易性足以保证双线性型的对易性。
+        cross_references: ["M3: SM fermion content classified by spin-statistics"]
+        cross_references: ["cor.fermi_dirac: Pauli exclusion → n_i∈{0,1} → Fermi-Dirac distribution"]
+
+      - step: 12
+        step_type: in_project
+        description: "多粒子波函数的反对称性"
+        expression: "ψ(r₁,s₁; r₂,s₂) = −ψ(r₂,s₂; r₁,s₁)"
+        justification: >
+          多费米子态 |r₁,s₁; r₂,s₂⟩ = φ^†(r₁,s₁) φ^†(r₂,s₂) |0⟩。
+          产生算符的反对易性 {φ^†(r₁,s₁), φ^†(r₂,s₂)} = 0 从场算符的
+          反对易性继承而来 (field-operator → creation-operator 反对易性
+          在等时极限下一致)。因此:
+          ψ(r₁,s₁; r₂,s₂) = ⟨0|φ(r₂,s₂) φ(r₁,s₁)|Ψ⟩
+          = −⟨0|φ(r₁,s₁) φ(r₂,s₂)|Ψ⟩ = −ψ(r₂,s₂; r₁,s₁)
+          多粒子波函数在任意两粒子交换下完全反对称。
+        condition: "[N] 场算符反对易性 (Step 11) 是波函数反对称性的直接来源"
+
+      - step: 13
+        step_type: in_project
+        description: "Pauli 不相容原理"
+        expression: "ψ(…, r_i, s_i; …, r_j, s_j; …) = 0 当 (r_i,s_i) = (r_j,s_j)"
+        justification: >
+          反对称波函数 (Step 12) 的直接推论。若两粒子占据全同量子态
+          (r_i,s_i) = (r_j,s_j), 交换两粒子后波函数应不变 (因粒子全同)，
+          但反对称性要求波函数变号: ψ = −ψ ⇒ 2ψ = 0 ⇒ ψ ≡ 0。
+          物理含义: 无两个全同费米子可占据同一量子态。
+          此即 Pauli 不相容原理 (Pauli 1925, 以经验规则形式;
+          Pauli 1940, 自旋-统计定理的数学证明)。
+        cross_references:
+          - "M3: SM fermions (quarks, leptons) obey Pauli → atomic shell structure, chemistry"
+          - "M4: Nernst theorem — ground state degeneracy g₀ determined by Pauli exclusion"
+          - "cor.fermi_dirac: n_i ∈ {0,1} constraint from Pauli → Fermi-Dirac distribution"
 
     result: >
-      自旋-统计定理 ⇒ 费米子波函数完全反对称 ⇒ Pauli 不相容原理。
-      此推导是结构性大纲；自旋-统计定理的完整严格证明 (需 Wightman 公理、
-      CPT 定理、自旋群表示限制) 超出本项目范围。
-
-    caveat: >
-      上述步骤为结构性逻辑大纲。自旋-统计定理的完整数学推导需
-      Wightman 公理体系 (Streater & Wightman 1964) 或 Weinberg
-      (1995, Vol. I Ch. 5) 的 LSZ-微因果性方法。本推导给出的是
-      从 R1 (微因果性) + R4 (量子结构) 到结论的逻辑链，不声称
-      提供了 axoimatic QFT 层面的完整严格性。
+      自旋-统计定理 (Step 1-10): R1 (Lorentz + 微观因果性) + R4 (量子结构)
+      ⇒ 半整数自旋场反对易 ⇒ 费米子波函数反对称 (Step 12)
+      ⇒ Pauli 不相容原理 (Step 13)。
+      反向: 整数自旋场对易 ⇒ 玻色子波函数对称 ⇒ Bose-Einstein 凝聚可能。
+      此推导包含 13 步逻辑链，标记了项目外定理 (CPT, 簇分解, 表示论)
+      与项目内可证步骤。自旋-统计定理的完整严格性植根于 Wightman 公理体系，
+      此处给出的是 Weinberg 式的物理推导大纲。
 
     necessity_conditions:
-      - "R1 (Lorentz 不变性 + 微观因果性) [N]: Step 1 的核心前提"
-      - "R4a (叠加原理) [N]: Hilbert 空间正定度量为 Wightman 公理的前提"
-      - "R4b (幺正演化) [N]: 谱条件 (正能量) 依赖幺正表示"
-      - "3+1 维时空 [N]: 自旋-统计定理在 D≠4 时可给出不同结论 (如 anyon)"
-      - "半整数自旋 [N]: 仅对费米子成立；整数自旋 ⇒ Bose 统计"
+      - "R1 (Lorentz 不变性 + 微观因果性) [N]: Step 1 (表示论), Step 7 (微因果性), Step 9 (CPT) 的核心前提"
+      - "R4a (叠加原理) [N]: Step 2 (Hilbert 空间), Step 6 (算符代数) — 正定度量为 Wightman 公理的前提"
+      - "R4b (幺正演化) [N]: Step 4 (谱条件 p⁰>0), Step 5 (表示的酉性) — 正能量依赖幺正表示"
+      - "3+1 维时空 [N]: Step 10 的核心结论在 D≠4 时失效 (如 D=2+1 中存在 anyon, 分数统计)。Lorentz 群的覆盖群在 D≠4 时结构不同"
+      - "半整数自旋 [N]: Step 10-13 仅对费米子成立；整数自旋 ⇒ Bose 统计 (对易子)"
+      - "簇分解原理 [N]: Step 3 — 没有簇分解性, 场不必由产生/湮灭算符构建, 自旋-统计论证失去起点"
+      - "CPT 定理 [N]: Step 9 — 没有 CPT, 系数函数 u_l 和 v_l 无必然关系, Step 10 的符号分析不成立"
 
     sufficiency_conditions:
       - "[S] Lorentz 不变性 + 量子公设 + 微观因果性 ⇒ 自旋-统计定理 (费米子侧)"
+      - "[S] 以上 + 整数自旋 ⇒ Bose 统计 (对称波函数)"
+      - "注: 充分性在 D=3+1 时是严格的 (Weinberg §5.7; Streater & Wightman §4.4)"
 
     reversible: false
-    reverse_note: "Pauli 不相容 ⇏ 自旋-统计定理的完整结构 (Bose 侧 + CPT)"
+    reverse_note: >
+      Pauli 不相容 ⇏ 自旋-统计定理的完整结构。
+      逆方向: 给定满足 Pauli 不相容的经验世界, 可推理场的反对易性,
+      但此逆推理需要附加假设 (如: 费米子必须是量子场)。
+
     validity_scope:
       - quantum_regime
       - relativistic_regime
+
+    caveat: >
+      上述 13 步推导大纲区分了两类步骤:
+      - external_theorem (Steps 1,3,4,5,6,8,9,10): 依赖 Wightman 公理体系或
+        Weinberg 式 LSZ 构造的定理。这些不是 R1-R6 的直接推论, 而是量子场论
+        数学结构中的已证定理, 此处作为黑盒引用。
+      - in_project (Steps 2,7,11,12,13): 在 R1-R6 框架内可陈述和论证的步骤。
+      这一定理的完整严格性超出本项目范围, 但逻辑链的每一环节均已标注前提。
     mathematical_link: "Lorentz + microcausality → spin-statistics → antisymmetric ψ → Pauli exclusion"
 
   - id: deriv.fermi_dirac_distribution
@@ -2060,3 +2253,831 @@ derivations:
       - thermal_equilibrium
       - quantum_regime
     mathematical_link: "n_i∈{0,1,2,…} → maximize S → f(E)=1/(exp(β(E−μ))−1)"
+
+  # ═══════════════════════════════════════════════════════════════
+  # G9: Contingent Consequences of D=3+1 (from compact derivations.yaml)
+  # ═══════════════════════════════════════════════════════════════
+  # These are dimensional arguments — structurally simple but logically
+  # important as a unified group. They show: D=3 is necessary for
+  # inverse-square law, SO(3) rotation group, 3D volume, stable Kepler
+  # orbits, and Huygens principle. D=3+1 further determines Minkowski
+  # signature and gravitational wave polarizations.
+
+  - id: deriv.inverse_square_law
+    conclusion: contingent.inverse_square_law
+    conclusion_statement: "D=3 ⇒ F ∝ 1/r² (inverse-square law for both gravity and electrostatics)"
+    premise:
+      - kernel.spacetime_dimensionality
+      - rule.dimensional_consistency
+
+    variables:
+      - { symbol: "D", type: "ℕ⁺", dim: "[1]", domain: "D ≥ 1", meaning: "空间维数; R1 给出 D=3" }
+      - { symbol: "Φ", type: "ℝ", dim: "依赖源", domain: "", meaning: "通过 (D−1)-球面的通量" }
+      - { symbol: "r", type: "ℝ⁺", dim: "[L]", domain: "r > 0", meaning: "到点源的径向距离" }
+      - { symbol: "F", type: "ℝ^D", dim: "[M·L·T⁻²]", domain: "", meaning: "检验粒子受力" }
+      - { symbol: "S^{D-1}", type: "", dim: "[L^{D-1}]", domain: "", meaning: "(D−1)-维球面面积" }
+
+    steps:
+      - step: 1
+        description: "Gauss 定律在 D 维空间的通量形式"
+        expression: "∮_{S^{D-1}} F · dA ∝ r^{D-1} · F(r)"
+        justification: "(D−1)-维球面面积 S^{D-1} ∝ r^{D-1}。通量 = 场强 × 面积。"
+        condition: "[N] 源必须是各向同性的（球对称点源）"
+
+      - step: 2
+        description: "通量与源强成比例（Gauss 定律的物理内容）"
+        expression: "∮ F · dA = const · Q（Q 为源强，如电荷或质量）"
+        justification: "Gauss 定律的普遍形式（对引力为 Gauss-Bonnet，对静电为 Maxwell）。"
+        condition: "[N] Gauss 定律有效（依赖力的守恒性）"
+
+      - step: 3
+        description: "联立求解 F(r)"
+        expression: "F(r) · r^{D-1} ∝ 常数 ⇒ F(r) ∝ 1/r^{D-1}"
+        justification: "Step 1 的面积标度 + Step 2 的通量恒定 → 力与 r^{D-1} 成反比。"
+
+      - step: 4
+        description: "代入 D=3"
+        expression: "D=3 ⇒ F(r) ∝ 1/r²"
+        justification: "R1 给出 D=3，代入 Step 3 即得平方反比律。"
+
+    result: "D=3 ⇒ F ∝ 1/r²（平方反比律）"
+
+    necessity_conditions:
+      - "D=3 空间维数 [N]: 若无，Gauss 定律的通量 ∝ r^{D-1} 项改变，力律变为 F ∝ 1/r^{D-1}"
+      - "量纲一致性 (rule.dimensional_consistency): Gauss 定律需要一致的量纲运算"
+      - "Gauss 定律有效性: 通量论证依赖对称源（点源球对称）"
+
+    sufficiency_conditions:
+      - "[S] D=3 + Gauss 定律 + 球对称 ⇒ F ∝ 1/r²（反平方律）"
+
+    reversible: false
+    validity_scope:
+      - classical_limit
+    mathematical_link: "D=3 ⇒ flux ∝ r² ⇒ F ∝ 1/r²"
+
+  - id: deriv.so3_rotation_group
+    conclusion: contingent.so3_rotation_group
+    conclusion_statement: "D=3 ⇒ rotation group SO(3) with 3 generators: L_x, L_y, L_z"
+    premise:
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "D", type: "ℕ⁺", dim: "[1]", domain: "D ≥ 2", meaning: "空间维数" }
+      - { symbol: "SO(D)", type: "Lie 群", dim: "[1]", domain: "compact", meaning: "D 维空间的特殊正交群" }
+      - { symbol: "L_i", type: "生成元", dim: "[M·L²·T⁻¹]", domain: "i∈{x,y,z}", meaning: "角动量算符 / 旋转生成元" }
+      - { symbol: "ε_{ijk}", type: "ℝ^{3×3×3}", dim: "[1]", domain: "全反对称", meaning: "Levi-Civita 符号; SO(3) 结构常数" }
+
+    steps:
+      - step: 1
+        description: "SO(D) 的 Lie 代数维数"
+        expression: "dim(SO(D)) = D(D−1)/2"
+        justification: "SO(D) 群是 D×D 正交矩阵群，约束条件数 = D(D+1)/2，自由参数 = D² − D(D+1)/2 = D(D−1)/2。每个生成元对应一个独立旋转平面。"
+        condition: "[N] 空间必须是平直的（或至少具有 SO(D) 局域对称性）"
+
+      - step: 2
+        description: "D=3 时的特殊情况"
+        expression: "D=3 ⇒ dim(SO(3)) = 3·2/2 = 3"
+        justification: "代入 D=3 到 Step 1 的公式。三个生成元：绕 x,y,z 轴的旋转。"
+        condition: "[N] D=3"
+
+      - step: 3
+        description: "so(3) Lie 代数的对易关系"
+        expression: "[L_i, L_j] = iħ ε_{ijk} L_k"
+        justification: "SO(3) Lie 代数的标准形式。ε_{ijk} 为三维全反对称张量——仅 D=3 时有同样的指标数 (3=3)。"
+
+    result: "D=3 ⇒ SO(3) with 3 generators, so(3) Lie algebra [L_i, L_j] = iħ ε_{ijk} L_k"
+
+    necessity_conditions:
+      - "D=3 空间维数 [N]: SO(D) 的生成元数目为 D(D-1)/2，仅 D=3 时恰好为 3"
+      - "旋转不变性: 若空间非各向同性，旋转群结构不成立"
+      - "Lie 群结构: SO(3) 为非交换紧 Lie 群，其表示论是角动量量子化的基础"
+
+    sufficiency_conditions:
+      - "[S] D=3 + 旋转不变性 ⇒ SO(3) 旋转群（3 个生成元，so(3) Lie 代数）"
+
+    reversible: false
+    validity_scope: []
+    mathematical_link: "D=3 ⇒ dim(SO(3)) = 3 ⇒ angular momentum has 3 components"
+
+  - id: deriv.volume_dimension
+    conclusion: contingent.volume_dimension
+    conclusion_statement: "D=3 ⇒ [V] = [L³] and dim(PV) = dim(nRT)"
+    premise:
+      - kernel.spacetime_dimensionality
+      - rule.dimensional_consistency
+
+    variables:
+      - { symbol: "D", type: "ℕ⁺", dim: "[1]", domain: "D ≥ 1", meaning: "空间维数" }
+      - { symbol: "V", type: "ℝ⁺", dim: "[L^D]", domain: "V > 0", meaning: "D 维空间体积" }
+      - { symbol: "P", type: "ℝ", dim: "[M·L^{-1}·T^{-2}]", domain: "", meaning: "压强 P = F/A" }
+      - { symbol: "n", type: "ℝ⁺", dim: "[N]", domain: "", meaning: "物质的量" }
+      - { symbol: "R", type: "常数", dim: "[M·L²·T⁻²·Θ⁻¹·N⁻¹]", domain: "", meaning: "摩尔气体常数" }
+      - { symbol: "T", type: "ℝ⁺", dim: "[Θ]", domain: "T ≥ 0", meaning: "热力学温度" }
+
+    steps:
+      - step: 1
+        description: "D 维空间体积的量纲"
+        expression: "[V] = [L^D]"
+        justification: "体积是空间坐标的 D 维积分: V = ∫ d^D x，量纲为长度^D。"
+        condition: "[N] 空间维数 D 有明确定义"
+
+      - step: 2
+        description: "D=3 时的体积量纲"
+        expression: "D=3 ⇒ [V] = [L³]"
+        justification: "代入 R1 给出的 D=3。"
+
+      - step: 3
+        description: "压强 × 体积的量纲"
+        expression: "[P·V] = [M·L^{-1}·T^{-2}] · [L³] = [M·L²·T^{-2}]"
+        justification: "P = F/A ⇒ [P] = [M·L·T^{-2}]/[L²] = [M·L^{-1}·T^{-2}]。再乘 [L³] 得 [M·L²·T⁻²]。"
+
+      - step: 4
+        description: "nRT 的量纲"
+        expression: "[n·R·T] = [N] · [M·L²·T⁻²·Θ⁻¹·N⁻¹] · [Θ] = [M·L²·T⁻²]"
+        justification: "R 的量纲来自理想气体方程，n 的量纲为 [N]，T 的量纲为 [Θ]。"
+
+      - step: 5
+        description: "量纲一致性验证"
+        expression: "[P·V] = [n·R·T] = [M·L²·T⁻²] ✓"
+        justification: "PV = nRT 仅在 D=3 时量纲自洽。"
+
+    result: "D=3 ⇒ [V]=[L³], dim(PV) = dim(nRT) = [M·L²·T⁻²]"
+
+    necessity_conditions:
+      - "D=3 空间维数 [N]: 体积 V ∝ r^D，仅 D=3 时 [V] = [L³]"
+      - "量纲一致性 (rule.dimensional_consistency): PV 必须与 nRT 量纲一致"
+      - "热力学第一定律有效性: PV 项来源于功的力学定义 dW = P dV"
+
+    sufficiency_conditions:
+      - "[S] D=3 + 量纲一致性 ⇒ [V]=[L³], dim(PV)=[M·L²·T⁻²]=dim(nRT)"
+
+    reversible: false
+    validity_scope: []
+    mathematical_link: "D=3 ⇒ [V]=[L³] ⇒ dim(PV) = [M·L²·T⁻²] = dim(nRT)"
+
+  - id: deriv.minkowski_signature
+    conclusion: contingent.minkowski_signature
+    conclusion_statement: "3+1 spacetime ⇒ metric signature (+, −, −, −) or (−, +, +, +)"
+    premise:
+      - kernel.spacetime_dimensionality
+      - kernel.lorentz_invariance
+
+    variables:
+      - { symbol: "g_{μν}", type: "ℝ^{4×4} 对称", dim: "[1]", domain: "det(g) < 0", meaning: "时空度规张量" }
+      - { symbol: "η_{μν}", type: "ℝ^{4×4}", dim: "[1]", domain: "diag(1,−1,−1,−1)", meaning: "平直时空 Minkowski 度规" }
+      - { symbol: "ds²", type: "ℝ", dim: "[L²]", domain: "ds² ∈ ℝ", meaning: "时空间隔不变量" }
+      - { symbol: "c", type: "常数", dim: "[L·T⁻¹]", domain: "c = 2.998×10⁸ m/s", meaning: "真空中光速" }
+
+    steps:
+      - step: 1
+        description: "Lorentz 不变间隔是时空的核心不变量"
+        expression: "ds² = g_{μν} dx^μ dx^ν"
+        justification: "R1 (kernel.lorentz_invariance): 所有惯性系中 ds² 不变。这是 Lorentz 度规的唯一定义。"
+        condition: "[N] Lorentz 不变性必须成立"
+
+      - step: 2
+        description: "时间维与空间维的符号必须相反"
+        expression: "ds² 可正可负 ⇒ 符号差 (p, q) 中 p,q 均 ≥ 1"
+        justification: "若所有符号相同（如 (4,0) Euclidean），则 ds² ≥ 0 恒成立，无法定义类光锥和因果结构。"
+        condition: "[N] 因果结构要求类时和类空方向可区分"
+
+      - step: 3
+        description: "3 空间维 + 1 时间维 ⇒ 符号差 (1, 3)"
+        expression: "signature = (1, 3) 即 1 个正号（时间）+ 3 个负号（空间）"
+        justification: "R1 给出 1 时间维 + 3 空间维。符号差 = (时间维数, 空间维数)。全局符号翻转 (+,−,−,−) ↔ (−,+,+,+) 等价。"
+        condition: "[N] 必须有且仅有 1 个时间维（多时间维产生封闭类时曲线和因果悖论）"
+
+    result: "D=3+1 + Lorentz 不变性 ⇒ Minkowski 度规符号差 (1,3)，ds² = c²dt² − dx² − dy² − dz²"
+
+    necessity_conditions:
+      - "Lorentz 不变性 [N]: 要求 ds² 在所有惯性系中保持不变，确定 (±, ∓, ∓, ∓) 符号模式"
+      - "D=3+1 时空维数 [N]: Minkowski 度规的符号差 (1,3) 由 3 空间维 + 1 时间维决定"
+      - "因果结构需求: 类时、类光、类空间隔的区分依赖度规符号"
+
+    sufficiency_conditions:
+      - "[S] Lorentz 不变性 + D=3+1 ⇒ Minkowski 度规符号差 (+, −, −, −) / (−, +, +, +)"
+
+    reversible: false
+    validity_scope:
+      - relativistic_regime
+    mathematical_link: "3+1 ⇒ metric signature (+, −, −, −) ⇒ ds² = c²dt² − dx² − dy² − dz²"
+
+  - id: deriv.stable_kepler_orbits
+    conclusion: contingent.stable_kepler_orbits
+    conclusion_statement: "D=3 is the only spatial dimension allowing stable closed orbits"
+    premise:
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "D", type: "ℕ⁺", dim: "[1]", domain: "D ≥ 2", meaning: "空间维数" }
+      - { symbol: "V_eff", type: "ℝ → ℝ", dim: "[M·L²·T⁻²]", domain: "r > 0", meaning: "有效势能 = 引力势 + 离心势" }
+      - { symbol: "k", type: "ℝ⁺", dim: "依赖源", domain: "k > 0", meaning: "引力势的耦合常数 (−k/r^{D-2})" }
+      - { symbol: "L", type: "ℝ³", dim: "[M·L²·T⁻¹]", domain: "", meaning: "轨道角动量（守恒）" }
+      - { symbol: "m", type: "ℝ⁺", dim: "[M]", domain: "m > 0", meaning: "检验粒子质量" }
+      - { symbol: "r", type: "ℝ⁺", dim: "[L]", domain: "r > 0", meaning: "径向距离" }
+
+    steps:
+      - step: 1
+        description: "D 维空间中的有效势能"
+        expression: "V_eff(r) = −k/r^{D-2} + L²/(2mr²)"
+        justification: "引力势 ∝ −1/r^{D-2}（来自 D 维 Gauss 定律 / Newton 极限）。离心势 L²/(2mr²) 来自角动量守恒——与 D 无关（旋转发生在平面内）。"
+
+      - step: 2
+        description: "稳定轨道的存在条件"
+        expression: "dV_eff/dr = 0（极值）且 d²V_eff/dr² > 0（极小值）"
+        justification: "稳定的圆轨道要求有效势在 r*>0 处有局部极小值。"
+
+      - step: 3
+        description: "求导并分析"
+        expression: >
+          dV_eff/dr = k(D-2)/r^{D-1} − L²/(mr³) = 0
+          ⇒ r*^{D-3} = k(D-2)m/L²
+        justification: "极值条件。对于 D>3，引力项 ~ 1/r^{D-1} 在小 r 时比离心项 ~ 1/r³ 弱或相当。当 D>3 时，离心势在小 r 时不能支配引力势。"
+
+      - step: 4
+        description: "二阶导数检验"
+        expression: >
+          d²V_eff/dr²|_r* = −k(D-2)(D-1)/r*^D + 3L²/(mr*⁴)
+          代入 r*: d²V_eff/dr² = L²(3-D)/(mr*⁴)
+        justification: "D=3 时 d²V_eff/dr² = 0（中性稳定，需高阶分析）。D>3 时 d²V_eff/dr² < 0（极大值 → 不稳定）。D<3 时 d²V_eff/dr² > 0（极小值 → 稳定轨道——但 D=2 不现实，见结论）。"
+
+      - step: 5
+        description: "D=3 的唯一性"
+        expression: "仅 D=3 时 r* = k m / L² 且存在稳定的束缚轨道（椭圆轨道）"
+        justification: "更精确的分析（Bertrand 定理）：仅 D=3 且势为 ∝ 1/r 时，所有束缚轨道都是闭合的（闭合轨道 ≡ 椭圆）。D>3 时无稳定束缚轨道 → 无原子、无行星系统。"
+
+    result: "仅 D=3 时存在稳定的 Kepler 椭圆轨道。D>3 时无稳定轨道 → 无行星系统、无原子。"
+
+    necessity_conditions:
+      - "D=3 空间维数 [N]: V_eff = −k/r^{D-2} + L²/(2mr²)，D>3 时离心势不能支配引力势，无法形成稳定极小"
+      - "保守力 [N]: 有效势能方法 (V_eff) 要求力是保守的 (F = −∇V)"
+      - "经典极限: 轨道稳定性分析在经典力学框架内"
+
+    sufficiency_conditions:
+      - "[S] D=3 + 保守引力势 ⇒ V_eff 存在稳定极小值 ⇒ 稳定椭圆轨道存在"
+
+    reversible: false
+    validity_scope:
+      - classical_limit
+      - conservative_force
+    mathematical_link: "V_eff = −k/r^{D-2} + L²/(2mr²) ⇒ stable minimum only for D=3"
+
+  - id: deriv.huygens_principle
+    conclusion: contingent.huygens_principle
+    conclusion_statement: "D=3 (odd) ⇒ sharp wavefront — Huygens principle holds; even D ⇒ signal tail"
+    premise:
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "D", type: "ℕ⁺", dim: "[1]", domain: "D ≥ 1", meaning: "空间维数" }
+      - { symbol: "φ(r,t)", type: "ℝ^{D+1} → ℝ", dim: "依赖场", domain: "", meaning: "满足波动方程的标量场" }
+      - { symbol: "G(r,t)", type: "分布 (广义函数)", dim: "依赖 D", domain: "", meaning: "波动方程的推迟 Green 函数" }
+      - { symbol: "c", type: "常数", dim: "[L·T⁻¹]", domain: "c > 0", meaning: "波速" }
+      - { symbol: "□", type: "算符", dim: "[L⁻²]", domain: "", meaning: "d'Alembert 算符 □ = ∇² − (1/c²)∂²/∂t²" }
+
+    steps:
+      - step: 1
+        description: "D 维空间中的波动方程"
+        expression: "□ φ ≡ [∇² − (1/c²)∂²/∂t²] φ = −4π δ(r) δ(t)"
+        justification: "点源在原点、t=0 时发射脉冲。右边为点源项。"
+        condition: "[N] 波在自由空间中传播（无介质色散）"
+
+      - step: 2
+        description: "Green 函数在 D 维中的形式"
+        expression: >
+          D=1: G ∝ θ(ct − |r|)（阶跃函数 —— 信号到达后永久不消）
+          D=2: G ∝ θ(ct − r)/√(c²t² − r²)（拖尾 —— 信号到达后有无限长余波）
+          D=3: G ∝ δ(ct − r)/r（δ 函数 —— 尖锐波前，无拖尾）
+        justification: "波动方程 Green 函数的 Hadamard 构造。奇偶维数有本质区别：奇数维有尖锐 δ-函数波前（Huygens 原理成立），偶数维有余尾（afterglow / tail）。"
+
+      - step: 3
+        description: "D=3（奇数）⇒ 尖锐波前"
+        expression: "G(r,t) ∝ δ(t − r/c)/r ⇒ 信号仅在波前 (r=ct) 处非零"
+        justification: "δ-函数保证了波前的尖锐性。听者听到的是清晰的单次信号，而非模糊的混响。这是 Huygens 原理的数学表达：次波仅在波前包络上干涉相长。"
+        condition: "[N] D 为奇数（≥3）——D=1 虽为奇数但其 Green 函数为阶跃而非 δ"
+
+      - step: 4
+        description: "偶数维 ⇒ 信号拖尾"
+        expression: "D=2,4,6,... ⇒ Green 函数有 √(c²t²−r²) 或类似的分母项 ⇒ 波前过后信号持续"
+        justification: "Hadamard (1923) 的经典结果。D 为偶数时，Green 函数在主波前 r=ct 之后仍有非零支撑。这被称为 'diffusion within the light cone'。"
+
+    result: "D=3（奇数维）⇒ Green 函数有尖锐 δ-函数波前 ⇒ Huygens 原理成立（清晰信号传播）。偶数空间维 ⇒ 信号拖尾/混响。"
+
+    necessity_conditions:
+      - "D=3 空间维数（奇数）[N]: 波动方程的 Green 函数仅在奇数 D 时有尖锐的 δ-函数波前"
+      - "自由空间传播: 若存在介质色散，信号仍会拖尾"
+      - "波方程的线性性: Green 函数方法要求线性叠加原理成立"
+
+    sufficiency_conditions:
+      - "[S] D=3 奇数 + 自由空间波动方程 ⇒ Green 函数 G(r,t) ∝ δ(t − r/c)（尖锐波前，无拖尾）"
+
+    reversible: false
+    validity_scope:
+      - vacuum
+    mathematical_link: "D=3 (odd) ⇒ Green function has sharp delta-function wavefront ⇒ Huygens principle holds"
+
+  - id: deriv.gw_polarizations
+    conclusion: contingent.gw_polarizations
+    conclusion_statement: "D=4 spacetime ⇒ 2 independent GW polarizations (h_+, h_×)"
+    premise:
+      - kernel.spacetime_dimensionality
+      - kernel.general_covariance
+
+    variables:
+      - { symbol: "D_total", type: "ℕ⁺", dim: "[1]", domain: "D_total ≥ 3", meaning: "时空总维数" }
+      - { symbol: "h_{μν}", type: "ℝ^{D×D} 对称", dim: "[1]", domain: "|h_{μν}| ≪ 1", meaning: "度规的线性扰动: g_{μν} = η_{μν} + h_{μν}" }
+      - { symbol: "h_+", type: "ℝ", dim: "[1]", domain: "", meaning: "引力波 + 极化模式" }
+      - { symbol: "h_×", type: "ℝ", dim: "[1]", domain: "", meaning: "引力波 × 极化模式" }
+
+    steps:
+      - step: 1
+        description: "线性化 GR 中 h_{μν} 的自由度初算"
+        expression: "对称 h_{μν} 的独立分量数 = D(D+1)/2"
+        justification: "h_{μν} 为 D_total × D_total 对称张量。对于 D_total=4: 10 个分量。"
+
+      - step: 2
+        description: "规范自由度（广义协变性）的扣除"
+        expression: "坐标变换 x^μ → x^μ + ξ^μ 允许 D 个规范条件 ⇒ 减 D 个自由度"
+        justification: "线性化的微分同胚不变性: h_{μν} → h_{μν} − ∂_μ ξ_ν − ∂_ν ξ_μ。选择 Lorentz 规范 ∂^μ h̄_{μν} = 0 消耗 D 个条件。"
+        condition: "[N] 广义协变性 (kernel.general_covariance)"
+
+      - step: 3
+        description: "进一步的约束"
+        expression: "残留规范自由度 + 迹条件再减 D 个"
+        justification: "在 Lorentz 规范内仍有余留的规范变换（满足 □ξ_μ = 0 的 ξ_μ 保留 Lorentz 规范）。TT 规范（横向无迹）进一步施加 D 个条件。也可直接从群论论证。"
+
+      - step: 4
+        description: "D_{total} 维时空中引力波的独立极化数"
+        expression: "N_polarizations = D(D−3)/2"
+        justification: "详细计数: 对称张量 D(D+1)/2 − 2D（规范 + 约束）= D(D−3)/2。此公式见于 Misner, Thorne & Wheeler §35.4。"
+        condition: "[N] m=0 引力子（无质量 ⇒ 仅两个螺旋度态）"
+
+      - step: 5
+        description: "D=4 时的特殊情况"
+        expression: "D_total=4 ⇒ N_polarizations = 4·1/2 = 2"
+        justification: "代入 D=4。两个独立极化: h_+（plus）和 h_×（cross）。这对应于无质量自旋-2 粒子的两个螺旋度态 (±2)。"
+
+    result: "D=4 时空 ⇒ 2 个独立引力波极化模式 (h_+, h_×)，对应自旋-2 引力子的两个螺旋度态"
+
+    necessity_conditions:
+      - "D=4 时空维数 [N]: TT 规范下独立极化分量为 D(D-3)/2，仅 D=4 时得 2"
+      - "广义协变性 (kernel.general_covariance): 规范自由度将 10 个 h_{μν} 分量缩减至 6 个物理分量"
+      - "线性化 GR 有效: 弱场近似 h_{μν} ≪ 1 是 TT 规范的前提"
+
+    sufficiency_conditions:
+      - "[S] D=4 + 线性化 GR + TT 规范 ⇒ h_+, h_× 两个独立极化"
+
+    reversible: false
+    validity_scope:
+      - relativistic_regime
+    mathematical_link: "D=4 ⇒ D(D−3)/2 = 2 ⇒ helicity ±2 GW polarizations"
+
+  # ═══════════════════════════════════════════════════════════════
+  # G10: Nernst Unattainability (Third Law Strong Form)
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: deriv.nernst_unattainability
+    conclusion: cor.nernst_unattainability
+    conclusion_statement: >
+      T=0 is unattainable in any finite sequence of thermodynamic operations.
+      This is the strong form of Nernst's heat theorem.
+    premise:
+      - law.third_law_thermo
+      - kernel.boltzmann_entropy
+      - kernel.equal_prior_probability
+
+    variables:
+      - { symbol: "T", type: "ℝ₊", dim: "[Θ]", domain: "T ≥ 0", meaning: "热力学温度" }
+      - { symbol: "S", type: "ℝ₊", dim: "[M·L²·T⁻²·Θ⁻¹]", domain: "S ≥ 0", meaning: "熵; 状态函数" }
+      - { symbol: "C(T)", type: "ℝ → ℝ₊", dim: "[M·L²·T⁻²·Θ⁻¹]", domain: "C(T) ≥ 0", meaning: "热容; 在 T→0 时 C(T)→0" }
+      - { symbol: "ΔS_step", type: "ℝ", dim: "[M·L²·T⁻²·Θ⁻¹]", domain: "", meaning: "每一步有限操作中的熵变化" }
+      - { symbol: "N", type: "ℕ", dim: "[1]", domain: "N ∈ ℕ", meaning: "逼近 T=0 所需的有限步骤数" }
+
+    steps:
+      - step: 1
+        description: "第三定律弱形式 (前提)"
+        expression: "S → 0 as T → 0（非简并基态, 完美晶体）"
+        justification: >
+          law.third_law_thermo: 在 T→0 时, 系统占据其量子基态。
+          若基态非简并 g₀=1: S → k_B ln(1) = 0。
+          若基态简并 g₀>1: S → k_B ln(g₀) > 0 (残余熵)。
+          此处先假设非简并基态; 简并情况在 Step 7 讨论。
+        condition: "[N] 离散量子能谱 (来自 law.schroedinger_equation + R4)"
+
+      - step: 2
+        description: "冷却过程中的熵变"
+        expression: "dS = δQ_rev / T = C(T) dT / T"
+        justification: >
+          对可逆过程, 熵变 = 可逆热 / 温度。C(T) ≡ δQ_rev/dT 为热容。
+          任何冷却过程 (即使不可逆) 的净熵变 ≤ 可逆熵变: ΔS ≥ ∫ C(T)/T dT。
+        condition: "[N] 热容 C(T) 有定义 (T 是良好定义的状态变量)"
+
+      - step: 3
+        description: "低温热容行为 (量子效应)"
+        expression: "C(T) → 0 as T → 0（C(T) ∝ T³ 声子, C(T) ∝ T 电子）"
+        justification: >
+          量子力学要求低温热容趋于零 (经典 Dulong-Petit C=3R 在 T→0 时失效)。
+          Debye 模型: 声子热容 C_ph ∝ T³。
+          自由电子气: C_el = γT (γ 为 Sommerfeld 常数)。
+          这是第三定律的微观基础 — 若无量子力学, 经典热容非零 ⇒ S_diverges。
+        condition: "[N] 低温下声子和电子遵从量子统计 (M1: spin-statistics → Fermi-Dirac for electrons, Bose-Einstein for phonons)"
+
+      - step: 4
+        description: "从 T_i 冷却到 T_f 的总熵变"
+        expression: "ΔS(T_i → T_f) = ∫_{T_i}^{T_f} C(T)/T dT"
+        justification: >
+          积分 Step 2 中的微分关系。由于 C(T)→0 as T→0, 被积函数 C(T)/T
+          在 T→0 时趋向有限值 (C∝T ⇒ C/T ∝ T⁰)。积分收敛:
+          ΔS(0→T) = O(T³) (声子) + O(T) (电子) → 有限值。
+          这意味着从 T>0 到 T=0 的总熵变是有限的。
+
+      - step: 5
+        description: "每一步有限操作仅能移除有限熵"
+        expression: "|ΔS_step| ≤ ΔS_max(T) < ∞"
+        justification: >
+          在任意有限的热力学操作 (等温压缩、绝热膨胀/退磁等) 中,
+          系统可实现的熵变受限于热容和温变幅度。
+          在温度 T 时, 等温操作的最大熵变: |ΔS_iso| ≤ C(T)。
+          随着 T→0, C(T)→0, 每一步等温操作能移除的熵趋于零。
+          这意味着越接近 T=0, 每一步越"无能"。
+
+      - step: 6
+        description: "步数发散 → T=0 不可达"
+        expression: "N · |ΔS_step(T)| ≥ ΔS(T→0) ⇒ N → ∞ as T→0"
+        justification: >
+          要从初始温度 T_i 冷却到目标温度 T_f, 需要的总熵移除量 = S(T_i) − S(T_f)。
+          由于每步只能移除有限熵且 |ΔS_step| → 0 当 T→0,
+          所需步数 N ∝ [S(T_i) − S(T_f)] / |ΔS_step(T_f)| → ∞ 当 T_f → 0。
+          因此 T=0 在有限步内不可达。等价地: 任何从 T>0 开始的有限步操作
+          序列只能到达某个有限的 T_min > 0。
+
+      - step: 7
+        description: "基态简并度的影响 (Cross-ref M1)"
+        expression: "若 g₀ > 1: S(T→0) = k_B ln(g₀) > 0"
+        justification: >
+          自旋-统计定理 (M1) 决定基态的简并结构:
+          - 费米子: Pauli 原理 → 每个量子态最多一个粒子 → 基态通常非简并或低简并
+          - 玻色子: 无 Pauli 约束 → 可能存在更大简并度
+          若 g₀ > 1 (如自旋冰、阻挫磁体), 残余熵 S₀ = k_B ln(g₀) > 0。
+          Nernst 不可达性在此情况下仍然成立 — 只是目标不是 S=0 而是 S₀。
+          达此残余熵仍需要无限步, 因为每步熵移除量仍随 T→0 趋于零。
+        cross_references:
+          - "M1: spin-statistics → ground state degeneracy g₀ — Pauli exclusion for fermions, Bose symmetry for bosons"
+
+    result: "T=0 在任意有限步操作中不可达 (Nernst 不可达性原理)"
+
+    necessity_conditions:
+      - "第三定律弱形式 [N]: S→0 as T→0 — 无此前提, T=0 的不可达性论证失去起点"
+      - "R6 (S = k_B ln W + 等概率) [N]: 熵的统计定义 — 连接微观与宏观"
+      - "C(T)→0 as T→0 [N]: 量子效应 (声子、电子) 导致的热容低温标度律 — 无量子力学则 C(T) 非零 → 论证失效"
+      - "有限步骤约束 [N]: 每一步仅能移除有限熵 — 若无此约束, 可以构造一个连续过程直接到 T=0"
+      - "M1 (自旋-统计) [N]: 决定基态简并度 g₀ → 决定残余熵 S(T→0) 的实际值"
+
+    sufficiency_conditions:
+      - "[S] 第三定律弱形式 + C(T)→0 as T→0 + 有限步骤约束 ⇒ T=0 不可达"
+      - "Nernst 不可达性是第三定律的强形式 — 它提供比 S→0 as T→0 更强的物理约束"
+      - "注: 强形式在黑洞热力学中可能破缺 — 黑洞有非零 Hawking 温度且不能通过任何过程达到 T=0"
+
+    reversible: false
+    reverse_note: "T=0 不可达 ⇏ 第三定律弱形式 (S→0 as T→0) — 可能存在 S→0 但 T=0 可达的世界 (尽管未发现)"
+
+    validity_scope:
+      - zero_temperature_limit
+      - macroscopic_limit
+    mathematical_link: "S→0 as T→0 + ΔS = ∫C(T)/T dT finite + each step removes finite ΔS ⇒ infinite steps needed to reach T=0"
+
+  # ═══════════════════════════════════════════════════════════════
+  # G11: Standard Model Effective Field Theory
+  # ═══════════════════════════════════════════════════════════════
+
+  - id: deriv.asymptotic_freedom
+    conclusion: cor.asymptotic_freedom
+    conclusion_statement: >
+      In QCD (SU(3)_C non-Abelian gauge theory), the coupling constant
+      α_s(μ) decreases logarithmically as energy scale μ increases —
+      asymptotic freedom. The β-function is negative for N_c=3, n_f≤16.
+    premise:
+      - contingent.sm_gauge_group
+      - kernel.gauge_interactions
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "g", type: "ℝ⁺", dim: "[1]", domain: "g = g(μ)", meaning: "SU(3)_C 跑动规范耦合常数" }
+      - { symbol: "α_s(μ)", type: "ℝ⁺", dim: "[1]", domain: "α_s ≡ g²/(4π)", meaning: "QCD 精细结构常数 (标度依赖)" }
+      - { symbol: "μ", type: "ℝ⁺", dim: "[M]", domain: "μ > 0", meaning: "重整化标度 (能量尺度)" }
+      - { symbol: "β(g)", type: "ℝ → ℝ", dim: "[1]", domain: "", meaning: "β-函数: β(g) = ∂g/∂ln μ" }
+      - { symbol: "β₀", type: "ℝ", dim: "[1]", domain: "β₀ = 11N_c/3 − 2n_f/3", meaning: "单圈 β-函数系数" }
+      - { symbol: "N_c", type: "ℕ⁺", dim: "[1]", domain: "N_c = 3 (QCD)", meaning: "颜色的数量" }
+      - { symbol: "n_f", type: "ℕ", dim: "[1]", domain: "n_f = 6 (SM 夸克味数)", meaning: "在标度 μ 处活跃的夸克味数" }
+      - { symbol: "Λ_QCD", type: "常数", dim: "[M]", domain: "Λ_QCD ≈ 200 MeV", meaning: "QCD 标度 (α_s 发散的标度)" }
+      - { symbol: "f^{abc}", type: "ℝ^{8×8×8}", dim: "[1]", domain: "全反对称", meaning: "SU(3) 结构常数; 胶子自相互作用顶点" }
+
+    steps:
+      - step: 1
+        description: "QCD = SU(3)_C Yang-Mills 理论 (来自 SM 规范群)"
+        expression: "L_QCD = −¼ G^a_{μν} G^{aμν} + Σ_f ψ̄_f (iγ^μ D_μ − m_f) ψ_f"
+        justification: >
+          contingent.sm_gauge_group 的 QCD 部分: SU(3)_C。
+          这是非 Abel 规范理论 (Yang-Mills)。G^a_{μν} = ∂_μ A^a_ν − ∂_ν A^a_μ + g f^{abc} A^b_μ A^c_ν。
+          与 Abelian QED (U(1)) 的关键区别: 胶子场强 G^a_{μν} 包含 g f^{abc} 项 — 胶子自耦合。
+        condition: "[N] R3: 规范不变性定义 A^a_μ 的存在性和协变导数 D_μ = ∂_μ − ig T^a A^a_μ"
+
+      - step: 2
+        description: "重整化群方程 (Callan-Symanzik)"
+        expression: "[μ ∂/∂μ + β(g) ∂/∂g] G^{(n)}(p_i; g, μ) = 0"
+        justification: >
+          重整化群描述物理量如何随标度 μ 变化 (同时调整耦合 g(μ) 以保持裸理论不变)。
+          β(g) ≡ ∂g/∂ln μ 编码耦合常数对标度的依赖。
+        condition: "[N] 重整化程序合法 (可重整理论)"
+        reference: "Peskin & Schroeder §12.2-12.3"
+
+      - step: 3
+        description: "单圈 β-函数计算 (Gross-Wilczek, Politzer 1973)"
+        expression: "β(g) = −g³/(16π²) · β₀ + O(g⁵),  β₀ = 11N_c/3 − 2n_f/3"
+        justification: >
+          非 Abel 规范理论的计算涉及三部分贡献:
+          (a) 胶子自能图 (gluon loop): 贡献 +11N_c/3 (反屏蔽)
+          (b) 费米子圈 (quark loop): 贡献 −2n_f/3 (屏蔽, 与 QED 同)
+          (c) 鬼粒子圈 (Faddeev-Popov ghost): 已包含在 (a) 中
+          总 β₀ = 11N_c/3 − 2n_f/3。
+          Abel 理论 (QED, N_c=0 等效): β₀_QED = −2n_f/3 < 0 ⇒ 屏蔽 (耦合随能量增长)。
+        condition: "[N] 单圈微扰论有效 (g ≪ 1, α_s ≪ 1 — 高能标度)"
+        reference: "Gross & Wilczek, PRL 30, 1343 (1973); Politzer, PRL 30, 1346 (1973)"
+
+      - step: 4
+        description: "QCD 的 β₀ 符号"
+        expression: "QCD: N_c=3, n_f=6 ⇒ β₀ = 11·3/3 − 2·6/3 = 11 − 4 = 7 > 0"
+        justification: >
+          β₀ > 0 ⇒ β(g) < 0 (对 g > 0) ⇒ 耦合常数 g 随 μ 增大而减小。
+          若 n_f 过大 (≥ 17 对 N_c=3), β₀ < 0 → 渐近自由丧失 → 理论在高能处成为强耦合 (像 QED)。
+          SM 的 n_f=6 保证了 QCD 的渐近自由。
+        condition: "[N] N_c=3 和 n_f=6 均为 contingent 事实 — 若不同, 结论改变"
+
+      - step: 5
+        description: "求解 RG 方程 → 对数跑动"
+        expression: "α_s(μ) = g²/(4π) = 2π/(β₀ ln(μ/Λ_QCD))"
+        justification: >
+          单圈 RG 方程: dα_s/d ln μ = −β₀ α_s²/(2π)。积分得:
+          1/α_s(μ) − 1/α_s(μ₀) = (β₀/(2π)) ln(μ/μ₀)。
+          定义 Λ_QCD = μ₀ exp(−2π/(β₀ α_s(μ₀))) → α_s(μ) = 2π/[β₀ ln(μ/Λ_QCD)]。
+          α_s 随 μ 对数减小 — "渐近自由"。
+        condition: "[N] μ ≫ Λ_QCD (微扰域)"
+
+      - step: 6
+        description: "渐近自由的物理后果"
+        expression: "α_s → 0 as μ → ∞ (短距离, 高能); α_s → ∞ as μ → Λ_QCD (长距离, 低能 → 禁闭)"
+        justification: >
+          在高能 (短距离) 极限: 夸克和胶子几乎自由 (渐近自由) → 深非弹散射的 Bjorken 标度律。
+          在低能 (长距离) 极限: α_s ≳ 1 → 微扰论失效 → 夸克禁闭在强子内, 形成色单态。
+          Λ_QCD ≈ 200 MeV 是 QCD 的自然标度 — 分隔微扰和非微扰域。
+        cross_references:
+          - "M2: Lovelock uniqueness — same 'symmetry + dimension → unique theory' methodology"
+
+    result: "α_s(μ) ∝ 1/ln(μ/Λ_QCD) → 0 as μ→∞ (渐近自由)"
+
+    necessity_conditions:
+      - "SU(3)_C 非 Abel 规范群 [N]: 胶子自相互作用 (f^{abc} 项) 是反屏蔽的必要条件"
+      - "R3 (规范不变性) [N]: 定义耦合和 RG 流的基础框架"
+      - "重整化群 [N]: 定义标度依赖的耦合常数 — 无 RG 则 α_s 为常数"
+      - "n_f ≤ 16 [N]: 若费米子代数过多, β₀ 变号 → 渐近自由丧失"
+
+    sufficiency_conditions:
+      - "[S] SU(3)_C 规范理论 + n_f ≤ 16 → β₀ > 0 → 渐近自由"
+      - "这是 SM 的独特性质 — QED 无此性质 (Abel → 仅有屏蔽)"
+
+    reversible: false
+    validity_scope:
+      - quantum_regime
+      - relativistic_regime
+    mathematical_link: "β(g)=−β₀g³/(16π²), β₀=11N_c/3−2n_f/3>0 for QCD → α_s(μ)∝1/ln(μ/Λ_QCD)"
+
+  - id: deriv.higgs_mechanism
+    conclusion: cor.higgs_mechanism
+    conclusion_statement: >
+      Spontaneous breaking SU(2)_L × U(1)_Y → U(1)_EM via Higgs doublet φ.
+      W^± mass = g₂v/2, Z mass = √(g₁²+g₂²)v/2, photon massless.
+    premise:
+      - contingent.sm_gauge_group
+      - contingent.sm_higgs_sector
+      - kernel.gauge_interactions
+
+    variables:
+      - { symbol: "φ", type: "ℂ²", dim: "[M]", domain: "φ = (φ^+, φ⁰)^T (Y=1 SU(2)_L doublet)", meaning: "Higgs 二重态" }
+      - { symbol: "v", type: "常数", dim: "[M]", domain: "v ≈ 246 GeV", meaning: "Higgs 真空期望值: v = √(−μ²/λ)" }
+      - { symbol: "g₂", type: "常数", dim: "[1]", domain: "g₂ > 0", meaning: "SU(2)_L 规范耦合常数" }
+      - { symbol: "g₁", type: "常数", dim: "[1]", domain: "g₁ > 0", meaning: "U(1)_Y 规范耦合常数" }
+      - { symbol: "W^±_μ", type: "vector field", dim: "[M]", domain: "", meaning: "带电弱矢量玻色子; m_W ≈ 80.4 GeV" }
+      - { symbol: "Z_μ", type: "vector field", dim: "[M]", domain: "", meaning: "中性弱矢量玻色子; m_Z ≈ 91.2 GeV" }
+      - { symbol: "A_μ", type: "vector field", dim: "[1]", domain: "", meaning: "光子场 (无质量)" }
+      - { symbol: "θ_W", type: "常数", dim: "[1]", domain: "sin²θ_W ≈ 0.231", meaning: "Weinberg 弱混合角; tan θ_W = g₁/g₂" }
+      - { symbol: "τ^a", type: "2×2 矩阵", dim: "[1]", domain: "τ^a = σ^a/2 (Pauli 矩阵的一半)", meaning: "SU(2) 生成元" }
+
+    steps:
+      - step: 1
+        description: "SM 规范群 + Higgs 二重态"
+        expression: "Gauge group: SU(2)_L × U(1)_Y. Higgs: φ = (φ^+, φ⁰)^T, Y_φ = 1"
+        justification: >
+          SM 规范群结构 (contingent.sm_gauge_group) 定义规范玻色子:
+          W^a_μ (a=1,2,3) for SU(2)_L, B_μ for U(1)_Y.
+          Higgs 二重态 (contingent.sm_higgs_sector) 是能与规范玻色子
+          耦合的最简标量表示。这是 SM 的 contingent 选择 — 其他表示
+          (如 Higgs 三重态, Georgi-Glashow SU(5)) 也会改变物理预测。
+        condition: "[N] R3: 规范不变性定义 W^a_μ 和 B_μ 的存在性"
+
+      - step: 2
+        description: "Higgs 势与自发对称破缺"
+        expression: "V(φ) = μ²|φ|² + λ|φ|⁴, 其中 λ > 0"
+        justification: >
+          最一般的可重整规范不变 Higgs 势 (至多四次项)。
+          若 μ² > 0: 极小值在 |φ|=0 (未破缺)。
+          若 μ² < 0: 极小值在 |φ|² = −μ²/(2λ) ≡ v²/2 > 0 — 连续退化真空流形。
+          选择特定真空方向 (规范固定) → 自发对称破缺。
+          SM 取 μ² < 0 是 contingent 事实 — 给出 v ≈ 246 GeV。
+        condition: "[N] μ² < 0 — 否则无自发对称破缺, W/Z 无质量"
+
+      - step: 3
+        description: "真空期望值与激发"
+        expression: "在幺正规范 (unitary gauge): φ(x) = (0, (v+h(x))/√2)^T, ⟨0|φ|0⟩ = (0, v/√2)^T"
+        justification: >
+          使用 SU(2)_L 规范自由度 (3 个参数) 将 φ 旋转为标准形式: φ^+=0, Im(φ⁰)=0。
+          这对应"吃掉"了三个 Nambu-Goldstone 玻色子。
+          残留在物理谱中的是实标量场 h(x) — Higgs 玻色子。
+          h 的质量: m_h² = 2λv² = −2μ² (实验值 ≈ 125 GeV)。
+        condition: "[N] SU(2)_L 的 3 个规范参数恰好匹配 3 个 Goldstone 方向"
+
+      - step: 4
+        description: "协变导数作用于 Higgs 真空"
+        expression: >
+          D_μφ = [∂_μ − i g₂ τ^a W^a_μ − i g₁ (Y/2) B_μ] φ
+          代入 φ = (0, v/√2)^T (忽略 h 项, 聚焦质量生成)
+        justification: >
+          协变导数编码规范玻色子与 Higgs 的耦合。
+          Y=1 是 Higgs 二重态的超荷赋值 (contingent 事实)。
+          τ^a = σ^a/2 是 SU(2) 在基础表示中的生成元。
+
+      - step: 5
+        description: "动能项产生规范玻色子质量"
+        expression: >
+          |D_μφ|²|_φ=(0,v/√2) = (g₂²v²/8)[(W¹_μ)² + (W²_μ)²]
+          + (v²/8)(g₂ W³_μ − g₁ B_μ)²
+        justification: >
+          代入 τ^a 和 φ 的值:
+          τ^1 φ = (φ⁰, φ^+)ᵀ/2 → (v/(2√2), 0)ᵀ; τ^2 φ = (−iφ⁰, iφ^+)ᵀ/2 → (−iv/(2√2), 0)ᵀ;
+          τ^3 φ = (φ^+, −φ⁰)ᵀ/2 → (0, −v/(2√2))ᵀ。
+          平方后得到规范玻色子的质量项。
+
+      - step: 6
+        description: "物理质量本征态"
+        expression: >
+          W^±_μ = (W¹_μ ∓ iW²_μ)/√2,  M_W = g₂v/2
+          Z_μ = cos θ_W W³_μ − sin θ_W B_μ,  M_Z = √(g₁²+g₂²)v/2 = M_W/cos θ_W
+          A_μ = sin θ_W W³_μ + cos θ_W B_μ,  M_A = 0
+        justification: >
+          W^± 组合对角化带电部分的质量矩阵。
+          中性部分 (W³_μ, B_μ) 的质量矩阵: M²_neutral ∝ [[g₂², −g₁g₂], [−g₁g₂, g₁²]]。
+          本征值: 0 (光子) 和 g₁²+g₂² (Z 玻色子)。
+          Weinberg 角: tan θ_W = g₁/g₂ → 旋转到物理基。
+          sin²θ_W ≈ 0.231 (实验值)。
+        condition: "[N] 质量矩阵的秩为 1 ⇒ 恰好 1 个零本征值 → 光子无质量"
+
+      - step: 7
+        description: "Fermi 常数关系"
+        expression: "G_F/√2 = g₂²/(8M_W²) = 1/(2v²)"
+        justification: >
+          低能有效理论 (μ ≪ M_W) 中, W 玻色子被积掉 (integrated out),
+          留下四费米子相互作用: L_eff = −(G_F/√2) J^μ_CC J_{CC,μ}^†。
+          由 M_W 和 g₂ 的关系: G_F/√2 = g₂²/(8M_W²) = 1/(2v²)。
+          G_F = 1.1663788×10⁻⁵ GeV⁻² → v = (√2 G_F)^{−½} ≈ 246 GeV。
+        cross_references:
+          - "M2: Lovelock — same 'symmetry → Lagrangian → observables' methodology"
+          - "M1: fermion masses via Yukawa couplings — quarks & leptons are fermions → Pauli exclusion"
+
+    result: "SU(2)_L×U(1)_Y → U(1)_EM: M_W = g₂v/2, M_Z = M_W/cos θ_W, M_A = 0"
+
+    necessity_conditions:
+      - "SU(2)_L × U(1)_Y 规范群 [N]: 规范玻色子谱与耦合结构不由更基础原理推出 (contingent)"
+      - "Higgs 二重态 + μ² < 0 [N]: 无自发对称破缺 → 无质量生成 → SM 与实验矛盾"
+      - "R3 (规范不变性) [N]: 协变导数和规范-Higgs 耦合的基础"
+      - "Higgs 表示选择 [N]: 二重态 (而非其他表示) 是 SM 的 contingent 事实 — 不同的表示产生不同的质量关系 ρ = M_W²/(M_Z² cos²θ_W)"
+
+    sufficiency_conditions:
+      - "[S] SM 规范群 + Higgs 二重态 + μ²<0 ⇒ W/Z 质量 + 光子无质量 + ρ=1 (树图级)"
+
+    reversible: false
+    validity_scope:
+      - quantum_regime
+      - relativistic_regime
+    mathematical_link: "SU(2)_L×U(1)_Y → SSB → U(1)_EM, M_W=g₂v/2, M_Z=√(g₁²+g₂²)v/2, M_A=0"
+
+  - id: deriv.ckm_necessity
+    conclusion: cor.ckm_matrix
+    conclusion_statement: >
+      3-generation SM quark sector: independent Yukawa matrices Y^u, Y^d
+      → mass diagonalization → misalignment V_CKM = U^u_L U^{d†}_L ≠ I.
+      For n_g=3, V_CKM has 1 irreducible CP-violating phase.
+    premise:
+      - contingent.sm_gauge_group
+      - contingent.sm_fermion_content
+      - contingent.sm_higgs_sector
+      - kernel.gauge_interactions
+      - kernel.spacetime_dimensionality
+
+    variables:
+      - { symbol: "Y^u, Y^d", type: "3×3 complex matrices", dim: "[1]", domain: "任意复矩阵", meaning: "Yukawa 耦合矩阵 (up-type, down-type)" }
+      - { symbol: "M^u, M^d", type: "3×3 complex matrices", dim: "[M]", domain: "M^{u,d} = Y^{u,d} v/√2", meaning: "夸克质量矩阵 (SSB 后)" }
+      - { symbol: "V_CKM", type: "3×3 unitary matrix", dim: "[1]", domain: "V^† V = I", meaning: "Cabibbo-Kobayashi-Maskawa 混合矩阵" }
+      - { symbol: "U^{u,d}_L", type: "3×3 unitary matrices", dim: "[1]", domain: "", meaning: "左旋夸克场基变换矩阵 (到质量本征态)" }
+      - { symbol: "n_g", type: "ℕ", dim: "[1]", domain: "n_g = 3 (SM)", meaning: "夸克代数" }
+      - { symbol: "W^±_μ", type: "vector field", dim: "[M]", domain: "", meaning: "带电弱玻色子 (来自 cor.higgs_mechanism)" }
+
+    steps:
+      - step: 1
+        description: "三代夸克的 Yukawa 耦合 (SSB 前)"
+        expression: >
+          L_Yuk = −Y^u_{ij} Q̄^i_L · φ̃ · u^j_R − Y^d_{ij} Q̄^i_L · φ · d^j_R + h.c.
+          其中 i,j = 1,2,3 为代指标, Q_L = (u_L, d_L)^T 为 SU(2)_L 二重态
+        justification: >
+          SM 费米子内容 (contingent.sm_fermion_content) + 规范对称性 (contingent.sm_gauge_group)
+          + Higgs 二重态 (contingent.sm_higgs_sector) 共同确定最一般的 Yukawa 耦合形式。
+          Y^u 和 Y^d 是独立的任意 3×3 复矩阵 — 没有理论原理要求它们对易或共享对角化基。
+          φ̃ = iσ² φ* 是 φ 的共轭二重态 (Y = −1), 用于给 up-type 夸克质量。
+        condition: "[N] 3 代夸克 (contingent 事实); SU(2)_L 手征结构 (contingent)"
+
+      - step: 2
+        description: "自发对称破缺 → 质量矩阵"
+        expression: "φ → (0, v/√2)^T ⇒ M^u_{ij} = Y^u_{ij} v/√2,  M^d_{ij} = Y^d_{ij} v/√2"
+        justification: >
+          Higgs 取得真空期望值后 (cor.higgs_mechanism), Yukawa 项变为夸克质量项。
+          M^u 和 M^d 是任意 3×3 复矩阵 (由 Y^u, Y^d 的任意性决定)。
+          这些矩阵不是厄米的, 需要通过双幺正变换对角化。
+
+      - step: 3
+        description: "对角化质量矩阵"
+        expression: >
+          U^u_L M^u U^{u†}_R = diag(m_u, m_c, m_t)
+          U^d_L M^d U^{d†}_R = diag(m_d, m_s, m_b)
+          其中 U^u_L, U^u_R, U^d_L, U^d_R 均为 3×3 幺正矩阵
+        justification: >
+          任意复矩阵 M 可以通过双幺正变换对角化 (奇异值分解):
+          U_L M U_R^† = diag(m_1, m_2, m_3)。
+          对角元 m_i > 0 是夸克质量 (实验测定, 非理论推导)。
+          U_L 和 U_R 分别是左旋和右旋夸克场的基变换矩阵。
+
+      - step: 4
+        description: "带电弱流在质量本征态中的形式"
+        expression: >
+          弱相互作用本征态: (u'_L, d'_L) 各为代空间的 3-矢量
+          通过 U^u_L, U^d_L 变换到质量本征态:
+          d'_L = U^{d†}_L d_L (质量本征态) 等
+        justification: >
+          质量对角化改变了夸克场的基。但 W^± 玻色子与原始的弱本征态耦合:
+          J^{μ+}_CC = ū'_L γ^μ d'_L = ū_L γ^μ (U^u_L U^{d†}_L) d_L。
+          这自然地引入了 CKM 矩阵: V_CKM ≡ U^u_L U^{d†}_L。
+
+      - step: 5
+        description: "CKM 矩阵的定义与性质"
+        expression: "V_CKM = U^u_L U^{d†}_L,  V^†_CKM V_CKM = I (幺正性)"
+        justification: >
+          两个幺正矩阵的乘积仍是幺正的 → V_CKM 是 3×3 幺正矩阵。
+          幺正矩阵有 n_g² 个实参数。减去夸克场的相位重定义自由度
+          (2n_g−1 个可移除相位) → 物理参数数 = (n_g−1)²。
+          对 n_g=3: 4 个物理参数 = 3 个混合角 + 1 个 CP 破坏复相位。
+
+      - step: 6
+        description: "为什么 V_CKM ≠ I (必然有混合)"
+        expression: "Y^u 和 Y^d 一般不对易 ⇒ U^u_L ≠ U^d_L ⇒ V_CKM ≠ I"
+        justification: >
+          若 Y^u 和 Y^d 可用同一组幺正矩阵对角化 (即 [Y^u, Y^d] = 0),
+          则 U^u_L = U^d_L ⇒ V_CKM = I → 无代间混合 → 无 s→u, b→c 等味改变过程。
+          实验观测到大量味改变弱衰变 (如 K→π, B→D) ⇒ V_CKM ≠ I ⇒ Y^u 和 Y^d 不对易。
+          这是 SM 的 contingent 事实 — 为什么 Y^u 和 Y^d 不对易? 目前无更深层解释。
+        condition: "[N] Y^u 和 Y^d 是独立的任意复矩阵 — 这是 SM 的基本假设"
+
+      - step: 7
+        description: "CP 破坏的必然性 (n_g=3)"
+        expression: "对 n_g=3: V_CKM 含 1 个不可约复相位 (Kobayashi-Maskawa 1973)"
+        justification: >
+          对 n_g=2 (GIM 机制之前): CKM = 2×2 实正交矩阵 → 1 个 Cabibbo 角, 无 CP 破坏。
+          对 n_g=3: 幺正矩阵有 1 个复相位不能被夸克场重定义消除 → CP 破坏 (K→ππ, B→J/ψ K_S 等)。
+          Kobayashi & Maskawa 在 1973 年 (实验发现 CP 破坏 (Cronin-Fitch 1964) 9 年后,
+          第三代夸克被发现 (bottom 1977, top 1995) 之前) 预言了第三代的存在性 —
+          这是"理论必要性 → 实验预言 → 实验证实"的标准模型最辉煌的成功之一。
+        cross_references:
+          - "M1: quarks are fermions (spin-½) → Pauli exclusion → atomic structure → chemistry"
+          - "cor.higgs_mechanism: Yukawa → mass → CKM — CKM 推导依赖 Higgs 机制"
+
+    result: "V_CKM = U^u_L U^{d†}_L ≠ I: 4 physical parameters (3 angles + 1 CP phase) for n_g=3"
+
+    necessity_conditions:
+      - "3 代费米子 [N]: n_g=2 时只有 1 个 Cabibbo 角, 无 CP 破坏; n_g=3 时恰有 1 个复相位 — Kobayashi-Maskawa 预言"
+      - "Y^u, Y^d 独立且不对易 [N]: 若 Y^u ∝ Y^d 或 [Y^u, Y^d]=0 → V_CKM = I — 无味混合"
+      - "Higgs 机制 (cor.higgs_mechanism) [N]: 无 SSB → 无质量矩阵 → 无对角化 → 无 CKM"
+      - "SU(2)_L 手征结构 [N]: 左右手费米子的不对称 SU(2)_L 表示是 Yukawa 耦合存在的必要条件"
+
+    sufficiency_conditions:
+      - "[S] 3 代费米子 + 独立 Y^u, Y^d + Higgs 机制 ⇒ V_CKM 含 1 个 CP 破坏复相位"
+
+    reversible: false
+    validity_scope:
+      - quantum_regime
+    mathematical_link: "Y^u,Y^d independent + Higgs VEV → M^u,M^d → diagonalization → V_CKM=U^u_L U^{d†}_L≠I → flavor mixing + CP violation"

@@ -672,32 +672,46 @@ derivations:
   - kernel.least_action
   - kernel.spacetime_dimensionality
   steps:
-  - 'Einstein-Hilbert action: S = integral [R/(2*kappa) + L_matter]*sqrt(-g)*d^4x, with kappa = 8*pi*G/c^4'
-  - 'Vary with respect to g^munu: delta(S) = 0'
-  - 'Variation of Ricci scalar: delta(sqrt(-g)*R) = sqrt(-g)*(R_munu - (1/2)*R*g_munu)*delta(g^munu)'
-  - 'Define Einstein tensor: G_munu = R_munu - (1/2)*R*g_munu'
-  - 'Define stress-energy tensor: T_munu = -(2/sqrt(-g))*delta(sqrt(-g)*L_matter)/delta(g^munu)'
-  - 'Result: G_munu = kappa*T_munu = (8*pi*G/c^4)*T_munu'
-  - 'Bianchi identity ensures: nabla_mu*G^munu = 0 -> automatic energy-momentum conservation'
+  - 'Lovelock 定理 (1971): D 维时空中，由度规 g_μν 及其导数构成、产生至多二阶运动方程的最一般 Lagrange 密度是 Lovelock Lagrangian: L = Σ_{k=0}^{⌊D/2⌋} c_k L_k, 其中 L_k 为 k 阶 Euler 密度'
+  - 'Euler 密度: L₀ = 1 (宇宙常数项 Λ); L₁ = R (Ricci 标量, Einstein-Hilbert 项); L₂ = R² − 4R_{μν}R^{μν} + R_{μνρσ}R^{μνρσ} (Gauss-Bonnet 项); L_{k>2} 在 D≤4 时恒为零'
+  - 'D=4 时 ⌊D/2⌋=2, 但 L₂ (Gauss-Bonnet) 的变分在 4D 中恒为零 (拓扑不变量, Chern-Gauss-Bonnet 定理) → 不贡献运动方程'
+  - '因此在 4D 中唯一产生二阶场方程的纯度规 Lagrange 密度为: L_grav = c₀ + c₁ R = −2Λ + R/(2κ) (其中 c₀ 重定义为 Λ, c₁ 重定义为 1/(2κ))'
+  - 'R², R_{μν}R^{μν} 等项在变分后产生四阶导数项 □R 等 → 引入鬼场 (Ostrogradsky 不稳定性) → 在低能有效理论中不合法'
+  - 'Einstein-Hilbert action: S = ∫ [R/(2κ) + L_matter] √(−g) d⁴x, κ = 8πG/c⁴'
+  - 'Vary with respect to g^μν: δS = 0'
+  - 'δ(√(−g)·R) = √(−g)·[R_{μν} − ½R·g_{μν}]·δg^{μν}'
+  - 'Define Einstein tensor: G_{μν} = R_{μν} − ½R·g_{μν}'
+  - 'Define stress-energy tensor: T_{μν} = −(2/√(−g))·δ(√(−g)·L_matter)/δg^{μν}'
+  - 'Result: G_{μν} = κ·T_{μν}'
+  - 'Bianchi identity: ∇_μ G^{μν} = 0 → automatic energy-momentum conservation'
+  - 'Cross-ref M1: both Lovelock (M2) and spin-statistics (M1) depend essentially on D=4 → double corroboration of dimensionality'
+  - 'Cross-ref M3: same "uniqueness from symmetry + dimensional constraint" methodology as SM EFT derivation'
   conclusion: law.einstein_field
-  mathematical_link: delta(S_EH)/delta(g^munu) = 0 => G_munu = (8*pi*G/c^4)*T_munu
+  mathematical_link: Lovelock unique gravity Lagrangian (D=4) → δS_EH/δg^μν = 0 → G_{μν} = (8πG/c⁴)T_{μν}
   validity_scope:
   - relativistic_regime
   - macroscopic_limit
   sources:
   - Einstein (1915)
   - Hilbert (1915)
+  - Lovelock, J.Math.Phys. 12, 498 (1971)
   - Weinberg Gravitation and Cosmology §7.1
+  - Misner, Thorne & Wheeler §17.4
   necessity_conditions:
   - 'R1 (等效原理) [N]: m_i = m_g ⇒ 引力 = 时空几何 ⇒ 度规是动力学场'
-  - 'R1 (广义协变性) [N]: 物理定律在所有坐标系中形式相同 ⇒ 作用量必须是标量'
+  - 'R1 (广义协变性) [N]: 作用量必须是一般协变标量 → 约束 L 的形式'
   - 'R2 (δS=0) [N]: 给出运动方程'
-  - '4 维时空 [N]: G_{μν} 是 4 维中唯一满足 ∇_μ G^{μν}=0 的二阶张量'
+  - '4 维时空 [N]: Lovelock 定理的核心 — 仅 D=4 时唯一候选为 EH 项 (Λ + R); D>4 时有额外 Lovelock 项'
+  - '二阶场方程要求 [N]: 若无此约束, R² 等高阶导数项也是合法的引力 Lagrangian → Ostrogradsky 鬼场'
   sufficiency_conditions:
-  - '[S] R1 + R2 + 4D ⇒ Einstein 场方程（唯一可能性，Lovelock 定理）'
-  - 在 4 维时空中，Einstein-Hilbert 作用量是唯一给出二阶场方程且满足 ∇_μ G^{μν}=0 的引力理论
-  - 注：R1+R2 本身不强制选择 EH 作用量——它们只要求作用量为一般协变标量。Lovelock 定理（1971）证明在 4D 中，EH 作用是唯一产生二阶运动方程的纯度规作用量。这是数学唯一性定理，不是物理假设。
+  - '[S] R1 + R2 + 4D + 二阶方程约束 ⇒ Einstein 场方程（Lovelock 定理保证唯一性）'
+  - 注：R1+R2 本身不强制选择 EH 作用量——它们只要求作用量为一般协变标量。
+  - Lovelock 定理 (1971) 证明在 4D 中，EH 作用是唯一产生二阶运动方程的纯度规作用量。
+  - 这是数学唯一性定理，不是物理假设。它与 M1 的自旋-统计定理在 D=4 特殊性上互相印证。
   reversible: true
+  cross_references:
+  - M1: D=4 specialness — both Lovelock (gravity) and spin-statistics (quantum) depend on D=4 uniquely
+  - M3: Uniqueness from symmetry methodology — Lovelock (gravity) ⇔ gauge invariance → unique SM EFT
 - id: deriv.em_wave_equation
   premise:
   - law.gauss_electric
@@ -765,12 +779,22 @@ derivations:
   - kernel.unitary_evolution
   - kernel.spacetime_dimensionality
   steps:
-  - 'Microcausality (R1): spacelike separated field operators (anti)commute per Lorentz invariance'
-  - 'Spin-statistics theorem (Fierz 1939, Pauli 1940): half-integer spin fields must anticommute'
-  - 'Anticommutation → multi-fermion wavefunction is totally antisymmetric: ψ(r₁,s₁; r₂,s₂) = −ψ(r₂,s₂; r₁,s₁)'
-  - Antisymmetry → no two identical fermions occupy the same quantum state (Pauli exclusion)
+  - 'Lorentz group irreps (external): finite-dimensional representations labeled by (A,B); physical spin j from |A−B| to A+B'
+  - 'Hilbert space (in-project, R4a): single-particle states |p,σ⟩ as complete basis on mass shell p²=m², p⁰>0'
+  - 'Cluster decomposition (external): field operators must be built from a(p,σ) annihilation + b†(p,σ) creation operators'
+  - 'Free-field expansion (external): ψ_l(x) = ∫ d³p [κ u_l a e^{−ipx} + λ v_l b† e^{+ipx}]; anti/particle pairing forced by Lorentz + causality'
+  - 'Coefficient functions (external): u_l(p,σ), v_l(p,σ) determined by (j,0)⊕(0,j) Lorentz representation matrices'
+  - 'Operator algebra (in-project, R4a+R4b): [a,a†]_± = δ³, sign ± TBD by spin-statistics'
+  - 'Microcausality (in-project, R1): for (x−y)² < 0, [ψ_l(x), ψ_m(y)]_± = 0 — spacelike separation → no causal influence'
+  - 'Compute (anti)commutator (external): substitute field expansion → integral of u_l u*_m e^{−ip(x−y)} ∓ v_l v*_m e^{+ip(x−y)}'
+  - 'CPT connection (external): CPT theorem → v_l ∝ u*_l, so coefficient matrices match. Sign analysis: integer j → commutator; half-integer j → anticommutator'
+  - 'Fermion side (external→in-project): half-integer spin ⇒ {ψ_l, ψ_m} = 0 at spacelike separation ⇒ field anticommutation'
+  - 'Wavefunction antisymmetry (in-project): {φ†(r₁), φ†(r₂)} = 0 ⇒ multi-fermion ψ is totally antisymmetric under exchange'
+  - 'Pauli exclusion (in-project): ψ(...;r,s;...;r,s;...) = −ψ(...;r,s;...;r,s;...) = 0 ⇒ no two identical fermions share same quantum state'
+  - 'Cross-ref M3: SM fermion content (quarks, leptons) classified by spin-statistics → Pauli → atomic shell structure'
+  - 'Cross-ref cor.fermi_dirac: n_i ∈ {0,1} constraint from Pauli → Fermi-Dirac distribution'
   conclusion: law.pauli_exclusion
-  mathematical_link: Lorentz + microcausality → spin-statistics → antisymmetric ψ → Pauli exclusion
+  mathematical_link: Lorentz + microcausality + cluster decomposition + CPT → spin-statistics theorem → antisymmetric ψ → Pauli exclusion
   validity_scope:
   - quantum_regime
   - relativistic_regime
@@ -778,17 +802,29 @@ derivations:
   - Fierz (1939)
   - Pauli (1940)
   - Streater & Wightman §4.4
+  - Weinberg Vol.I §5.7
   necessity_conditions:
-  - 'R1 (Lorentz 不变性 + 微观因果性) [N]: Step 1 的核心前提'
-  - 'R4a (叠加原理) [N]: Hilbert 空间正定度量为 Wightman 公理的前提'
-  - 'R4b (幺正演化) [N]: 谱条件 (正能量) 依赖幺正表示'
-  - '3+1 维时空 [N]: 自旋-统计定理在 D≠4 时可给出不同结论 (如 anyon)'
-  - '半整数自旋 [N]: 仅对费米子成立；整数自旋 ⇒ Bose 统计'
+  - 'R1 (Lorentz 不变性 + 微观因果性) [N]: 表示论、微因果性、CPT 定理的前提'
+  - 'R4a (叠加原理) [N]: Hilbert 空间正定度量 — Wightman 公理体系的前提'
+  - 'R4b (幺正演化) [N]: 谱条件 (正能量 p⁰>0) 依赖幺正表示'
+  - '3+1 维时空 [N]: D≠4 时结论不同 (D=2+1 anyon 分数统计)'
+  - '半整数自旋 [N]: 仅对费米子成立；整数自旋 ⇒ Bose 统计 (对易子)'
+  - '簇分解原理 [N]: 无簇分解 → 场不必由 a/a† 构建 → 论证失去起点'
+  - 'CPT 定理 [N]: u_l 和 v_l 的系数关系依赖 CPT — Lorentz 不变性的普遍推论'
   sufficiency_conditions:
   - '[S] Lorentz 不变性 + 量子公设 + 微观因果性 ⇒ 自旋-统计定理 (费米子侧)'
+  - '[S] 整数自旋 ⇒ Bose 统计 (对称波函数, Bose-Einstein 凝聚可能)'
   reversible: false
-  caveat: Structural sketch of spin-statistics theorem (Wightman axioms, Streater & Wightman 1964). Full rigorous derivation
-    requires axiomatic QFT beyond project scope.
+  caveat: >
+    13-step derivation outline in rigorous_derivations.yaml distinguishes
+    external_theorem steps (Lorentz irreps, cluster decomposition, CPT, coefficient
+    functions) from in_project steps (Hilbert space, microcausality, wavefunction
+    antisymmetry, Pauli exclusion). Full axiomatic proof (Wightman axioms) beyond
+    project scope — Weinberg's LSZ-microcausality approach adopted here.
+  cross_references:
+  - M3: SM fermion content classified by spin-statistics
+  - cor.fermi_dirac: Pauli exclusion → n_i∈{0,1} → Fermi-Dirac distribution
+  - M4: Nernst theorem — ground state degeneracy g₀ determined by Pauli exclusion
 - id: deriv.fermi_dirac_distribution
   premise:
   - law.pauli_exclusion
@@ -1001,6 +1037,43 @@ derivations:
   sufficiency_conditions:
   - '[S] D=3 奇数 + 自由空间波动方程 ⇒ Green 函数 G(r,t) ∝ δ(t - r/c)（尖锐波前，无拖尾）'
   reversible: false
+- id: deriv.nernst_unattainability
+  premise:
+  - law.third_law_thermo
+  - kernel.boltzmann_entropy
+  - kernel.equal_prior_probability
+  steps:
+  - 'Weak third law: S → 0 as T → 0 (non-degenerate ground state, entropy of perfect crystal vanishes at absolute zero)'
+  - 'Consider cooling process: to lower temperature, system must undergo adiabatic (isentropic) and isothermal steps'
+  - 'For an adiabatic step: ΔS_ad = 0. For an isothermal step at temperature T: ΔS_iso = ΔQ_rev / T'
+  - 'Heat capacity constraint: as T→0, C(T) → 0. Debye model: C(T) ∝ T³; electron contribution: C(T) ∝ T'
+  - 'Entropy change for cooling from T_i to T_f: ΔS = ∫_{T_i}^{T_f} C(T)/T dT. For T_f > 0, this integral is finite'
+  - 'Reaching T=0 requires removing the last entropy increment ΔS(T→0) = S(T) − S(0)'
+  - 'In any finite isothermal step at temperature T, the entropy reduction is ΔS_step ≤ C(T)/T · ΔT'
+  - 'As T→0, both C(T)→0 and the Carnot efficiency η = 1−T_cold/T_hot → 1, but each step removes only an infinitesimal amount of entropy'
+  - 'Number of finite steps required diverges: N ∝ 1/T_final → ∞ as T_final → 0 → T=0 cannot be reached in finite steps'
+  - 'Cross-ref M1: spin-statistics determines actual ground state degeneracy g₀ — if g₀>1, S→k_B ln g₀ > 0, Nernst theorem modified'
+  conclusion: cor.nernst_unattainability
+  mathematical_link: S→0 as T→0 + ΔS = ∫C(T)/T dT finite + each step removes finite ΔS ⇒ infinite steps needed to reach T=0
+  validity_scope:
+  - zero_temperature_limit
+  - macroscopic_limit
+  sources:
+  - Nernst (1906, 1912)
+  - Planck (1911)
+  - Zemansky §7.5
+  - Pathria & Beale §3.6
+  necessity_conditions:
+  - '第三定律弱形式 [N]: S→0 as T→0 — 无此前提，T=0 可达性的论证失去起点'
+  - 'R6 (S = k_B ln W + 等概率) [N]: 熵的统计定义'
+  - '热容行为 C(T)→0 as T→0 [N]: 量子效应（声子、电子）导致的热容低温标度律是论证的关键输入'
+  - '有限步骤约束 [N]: 每一步仅能移除有限熵 — 若无此约束，可以假想一个"一步到零"的过程'
+  sufficiency_conditions:
+  - '[S] 第三定律弱形式 + C(T)→0 as T→0 + 有限步骤约束 ⇒ T=0 不可达'
+  - 注：Nernst 不可达性是第三定律的强形式 — 它比 S→0 as T→0 提供了更强的物理约束
+  reversible: false
+  cross_references:
+  - M1: spin-statistics determines ground state degeneracy g₀ → if g₀>1, residual entropy S(T→0) = k_B ln g₀ > 0
 - id: deriv.second_law_thermo
   premise:
   - kernel.boltzmann_entropy
@@ -1034,6 +1107,113 @@ derivations:
   sufficiency_conditions:
   - '[S] R6a + R6b + 热力学极限 ⇒ ΔS ≥ 0'
   reversible: false
+- id: deriv.asymptotic_freedom
+  premise:
+  - contingent.sm_gauge_group
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'SM gauge group SU(3)_C × SU(2)_L × U(1)_Y → QCD sector = SU(3)_C non-Abelian gauge theory (Yang-Mills)'
+  - 'Renormalization group: coupling g runs with energy scale μ according to β-function β(g) = ∂g/∂ln μ'
+  - 'One-loop β-function for SU(N_c) with n_f fermions: β(g) = −g³/(16π²) · (11N_c/3 − 2n_f/3) + O(g⁵)'
+  - 'For QCD: N_c=3 (colors), n_f=6 (quark flavors) → β₀ = 11 − 4 = 7 > 0 → β(g) < 0'
+  - 'Negative β-function ⇒ coupling decreases as energy increases: α_s(μ) = g²/(4π) → 0 as μ → ∞ (asymptotic freedom)'
+  - 'Solving RG equation: α_s(μ) = 2π/(β₀ ln(μ/Λ_QCD)) → logarithmic decrease'
+  - 'Converse: at low energies (μ ∼ Λ_QCD ≈ 200 MeV), α_s becomes O(1) → confinement, hadronization'
+  - 'Non-Abelian nature essential: gluon self-interactions (∼ g f^{abc}) flip the sign of β₀ from Abelian QED (β₀ < 0 → screening) to anti-screening'
+  - 'Cross-ref M2: asymptotic freedom for QCD ⇔ Lovelock uniqueness for gravity — both are "uniqueness from symmetry + dimensional constraint" examples'
+  conclusion: cor.asymptotic_freedom
+  mathematical_link: β(g) = −β₀ g³/(16π²), β₀ = 11N_c/3 − 2n_f/3 > 0 for QCD → α_s(μ) ∝ 1/ln(μ/Λ_QCD)
+  validity_scope:
+  - quantum_regime
+  - relativistic_regime
+  sources:
+  - Gross & Wilczek (1973)
+  - Politzer (1973)
+  - Peskin & Schroeder §16.7
+  necessity_conditions:
+  - 'SU(3)_C 非 Abel 规范群 [N]: gluon 自相互作用 (f^{abc} 项) 是反屏蔽的必要条件 — Abel 理论 (QED) 仅有屏蔽'
+  - 'R3 (规范不变性) [N]: 规范对称性定义耦合常数的跑动框架'
+  - '重整化群 [N]: 无 RG 流则无从定义标度依赖的耦合常数'
+  - 'n_f ≤ 16 [N]: 若费米子代数过多 (n_f ≥ 17 对 N_c=3)，β₀ 变号 → 渐近自由丧失'
+  sufficiency_conditions:
+  - '[S] SU(3)_C 规范理论 + n_f ≤ 16 → β₀ > 0 → 渐近自由'
+  reversible: false
+  cross_references:
+  - M2: Lovelock uniqueness — same "symmetry → uniqueness" methodology
+- id: deriv.higgs_mechanism
+  premise:
+  - contingent.sm_gauge_group
+  - contingent.sm_higgs_sector
+  - kernel.gauge_interactions
+  steps:
+  - 'SM electroweak gauge group: SU(2)_L × U(1)_Y with gauge bosons W^a_μ (a=1,2,3) and B_μ, couplings g₂ and g₁'
+  - 'Higgs sector: complex scalar SU(2)_L doublet φ = (φ^+, φ⁰)^T with Y=1, potential V(φ) = μ²|φ|² + λ|φ|⁴'
+  - 'For μ² < 0, potential has degenerate minimum at |φ|² = v²/2 with v = √(−μ²/λ) ≈ 246 GeV (spontaneous symmetry breaking)'
+  - 'Expand around vacuum: φ = (0, (v+h)/√2)^T in unitary gauge (h = physical Higgs field)'
+  - 'Covariant derivative: D_μφ = (∂_μ − ig₂τ^a W^a_μ/2 − ig₁Y B_μ/2)φ. Plug in φ = (0, (v+h)/√2)^T'
+  - '|D_μφ|² term yields mass terms: (g₂²v²/4)(W¹_μ² + W²_μ²) + (v²/4)(g₂W³_μ − g₁B_μ)²'
+  - 'Define W^±_μ = (W¹_μ ∓ iW²_μ)/√2 → M_W = g₂v/2; Z_μ = (g₂W³_μ − g₁B_μ)/√(g₂²+g₁²) → M_Z = √(g₂²+g₁²)v/2'
+  - 'Photon field A_μ = (g₂B_μ + g₁W³_μ)/√(g₂²+g₁²) → M_A = 0 (unbroken U(1)_EM)'
+  - 'Weinberg angle: tan θ_W = g₁/g₂ → M_W/M_Z = cos θ_W; relation with Fermi constant: G_F/√2 = g₂²/(8M_W²)'
+  - 'Cross-ref M1: Higgs mechanism generates fermion masses via Yukawa couplings — masses are part of SM fermion content, which obeys spin-statistics'
+  conclusion: cor.higgs_mechanism
+  mathematical_link: SU(2)_L×U(1)_Y → spontaneous breaking → U(1)_EM, M_W = g₂v/2, M_Z = √(g₂²+g₁²)v/2, M_A = 0
+  validity_scope:
+  - quantum_regime
+  - relativistic_regime
+  sources:
+  - Higgs (1964)
+  - Englert & Brout (1964)
+  - Weinberg (1967)
+  - Peskin & Schroeder §20.1-20.2
+  necessity_conditions:
+  - 'SU(2)_L × U(1)_Y 规范群 [N]: 规范玻色子与 Higgs 的耦合结构由规范群决定'
+  - 'Higgs 二重态 + μ² < 0 [N]: 自发对称破缺的必要条件 — 若 μ² ≥ 0, 无真空期望值, 无质量生成'
+  - 'R3 (规范不变性) [N]: 协变导数 D_μ 的定义来自规范原理; 无 R3 则无 gauge-Higgs 耦合项'
+  sufficiency_conditions:
+  - '[S] SM 规范群 + Higgs 二重态 + μ²<0 ⇒ W/Z 质量生成 + 光子无质量'
+  reversible: false
+  cross_references:
+  - M2: symmetry → Lagrangian → observables methodology (parallel with Lovelock)
+  - M1: fermion masses from Yukawa couplings → fermion content obeys spin-statistics
+- id: deriv.ckm_necessity
+  premise:
+  - contingent.sm_gauge_group
+  - contingent.sm_fermion_content
+  - contingent.sm_higgs_sector
+  - kernel.gauge_interactions
+  - kernel.spacetime_dimensionality
+  steps:
+  - 'SM with 3 generations: quark fields Q_L^i, u_R^i, d_R^i (i=1,2,3) — each is a 3-vector in generation space'
+  - 'Yukawa couplings to Higgs: L_Y = −Y^u_{ij} Q̄_L^i · φ̃ · u_R^j − Y^d_{ij} Q̄_L^i · φ · d_R^j + h.c., where Y^u, Y^d are arbitrary 3×3 complex matrices'
+  - 'After spontaneous symmetry breaking (Higgs mechanism): φ → (0, v/√2)^T → mass terms: M^u_{ij} = Y^u_{ij} v/√2, M^d_{ij} = Y^d_{ij} v/√2'
+  - 'Diagonalize mass matrices via bi-unitary transformations: U^u_L M^u U^{u†}_R = diag(m_u, m_c, m_t), U^d_L M^d U^{d†}_R = diag(m_d, m_s, m_b)'
+  - 'In the mass eigenstate basis, the charged-current weak interaction couples up-type and down-type quarks via W^±: L_CC = (g₂/√2) ū_L γ^μ V_CKM d_L W^+_μ + h.c.'
+  - 'CKM matrix: V_CKM = U^u_L U^{d†}_L — a 3×3 unitary matrix with 4 physical parameters (3 angles + 1 CP-violating phase)'
+  - 'Why V_CKM ≠ I: Y^u and Y^d are independent 3×3 matrices → their diagonalizing matrices U^u_L and U^d_L are generally different → misalignment between mass and weak eigenstates'
+  - 'CP violation: for n_g=3 generations, the unitary matrix V_CKM inevitably contains 1 irreducible complex phase (Kobayashi-Maskawa 1973). For n_g=2 (Cabibbo), no CP phase possible'
+  - 'Flavor-changing transitions: V_CKM elements (e.g., V_us, V_cb) parameterize the amplitude for s→u, b→c etc. — explains observed strangeness-changing and beauty-changing weak decays'
+  - 'Cross-ref M1: quark fields are fermions (spin-½) → obey Pauli exclusion → atomic nuclei have shell structure → chemistry'
+  conclusion: cor.ckm_matrix
+  mathematical_link: Y^u, Y^d independent + Higgs VEV → M^u, M^d → diagonalization → V_CKM = U^u_L U^{d†}_L ≠ I → flavor mixing + CP violation
+  validity_scope:
+  - quantum_regime
+  sources:
+  - Cabibbo (1963)
+  - Kobayashi & Maskawa (1973)
+  - PDG 2024 §12 (CKM Quark-Mixing Matrix)
+  - Peskin & Schroeder §20.3
+  necessity_conditions:
+  - '3 代费米子 [N]: n_g=2 时 CKM 无 CP 破坏相位 (仅 1 个 Cabibbo 角)；n_g=3 时恰好有 1 个不可约复相位'
+  - 'Yukawa 矩阵 Y^u, Y^d 独立 [N]: 若 Y^u ∝ Y^d (或更特殊, 两者可被同一组幺正矩阵对角化)，则 V_CKM = I — 无味混合'
+  - 'Higgs 机制 [N]: 无自发对称破缺则无质量本征态概念 → 无 CKM 矩阵的物理意义'
+  - 'SU(2)_L 手征结构 [N]: 左右手费米子的不同规范表示是 Yukawa 耦合的必要条件'
+  sufficiency_conditions:
+  - '[S] 3 代费米子 + 独立 Y^u, Y^d + Higgs 机制 ⇒ V_CKM ≠ I (必然含 CP 破坏相位)'
+  reversible: false
+  cross_references:
+  - M1: quarks are fermions (spin-½) → Pauli exclusion → atomic structure, chemistry
 dependencies:
 - dependent: law.newton_third
   depends_on:

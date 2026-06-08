@@ -1,0 +1,367 @@
+# Experimental Verification Database
+# L3 from ROADMAP — maps each derivation to key experiments with precision levels
+# Format: derivation_id → { experiment, year, precision, description, ref }
+# Fields: id, conclusion, experiments[{name, year, precision, description, doi}]
+
+experiments:
+  - id: law.lorentz_transform
+    conclusion: "Lorentz transformation"
+    experiments:
+      - name: "Michelson-Morley"
+        year: 1887
+        precision: "Δc/c < 10⁻⁴"
+        description: "Null result for ether drift — established light-speed isotropy"
+        doi: "10.2478/ast-2018-0008"
+      - name: "Modern optical cavity (Müller)"
+        year: 2003
+        precision: "Δc/c < 10⁻¹⁸"
+        description: "Lorentz violation constrained to < 10⁻¹⁸ via ultra-stable optical resonators"
+        doi: "10.1103/PhysRevLett.91.020401"
+      - name: "GRB photon arrival time"
+        year: 2009
+        precision: "Δc/c < 10⁻¹⁵ (frequency-independent)"
+        description: "Gamma-ray burst photons of different energies arrive simultaneously — constrains Lorentz violation"
+
+  - id: law.mass_energy
+    conclusion: "E = mc²"
+    experiments:
+      - name: "Cockcroft-Walton"
+        year: 1932
+        precision: "~1%"
+        description: "First artificial nuclear transmutation — Li + p → 2α, verified ΔE = Δmc²"
+        doi: "10.1098/rspa.1932.0103"
+      - name: "MIT trap mass spectrometry"
+        year: 2005
+        precision: "ΔE/Δmc² = 1.000000 ± 4×10⁻⁷"
+        description: "Penning trap measurement of mass difference for nuclear reactions"
+        doi: "10.1038/nature04364"
+
+  - id: kernel.equivalence_principle
+    conclusion: "m_i = m_g (Equivalence Principle)"
+    experiments:
+      - name: "Eötvös experiment"
+        year: 1885-1909
+        precision: "|m_i/m_g - 1| < 10⁻⁹"
+        description: "Torsion balance comparing gravitational and inertial mass for different materials"
+      - name: "MICROSCOPE satellite"
+        year: 2022
+        precision: "|m_i/m_g - 1| < 10⁻¹⁵"
+        description: "Space-based test of equivalence principle — most precise null result in physics"
+        doi: "10.1103/PhysRevLett.129.121102"
+      - name: "Lunar Laser Ranging"
+        year: 2004
+        precision: "|m_i/m_g - 1| < 10⁻¹³ (for Earth-Moon)"
+        description: "Tests Nordtvedt effect — if m_i ≠ m_g for gravitational self-energy, Moon orbit would differ"
+
+  - id: law.einstein_field
+    conclusion: "Einstein field equations"
+    experiments:
+      - name: "Mercury perihelion precession"
+        year: 1915
+        precision: "43″/century predicted, observed to ~1%"
+        description: "Einstein's first test of GR — explained anomalous Mercury precession"
+      - name: "Eddington solar eclipse"
+        year: 1919
+        precision: "~20%"
+        description: "First measurement of gravitational light deflection — 1.75″ predicted, ~1.98±0.30″ observed"
+      - name: "Hulse-Taylor binary pulsar"
+        year: 1974
+        precision: "orbital decay matches GR to <0.2%"
+        description: "PSR B1913+16 — first indirect detection of gravitational waves via orbital period decay"
+        doi: "10.1086/153352"
+      - name: "GW150914 (LIGO)"
+        year: 2015
+        precision: "waveform match to GR >99.9%"
+        description: "First direct detection of gravitational waves from binary black hole merger"
+        doi: "10.1103/PhysRevLett.116.061102"
+      - name: "GW170817 + GRB 170817A"
+        year: 2017
+        precision: "|v_gw/c - 1| < 10⁻¹⁵"
+        description: "GW speed = c confirmed to <10⁻¹⁵ via simultaneous optical/gamma-ray counterpart"
+        doi: "10.3847/2041-8213/aa920c"
+
+  - id: law.newton_gravitation
+    conclusion: "Newton's law of gravitation (weak-field limit of GR)"
+    experiments:
+      - name: "Cavendish experiment"
+        year: 1798
+        precision: "G = 6.74×10⁻¹¹ (modern: 6.67430×10⁻¹¹ ± 2.2×10⁻⁵)"
+        description: "First measurement of gravitational constant — 'weighing the Earth'"
+      - name: "Sub-mm torsion balance (U. Washington)"
+        year: 2007
+        precision: "1/r² verified to r > 44 μm"
+        description: "Tests for extra dimensions — any deviation from 1/r² excluded above 44μm"
+        doi: "10.1103/PhysRevLett.98.021101"
+
+  - id: law.maxwell_from_gauge
+    conclusion: "Maxwell's equations from U(1) gauge"
+    experiments:
+      - name: "Coulomb's law (Cavendish/Coulomb)"
+        year: 1773-1785
+        precision: "1/r² to ~1% (modern: 10⁻¹⁶)"
+        description: "Inverse-square law for electrostatics — verified over 23 orders of magnitude in r"
+      - name: "Faraday's law of induction"
+        year: 1831
+        precision: "qualitative → quantitative (Maxwell 1865)"
+        description: "Changing magnetic flux induces EMF — unification of electricity and magnetism"
+      - name: "Photon mass limit"
+        year: 2021
+        precision: "m_γ < 10⁻⁵⁴ kg (1.5×10⁻¹⁸ eV)"
+        description: "If photon had mass, 1/r² would break at large r. Null result → photon mass is zero to extreme precision"
+
+  - id: law.schroedinger_equation
+    conclusion: "Schrödinger equation"
+    experiments:
+      - name: "Hydrogen spectrum (Balmer)"
+        year: 1885
+        precision: "~0.1% (Bohr 1913 → Schrödinger 1926 exact non-relativistic)"
+        description: "Spectral lines of hydrogen — first evidence for discrete energy levels"
+      - name: "Lamb shift (Lamb-Retherford)"
+        year: 1947
+        precision: "ΔE = 1057 MHz (QED correction to Schrödinger)"
+        description: "Small splitting between 2S₁/₂ and 2P₁/₂ in hydrogen — requires QED (beyond Schrödinger)"
+        doi: "10.1103/PhysRev.72.241"
+      - name: "Hydrogen spectroscopy (1S-2S)"
+        year: 2011
+        precision: "f(1S-2S) = 2,466,061,413,187,035 ± 10 Hz (4×10⁻¹⁵)"
+        description: "Most precisely measured transition in physics — tests QED to 10⁻¹⁵"
+        doi: "10.1103/PhysRevLett.107.203001"
+
+  - id: law.uncertainty_principle
+    conclusion: "σ_x·σ_p ≥ ℏ/2"
+    experiments:
+      - name: "Single-slit diffraction (electron)"
+        year: 1961 (Jönsson); 1989 (Tonomura)
+        precision: "qualitative → quantitative"
+        description: "Electron single-slit diffraction — narrower slit → wider diffraction pattern"
+      - name: "Neutron interferometry"
+        year: 1988
+        precision: "σ_x·σ_p ≥ ℏ/2 confirmed"
+        description: "Neutron interference validates uncertainty principle quantitatively"
+      - name: "Optomechanical test (aspired)"
+        year: 2020
+        precision: "tests uncertainty for macroscopic objects >10¹² atoms"
+        description: "LIGO-scale optomechanics pushing uncertainty principle to macroscopic regime"
+
+  - id: law.pauli_exclusion
+    conclusion: "Pauli exclusion principle (spin-statistics)"
+    experiments:
+      - name: "Periodic table"
+        year: 1869 (Mendeleev); 1925 (Pauli explanation)
+        precision: "structural — every observed atom"
+        description: "The entire periodic table is evidence for Pauli exclusion — without it, all electrons would occupy 1s"
+      - name: "VIP experiment (Gran Sasso)"
+        year: 2006-2021
+        precision: "Pauli violation probability < 10⁻²⁹"
+        description: "Searches for anomalous X-rays from 'Pauli-forbidden' atomic transitions — null result to extreme precision"
+        doi: "10.3390/e22040397"
+      - name: "White dwarf mass-radius"
+        year: 1935 (Chandrasekhar)
+        precision: "structural — confirmed for all known white dwarfs"
+        description: "Electron degeneracy pressure (Pauli exclusion) supports white dwarfs against gravity"
+
+  - id: cor.fermi_dirac
+    conclusion: "Fermi-Dirac distribution"
+    experiments:
+      - name: "Electron specific heat in metals"
+        year: 1927 (Sommerfeld)
+        precision: "C_V ∝ T (linear) — matches FD, not Boltzmann (constant)"
+        description: "Low-temperature electronic specific heat confirms FD statistics"
+      - name: "White dwarf cooling"
+        year: 1950s-present
+        precision: "matches FD + GR cooling models"
+        description: "White dwarf luminosity function follows FD-based cooling models"
+
+  - id: cor.bose_einstein
+    conclusion: "Bose-Einstein distribution"
+    experiments:
+      - name: "Planck blackbody spectrum"
+        year: 1900
+        precision: "~1% (modern: 10⁻⁵)"
+        description: "CMB spectrum is most perfect blackbody ever measured (COBE/FIRAS: μ < 10⁻⁵ distortion)"
+        doi: "10.1086/173453"
+      - name: "Bose-Einstein condensate (BEC)"
+        year: 1995
+        precision: "phase transition observed at predicted T_c"
+        description: "First BEC in dilute atomic gas (Rb-87) — macroscopic occupation of ground state"
+        doi: "10.1103/PhysRevLett.75.3969"
+      - name: "Superfluid He-4"
+        year: 1938
+        precision: "λ-transition at T=2.17K"
+        description: "Bose-Einstein condensation of He-4 atoms — macroscopic quantum phenomena"
+
+  - id: law.zeroth_law
+    conclusion: "Zeroth law of thermodynamics"
+    experiments:
+      - name: "Thermometry (thermometer calibration)"
+        year: "ancient → 19th century formalization"
+        precision: "conceptual — transitivity of thermal equilibrium"
+        description: "If A is in thermal equilibrium with B and B with C, then A is in thermal equilibrium with C"
+
+  - id: law.second_law_thermo
+    conclusion: "Second law: ΔS_total ≥ 0"
+    experiments:
+      - name: "Joule's paddle-wheel experiment"
+        year: 1843
+        precision: "qualitative — mechanical equivalent of heat"
+        description: "Mechanical work converted entirely to heat — irreversibility demonstrated"
+      - name: "Single-molecule fluctuation theorems"
+        year: 2002 (Bustamante)
+        precision: "Crooks/Jarzynski verified to ~5%"
+        description: "RNA hairpin unfolding under force — <W> ≥ ΔF confirmed, violations ≤ k_BT seen"
+        doi: "10.1126/science.1071152"
+      - name: "Boltzmann brain/fluctuation limit"
+        year: "theoretical"
+        precision: "ΔS = -1 k_B → probability ~1/e; ΔS = -10²³ k_B → probability ~e^{-10²³}"
+        description: "Observable entropy decrease in macroscopic systems never observed — probability ~exp(-10²³)"
+
+  - id: law.third_law_thermo
+    conclusion: "Third law: S → 0 as T → 0"
+    experiments:
+      - name: "Adiabatic demagnetization"
+        year: 1933
+        precision: "T ~ 0.01 K achieved"
+        description: "Magnetic cooling to millikelvin temperatures — approaches zero but cannot reach it"
+      - name: "Laser cooling (Nobel 1997)"
+        year: 1985-1995
+        precision: "T ~ 10⁻⁶ K (μK regime)"
+        description: "Doppler and sub-Doppler cooling of atoms — lowest temperatures ever achieved"
+      - name: "Bose-Einstein condensation threshold"
+        year: 1995
+        precision: "T_c ~ 170 nK"
+        description: "BEC transition temperature — macroscopic occupation of ground state at nanokelvin"
+
+  - id: law.ideal_gas
+    conclusion: "PV = Nk_BT"
+    experiments:
+      - name: "Boyle's law (PV = const)"
+        year: 1662
+        precision: "~1% at low P"
+        description: "Pressure × volume constant at fixed temperature — first quantitative gas law"
+      - name: "Gay-Lussac/Charles law"
+        year: 1802
+        precision: "V ∝ T at fixed P"
+        description: "Thermal expansion of gases — linear relationship established"
+      - name: "Acoustic gas thermometry"
+        year: 2017
+        precision: "k_B = 1.380649×10⁻²³ J/K (exact after SI 2019 redefinition)"
+        description: "Speed of sound in monatomic gas → k_B from first principles — used in SI redefinition"
+
+  - id: kernel.born_rule
+    conclusion: "P(a_i) = |⟨a_i|ψ⟩|²"
+    experiments:
+      - name: "Double-slit experiment (electron)"
+        year: 1961 (Jönsson); 1989 (Tonomura single-electron)"
+        precision: "interference pattern → P = |ψ₁+ψ₂|² ≠ P₁+P₂"
+        description: "Single-electron interference confirms Born rule's modulus-squared — interference term exists"
+      - name: "Gleason's theorem (conceptual)"
+        year: 1957
+        precision: "mathematical proof — unique probability measure in Hilbert space"
+        description: "Any additive probability measure on Hilbert space projections must be Born-rule form"
+      - name: "Three-path interference test"
+        year: 2010
+        precision: "Born rule violation < 10⁻²"
+        description: "Multi-path interference constrains higher-order interference terms"
+        doi: "10.1126/science.1190545"
+
+  - id: cor.nernst_unattainability
+    conclusion: "Nernst unattainability: T=0 unreachable in finite steps"
+    experiments:
+      - name: "Dilution refrigerator"
+        year: 1960s-present
+        precision: "T_min ~ 2 mK (approaches but never reaches zero)"
+        description: "³He/⁴He dilution — continuous cooling to millikelvin, each step requires exponentially more work"
+      - name: "Nuclear demagnetization"
+        year: 1950s-present
+        precision: "T_min ~ 10⁻⁷ K (100 nK)"
+        description: "Nuclear spins cooled to sub-microkelvin — approaches T=0 asymptotically"
+
+  - id: cor.asymptotic_freedom
+    conclusion: "QCD asymptotic freedom: β(g) < 0"
+    experiments:
+      - name: "Deep inelastic scattering (SLAC)"
+        year: 1968-1973
+        precision: "scaling violations → α_s running"
+        description: "First evidence for point-like partons (quarks) inside protons"
+      - name: "e⁺e⁻ → hadrons (PETRA/LEP)"
+        year: 1979-2000
+        precision: "α_s(m_Z) = 0.118 ± 0.001"
+        description: "Precision measurement of strong coupling at Z pole"
+        doi: "10.1016/j.ppnp.2006.01.003"
+      - name: "Jet production at LHC"
+        year: 2010-present
+        precision: "α_s running over 3 orders of magnitude in Q²"
+        description: "α_s(Q²) measured from τ lepton decay (Q~1.8 GeV) to LHC jets (Q~2 TeV) — confirms β<0"
+
+  - id: cor.higgs_mechanism
+    conclusion: "Electroweak symmetry breaking → W/Z masses"
+    experiments:
+      - name: "W/Z discovery (UA1/UA2 at CERN)"
+        year: 1983
+        precision: "m_W = 80.4 GeV, m_Z = 91.2 GeV (~1%)"
+        description: "First direct observation of W± and Z⁰ bosons — predicted masses from EW theory confirmed"
+        doi: "10.1016/0370-2693(83)90185-5"
+      - name: "Higgs boson discovery (ATLAS/CMS)"
+        year: 2012
+        precision: "m_H = 125.10 ± 0.14 GeV (5.4σ)"
+        description: "Observation of Higgs boson at LHC — final missing piece of SM"
+        doi: "10.1016/j.physletb.2012.08.020"
+      - name: "Higgs couplings measurement"
+        year: 2022
+        precision: "κ_V = 1.04±0.04, κ_F = 0.98±0.06"
+        description: "Higgs couplings to bosons and fermions match SM predictions — μ=1.02±0.05 overall"
+
+  - id: cor.ckm_matrix
+    conclusion: "CKM matrix CP violation"
+    experiments:
+      - name: "CP violation in K⁰ system (Cronin & Fitch)"
+        year: 1964
+        precision: "ε_K ~ 2.3×10⁻³"
+        description: "First observation of CP violation — K_L → π⁺π⁻ decay"
+        doi: "10.1103/PhysRevLett.13.138"
+      - name: "B-factory measurements (BaBar/Belle)"
+        year: 2001
+        precision: "sin(2β) = 0.67±0.02 → confirmed CKM triangle closure"
+        description: "CP violation in B⁰ → J/ψK_S matches CKM predictions"
+        doi: "10.1103/PhysRevLett.87.091801"
+      - name: "Global CKM fit"
+        year: 2023
+        precision: "Unitarity triangle closure to ~1%"
+        description: "All CKM parameters consistent with 3-generation unitarity (CKMFitter/UTfit global fits)"
+
+  - id: law.energy_conservation
+    conclusion: "dE/dt = 0 in isolated system"
+    experiments:
+      - name: "Joule's experiment"
+        year: 1843
+        precision: "mechanical work → heat equivalence (~1%)"
+        description: "First quantitative demonstration of energy conservation"
+      - name: "Neutron beta decay"
+        year: 1930s-present
+        precision: "n → p + e⁻ + ν̄_e: ∆E matches to 10⁻⁷"
+        description: "Nuclear reactions verify energy conservation to high precision"
+
+  - id: law.charge_conservation
+    conclusion: "dQ/dt = 0"
+    experiments:
+      - name: "Electron stability (Borexino)"
+        year: 2015
+        precision: "τ(e⁻) > 6.6×10²⁸ yr"
+        description: "Search for e⁻ → νγ — electron lifetime > 10¹⁸ × age of universe"
+        doi: "10.1103/PhysRevLett.115.231802"
+      - name: "Neutron → proton + ν̄ conservation"
+        year: "ongoing"
+        precision: "charge conserved in all observed processes"
+        description: "No violation of charge conservation ever observed in any process"
+
+  - id: kernel.lorentz_invariance
+    conclusion: "Lorentz invariance of physical laws"
+    experiments:
+      - name: "Hughes-Drever experiment"
+        year: 1960
+        precision: "spatial anisotropy < 10⁻²⁰"
+        description: "Nuclear magnetic resonance tests spatial isotropy of laws of physics"
+      - name: "UHECR (ultra-high-energy cosmic rays)"
+        year: 2021
+        precision: "Lorentz violation < 10⁻²⁸ at E > 10¹⁹ eV"
+        description: "GZK cutoff observation constrains Lorentz violation at Planck-scale sensitivity"

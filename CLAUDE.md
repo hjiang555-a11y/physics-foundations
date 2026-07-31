@@ -1,28 +1,31 @@
-# physics-foundations — Layer 1 Physics Deductions (Round 13)
+# physics-foundations — Layer 1 Physics Deductions (Round 15: T+EP)
 
 ## REPO OVERVIEW
-- Layer 1 kernel laws and derivations in YAML format
+- T+EP framework: 2 physical postulates (T: path integral, EP: metric dynamics)
+- Round 15 restructured from 13 kernels (R1-R6) to T+EP + spacetime_dim [EC]
+- Old R2/R4/R5/R6 merged into T. Old R1c → EP. Old R1a/1b/R3 → T theorems.
 - Remote: origin → https://github.com/hjiang555-a11y/physics-foundations.git
-- Branch: main only (no feature branches)
-- Current: 150 nodes / 43 derivations / 63 DOT graph nodes / 119 edges
-- Validator: V1-V5 ALL PASS (0 errors, 0 warnings)
-- Meta-validator: tools/meta_validate.py — 100% completeness, all kernels necessary
+- Current: 43 derivations traceable to T or T+EP
+- Validator: V1-V5 (needs kernel list update for Round 15)
 
 ## KEY FILES
 - layer1/frameworks.yaml — kernel root nodes (13) + structural rules (3)
 - layer1/claims.yaml — kernel claim definitions (id, statement, layer)
 - layer1/derivations.yaml — 43 compact derivations (steps + necessity/sufficiency)
-- layer1/effective_laws.yaml — 30 laws + 7 corollaries (37 total derivable)
+- layer1/effective_laws.yaml — 29 laws + 7 corollaries (36 total derivable)
 - layer1/rigorous_derivations.yaml — 43 detailed mathematical derivations
 - layer1/contingent.yaml — 11 contingent facts (7 derived + 4 pure empirical)
 - layer1/PROOF.md — completeness/necessity/consistency formal proof
 - layer1/README.md — atom inventory and edge graph
-- rules.md — R1-R6 core rules documentation (round 12)
-- ROADMAP.md — project roadmap (round 13)
+- rules.md — R1-R6 core rules documentation
+- ROADMAP.md — project roadmap (round 14)
+- appendix/counterfactual-physics.md — counterfactual physics analysis (L1)
+- tools/scihf_parser.py — .scihf tokenizer + parser + checker (L2)
+- layer1/experiments.yaml — experimental verification database (L3)
 
 ## DEPENDENCY TRACING
 - Kernel nodes: `kernel.<name>` — 13 foundational claims
-- Law nodes: `law.<name>` — 30 derived effective laws
+- Law nodes: `law.<name>` — 29 derived effective laws
 - Corollary nodes: `cor.<name>` — 7 derived corollaries
 - Contingent nodes: `contingent.<name>` — 11 empirical/derived facts
 - `derived_from` / `premise` fields link nodes back to kernel roots

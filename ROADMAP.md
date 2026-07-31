@@ -1,6 +1,41 @@
 # Physics Foundations — 路线图
 
-> 最后更新：2026-05-26 | 当前版本：Round 13 — M1-M4 中期建设完成，150 nodes / 43 derivations，完整性·自洽性·充分必要性证明通过
+> 最后更新：2026-07-31 | 当前版本：Round 15 — **T+EP 框架重构完成**。从 R1-R6 (6原则→13 kernel) 重组为 T (路径积分结构) + EP (度规动力学) = 2 物理基础。旧 R2/R4/R5/R6 并入 T，旧 R1c 收束为 EP，全同性/Pauli/统计分裂/统计力学降为 T 推论 [L,E1]。
+
+---
+
+## Round 15: T+EP 框架重构 (2026-07-31)
+
+### 核心变更
+
+| 变更 | 内容 |
+|------|------|
+| **T (路径积分结构)** [P] | 统一旧 R2 ($\delta S=0$), R4 (量子公设), R5 (Born 规则), R6 (统计力学), R3 (规范场)。经典力学、量子力学、统计力学是 T 的三种投影 |
+| **EP (度规动力学)** [P] | 收束旧 R1c (等效原理)。旧 R1a/1b (Lorentz 不变性) 成为 T+Poincaré 推论。广义协变性成为 T+EP 推论 |
+| **13 kernel → 2 物理基础** | + 1 认知偶然 (D=3+1) [EC]。总计 3 kernel 节点（含 EC1） |
+| **新增 Wigner 分类** | Poincaré 群的不可约表示 → 质量+自旋离散 → "粒子非基本" |
+| **全同性/统计分裂降级** | 张量积 + 置换群的数学推论 [L,E1]，非独立公理 |
+| **标注体系** | [M/E/P/L] 逻辑类型, [E1/E2/E3] 涌现类型, [EC/OC] 偶然类型 |
+
+### 修改文件
+
+- `rules.md` — 完全重写：T+EP 框架
+- `layer1/frameworks.yaml` — kernel 层重构：13→3 (T, EP, spacetime_dim)
+- `layer1/effective_laws.yaml` — derived_from 链全部重新映射
+- `layer1/contingent.yaml` — 添加 logical_type: EC
+- `layer1/derivations.yaml` — premise 字段 kernel ID 重新映射
+- `layer1/rigorous_derivations.yaml` — premise 字段 kernel ID 重新映射
+- `layer1/PROOF.md` — 完全重写：T+EP 必要性矩阵
+- `ROADMAP.md` — 本条目
+- `README.md` — 统计信息更新
+
+### 逻辑论证
+
+所有旧 13 kernel 节点中：
+- **9 个并入 T** [L,E1]：least_action, gauge_interactions, superposition, operator_observable, unitary_evolution, canonical_commutation, born_rule, boltzmann_entropy, equal_prior_probability
+- **2 个并入 EP** [P]：equivalence_principle, general_covariance
+- **1 个降为 T 推论** [L]：lorentz_invariance
+- **1 个保留为偶然** [EC]：spacetime_dimensionality
 
 ---
 
@@ -25,6 +60,9 @@
 | **M4: Nernst 不可达性原理（7 步，第三定律强形式）** | ✅ |
 | **元验证：完整性·自洽性·充分必要性证明（`tools/meta_validate.py` + `layer1/PROOF.md`）** | ✅ |
 | **语言单位定义（9 种论证单位：K, R, L, C, X, D, [N], [S], ↔）** | ✅ |
+| **L1: 多维物理对比附录（225 行，R1-R6 反事实推理 + 跨公理 scenario）** | ✅ |
+| **L2: `.scihf` parser + checker（`tools/scihf_parser.py`，7 token 类型 + 8 AST node + C1-C6 语义检查）** | ✅ |
+| **L3: 实验验证数据库（`layer1/experiments.yaml`，25 条推导 ↔ 关键实验，含精度 + DOI）** | ✅ |
 
 ### 运行验证
 
@@ -91,35 +129,40 @@ GitHub Actions workflow，push/PR 时自动运行 V1-V5 检查。
 
 ---
 
-### 长期（体系化 — 预期 1-3 月）
+### ~~长期（体系化 — 预期 1-3 月）~~ ✅ 已完成
 
-#### L1. 多维物理对比附录
-R1-R6 体系的一个核心力量在于"若某条原则不同，物理世界会怎样"的反事实推理。可撰写一个系统附录，展示若 R1 中 D≠3、Lorentz→Euclidean、c→∞，或 R4 中 [x̂,p̂]=0，哪些定律会如何退化。这本身是对 R1-R6 必要性论证的最强佐证。
-- **文件**：新增 `appendix/counterfactual-physics.md`
+#### L1. 多维物理对比附录 ✅
+R1-R6 体系的一个核心力量在于"若某条原则不同，物理世界会怎样"的反事实推理。已撰写系统附录，展示若 R1 中 D≠3、Lorentz→Euclidean、c→∞，或 R4 中 [x̂,p̂]=0，哪些定律会如何退化。这本身是对 R1-R6 必要性论证的最强佐证。
+- **文件**：`appendix/counterfactual-physics.md`（225 行）
 - **参考**：Ehrenfest (1917); Tangherlini (1963); Barrow & Tipler
 
-#### L2. `.scihf` 语言完整实现
-当前 `LANGUAGE.md` 定义了 `.scihf` 的 token/node/grammar 规范，`physics.scihf` 是样例语料。下一步是实现一个完整的 parser + checker：
-1. 词法分析器（tokenizer）
-2. 语法分析器（parser，生成 AST）
-3. 语义检查器（checker，执行 LANGUAGE.md 中定义的一致性约束）
-- **文件**：新增 `tools/scihf_parser.py`
+#### L2. `.scihf` 语言完整实现 ✅
+已实现完整的 parser + checker：
+1. 词法分析器（tokenizer）：7 token 类型
+2. 语法分析器（parser，递归下降）：8 AST node
+3. 语义检查器（checker）：C1-C6 + V1-V5 语义 passages
+- **文件**：`tools/scihf_parser.py`（1109 行）
+- **测试**：`physics.scihf` — 49 quantities, 14 conditions, 67 assertions, 0 errors
 - **参考**：`layer1/LANGUAGE.md`, `layer1/EXTRACTION.md`
 
-#### L3. 实验验证数据库对接
-物理定律的最终判据是实验。可构建一个 `experiments.yaml`，记录每条有效定律对应的关键实验（如 Michelson-Morley → Lorentz 不变性, Eötvös → 等效原理, Davisson-Germer → de Broglie 波长），并关联实验精度与定律的确证度。
-- **文件**：新增 `layer1/experiments.yaml`
+#### L3. 实验验证数据库对接 ✅
+已构建 `experiments.yaml`，记录每条有效定律对应的关键实验（Michelson-Morley → Lorentz 不变性, Eötvös → 等效原理, Davisson-Germer → de Broglie 波长），并关联实验精度与定律的确证度。
+- **文件**：`layer1/experiments.yaml`（367 行，25 条推导 ↔ 关键实验，含精度 + DOI）
 
 ---
 
 ## 优先顺序建议
 
 ```
-Week 1:  S1 (必要性补全) → S2 (可视化) → S3 (CI)
-Week 2:  M1 (自旋-统计) → M4 (Nernst)
-Week 3:  M2 (Lovelock) → M3 (SM 推导链)
-Month 2: L1 (多维对比) → L2 (scihf parser)
-Month 3: L3 (实验数据库)
+✅ 全部完成 — Round 14 (2026-06-24)
+
+Week 1:  S1 (必要性补全) → S2 (可视化) → S3 (CI)                          ✅
+Week 2:  M1 (自旋-统计) → M4 (Nernst)                                      ✅
+Week 3:  M2 (Lovelock) → M3 (SM 推导链)                                     ✅
+Month 2: L1 (多维对比) → L2 (scihf parser)                                  ✅
+Month 3: L3 (实验数据库)                                                      ✅
+
+当前状态：全部路线图完遂。150 nodes / 43 derivations / V1-V5 全 PASS / 元验证 100%。
 ```
 
 ---

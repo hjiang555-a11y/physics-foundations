@@ -12,6 +12,9 @@
 | `contingent.yaml` | 我们宇宙中仍归为经验事实的内容，以及从 kernel/rule/contingent 推出的结构后果。 |
 | `effective_laws.yaml` | 从 kernel / rule / law 推出的有效定律、数学定理化表达与过渡期 `cor.*` 推论。 |
 | `derivations.yaml` | `premise[]` 到 `conclusion` 的推导步骤，必须与对应 `derived_from[]` 集合一致。 |
+| `rigorous_derivations.yaml` | 43 条详细数学推导（含必要性 [N] / 充分性 [S] 标注）。 |
+| `PROOF.md` | 完整性·必要性·自洽性形式化证明文档。 |
+| `experiments.yaml` | 实验验证数据库（25 条推导 ↔ 关键实验，含精度 + DOI）。 |
 | `quantities_registry.yaml` | 物理量、常数、scope、scope alias 与 discontinuity 注册。 |
 | `claims.yaml` | 面向 checker 的归一化声明表。 |
 | `physics.scihf` | `.scihf` 最小语言样例语料。 |
@@ -87,7 +90,7 @@
 
 ## Atom 清单（source graph reviewable atoms）
 
-自动审查图当前为 **59 nodes / 105 edges**，V1–V5 全部 PASS。下表是 `mvp.source_graph` 从 YAML 中提取的可审查原子；quantity/condition 原子另见 `quantities_registry.yaml` 与 `claims.yaml`。
+自动审查图当前为 **63 nodes / 119 edges**，V1–V5 全部 PASS。下表是 `mvp.source_graph` 从 YAML 中提取的可审查原子；quantity/condition 原子另见 `quantities_registry.yaml` 与 `claims.yaml`。
 
 | Atom ID | Layer | Source file | Logical sources |
 |---|---|---|---|
@@ -102,9 +105,13 @@
 | `contingent.so3_rotation_group` | `contingent` | `contingent.yaml` | `kernel.spacetime_dimensionality` |
 | `contingent.stable_kepler_orbits` | `contingent` | `contingent.yaml` | `kernel.spacetime_dimensionality` |
 | `contingent.volume_dimension` | `contingent` | `contingent.yaml` | `kernel.spacetime_dimensionality`, `rule.dimensional_consistency` |
+| `cor.asymptotic_freedom` | `effective_law` | `effective_laws.yaml` | `contingent.sm_gauge_group`, `kernel.gauge_interactions`, `kernel.spacetime_dimensionality` |
 | `cor.bose_einstein` | `effective_law` | `effective_laws.yaml` | `kernel.superposition_principle`, `kernel.boltzmann_entropy` |
+| `cor.ckm_matrix` | `effective_law` | `effective_laws.yaml` | `contingent.sm_gauge_group`, `contingent.sm_fermion_content`, `contingent.sm_higgs_sector`, `kernel.gauge_interactions`, `kernel.spacetime_dimensionality` |
 | `cor.fermi_dirac` | `effective_law` | `effective_laws.yaml` | `law.pauli_exclusion`, `kernel.boltzmann_entropy` |
+| `cor.higgs_mechanism` | `effective_law` | `effective_laws.yaml` | `contingent.sm_gauge_group`, `contingent.sm_higgs_sector`, `kernel.gauge_interactions` |
 | `cor.kepler_third` | `effective_law` | `effective_laws.yaml` | `law.newton_second`, `law.newton_gravitation`, `kernel.spacetime_dimensionality` |
+| `cor.nernst_unattainability` | `effective_law` | `effective_laws.yaml` | `law.third_law_thermo`, `kernel.boltzmann_entropy`, `kernel.equal_prior_probability` |
 | `kernel.boltzmann_entropy` | `kernel` | `frameworks.yaml` | — |
 | `kernel.born_rule` | `kernel` | `frameworks.yaml` | — |
 | `kernel.canonical_commutation` | `kernel` | `frameworks.yaml` | — |

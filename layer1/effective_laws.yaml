@@ -2,7 +2,8 @@ effective_laws:
 - id: law.euler_lagrange
   relation: 'The condition δS = 0 yields the Euler-Lagrange equation: d/dt(∂L/∂q̇)
     − ∂L/∂q = 0. This is a mathematical identity of the calculus of variations, not
-    a physical axiom. It bridges kernel.least_action to all of classical mechanics.
+    a physical axiom. It bridges kernel.path_integral_structure to all of classical
+    mechanics.
 
     '
   quantities:
@@ -14,14 +15,15 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.least_action
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.noether_theorem
-  relation: >
-    Every continuous symmetry of the action corresponds to a conserved current.
+  relation: 'Every continuous symmetry of the action corresponds to a conserved current.
     Time translation yields energy conservation; space translation yields momentum
-    conservation; rotation yields angular momentum conservation; gauge symmetry
-    yields charge conservation when the corresponding local gauge premise is present.
+    conservation; rotation yields angular momentum conservation; gauge symmetry yields
+    charge conservation when the corresponding local gauge premise is present.
+
+    '
   quantities:
   - qty.action
   - qty.energy
@@ -33,7 +35,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.least_action
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.newton_first
   relation: 'In the absence of net external force, an object maintains its state of
@@ -51,7 +53,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.least_action
+  - kernel.path_integral_structure
   - law.euler_lagrange
   - kernel.spacetime_dimensionality
 - id: law.newton_second
@@ -72,7 +74,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.least_action
+  - kernel.path_integral_structure
   - law.euler_lagrange
   - kernel.spacetime_dimensionality
 - id: law.newton_third
@@ -107,9 +109,8 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.equivalence_principle
-  - kernel.general_covariance
-  - kernel.least_action
+  - kernel.metric_dynamics
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.gauss_electric
   relation: ∇·E = ρ_q / ε₀
@@ -124,9 +125,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.gauge_interactions
-  - kernel.least_action
-  - kernel.lorentz_invariance
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.gauss_magnetic
   relation: ∇·B = 0
@@ -137,7 +136,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.gauge_interactions
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.faraday_induction
   relation: ∇×E = −∂B/∂t
@@ -150,7 +149,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.gauge_interactions
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.ampere_maxwell
   relation: ∇×B = μ₀·J + μ₀·ε₀·∂E/∂t
@@ -166,9 +165,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.gauge_interactions
-  - kernel.least_action
-  - kernel.lorentz_invariance
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.lorentz_force
   relation: F = q·(E + v×B)
@@ -185,7 +182,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.gauge_interactions
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.schroedinger_equation
   relation: 'iℏ·∂ψ/∂t = −(ℏ²/2m)·∇²ψ + V·ψ
@@ -204,27 +201,23 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.unitary_evolution
-  - kernel.canonical_commutation
-  - kernel.operator_observable
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.pauli_exclusion
-  relation: >
-    Multi-fermion wavefunction is totally antisymmetric under exchange:
-    ψ(r₁,s₁; r₂,s₂) = −ψ(r₂,s₂; r₁,s₁). No two identical fermions
-    occupy the same quantum state.
+  relation: 'Multi-fermion wavefunction is totally antisymmetric under exchange: ψ(r₁,s₁;
+    r₂,s₂) = −ψ(r₂,s₂; r₁,s₁). No two identical fermions occupy the same quantum state.
+
+    '
   quantities:
   - qty.spin
   - qty.state_vector
   scope:
   - quantum_regime
-  provenance: "Pauli (1925); spin-statistics theorem (Fierz 1939, Pauli 1940)"
+  provenance: Pauli (1925); spin-statistics theorem (Fierz 1939, Pauli 1940)
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.lorentz_invariance
-  - kernel.superposition_principle
-  - kernel.unitary_evolution
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.energy_frequency
   relation: E = h·ν
@@ -237,13 +230,11 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.canonical_commutation
-  - kernel.least_action
-  - kernel.unitary_evolution
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
-  - kernel.gauge_interactions
 - id: law.de_broglie_wavelength
-  relation: 'λ = h / p  [NOTE: empirical generalization, not pure logical deduction from E=hν]'
+  relation: 'λ = h / p  [NOTE: empirical generalization, not pure logical deduction
+    from E=hν]'
   quantities:
   - qty.length
   - qty.momentum
@@ -269,9 +260,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.canonical_commutation
-  - kernel.born_rule
-  - kernel.operator_observable
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.zeroth_law
   relation: T_A = T_B, T_B = T_C → T_A = T_C
@@ -283,25 +272,24 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.boltzmann_entropy
-  - kernel.equal_prior_probability
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.second_law_thermo
-  relation: >
-    The entropy of an isolated system never decreases: ΔS ≥ 0.
-    Equality holds only for reversible processes. This is a statistical
-    consequence of S = k_B ln W and the equal a priori probability postulate.
+  relation: 'The entropy of an isolated system never decreases: ΔS ≥ 0. Equality holds
+    only for reversible processes. This is a statistical consequence of S = k_B ln
+    W and the equal a priori probability postulate.
+
+    '
   quantities:
   - qty.entropy
   scope:
   - isolated_system
   - macroscopic_limit
-  provenance: "Clausius (1850); Boltzmann (1872-1875)"
+  provenance: Clausius (1850); Boltzmann (1872-1875)
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.boltzmann_entropy
-  - kernel.equal_prior_probability
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.first_law_thermo
   relation: dU = T·dS − P·dV + μ·dN
@@ -320,7 +308,7 @@ effective_laws:
   layer: effective_law
   derived_from:
   - law.energy_conservation
-  - kernel.boltzmann_entropy
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.third_law_thermo
   relation: S → 0 as T → 0 (perfect crystal, non-degenerate ground state)
@@ -333,11 +321,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.boltzmann_entropy
-  - kernel.superposition_principle
-  - kernel.unitary_evolution
-  - kernel.canonical_commutation
-  - kernel.operator_observable
+  - kernel.path_integral_structure
 - id: law.ideal_gas
   relation: P·V = n·R·T
   quantities:
@@ -355,7 +339,7 @@ effective_laws:
   layer: effective_law
   derived_from:
   - law.first_law_thermo
-  - kernel.boltzmann_entropy
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.lorentz_transform
   relation: 't'' = γ·(t − v·x/c²), x'' = γ·(x − v·t), γ = 1/√(1 − v²/c²)
@@ -374,7 +358,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.lorentz_invariance
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.mass_energy
   relation: 'E² = p²·c² + m²·c⁴; rest frame: E = m·c²'
@@ -389,7 +373,7 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.lorentz_invariance
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.einstein_field
   relation: G_μν + Λ·g_μν = (8πG/c⁴)·T_μν
@@ -407,9 +391,8 @@ effective_laws:
   hardness: hard
   layer: effective_law
   derived_from:
-  - kernel.equivalence_principle
-  - kernel.general_covariance
-  - kernel.least_action
+  - kernel.metric_dynamics
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.energy_conservation
   relation: 'dE/dt = 0 (isolated); locally: ∂_μ T^μν = 0'
@@ -461,7 +444,7 @@ effective_laws:
   layer: effective_law
   derived_from:
   - law.noether_theorem
-  - kernel.gauge_interactions
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: law.em_wave_equation
   relation: '∇²E = (1/c²)·∂²E/∂t², ∇²B = (1/c²)·∂²B/∂t², c = 1/√(ε₀·μ₀)
@@ -516,7 +499,7 @@ effective_laws:
   layer: effective_law
   derived_from:
   - law.pauli_exclusion
-  - kernel.boltzmann_entropy
+  - kernel.path_integral_structure
 - id: cor.bose_einstein
   relation: f(E) = 1 / (exp((E − μ)/(k_B·T)) − 1)
   quantities:
@@ -530,24 +513,22 @@ effective_laws:
   hardness: firm
   layer: effective_law
   derived_from:
-  - kernel.superposition_principle
-  - kernel.boltzmann_entropy
+  - kernel.path_integral_structure
 - id: cor.nernst_unattainability
-  relation: >
-    It is impossible to reach the absolute zero of temperature (T = 0)
-    by any finite sequence of thermodynamic operations. This is the
-    strong form of the third law of thermodynamics (Nernst 1906),
-    stronger than the weak form S→0 as T→0.
-    Proof sketch: dS = C(T)/T dT. As T→0, C(T) → 0 (∝ T³ for phonons,
-    ∝ T for electrons). The integral ΔS = ∫₀^{T_f} C(T)/T dT converges,
-    but reaching T=0 from any T>0 requires removing the last increment
-    of entropy. Since ΔS is finite for any finite temperature interval
-    ending at T>0, but the number of operations needed diverges as
-    T→0 (each operation can only remove a finite ΔS), an infinite number
-    of steps would be required. Equivalently: the unattainability follows
-    because the isothermal entropy change in any finite process vanishes
-    as T→0, while the adiabatic cooling steps become progressively
-    smaller, requiring infinitely many iterations.
+  relation: 'It is impossible to reach the absolute zero of temperature (T = 0) by
+    any finite sequence of thermodynamic operations. This is the strong form of the
+    third law of thermodynamics (Nernst 1906), stronger than the weak form S→0 as
+    T→0. Proof sketch: dS = C(T)/T dT. As T→0, C(T) → 0 (∝ T³ for phonons, ∝ T for
+    electrons). The integral ΔS = ∫₀^{T_f} C(T)/T dT converges, but reaching T=0 from
+    any T>0 requires removing the last increment of entropy. Since ΔS is finite for
+    any finite temperature interval ending at T>0, but the number of operations needed
+    diverges as T→0 (each operation can only remove a finite ΔS), an infinite number
+    of steps would be required. Equivalently: the unattainability follows because
+    the isothermal entropy change in any finite process vanishes as T→0, while the
+    adiabatic cooling steps become progressively smaller, requiring infinitely many
+    iterations.
+
+    '
   quantities:
   - qty.entropy
   - qty.temperature
@@ -555,49 +536,46 @@ effective_laws:
   scope:
   - zero_temperature_limit
   - macroscopic_limit
-  provenance: "Nernst (1906, 1912); Planck (1911); Zemansky §7.5"
+  provenance: Nernst (1906, 1912); Planck (1911); Zemansky §7.5
   hardness: firm
   layer: effective_law
   derived_from:
   - law.third_law_thermo
-  - kernel.boltzmann_entropy
-  - kernel.equal_prior_probability
+  - kernel.path_integral_structure
 - id: cor.asymptotic_freedom
-  relation: >
-    In non-Abelian gauge theories (specifically QCD with SU(3)_C),
-    the running coupling constant α_s(μ) decreases logarithmically
-    as the energy scale μ increases: α_s(μ) ∝ 1/ln(μ/Λ_QCD).
-    This "asymptotic freedom" implies that quarks and gluons behave as
-    nearly free particles at high energies (short distances), while
-    the coupling grows strong at low energies (confinement).
-    Derived from the renormalization group β-function of SU(3) gauge
-    theory: β(g) = ∂g/∂ln μ = −β₀ g³/(16π²) + O(g⁵), with
-    β₀ = 11N_c/3 − 2n_f/3. For N_c=3 (QCD) and n_f=6: β₀ = 7 > 0
-    ⇒ negative β-function ⇒ asymptotic freedom.
+  relation: 'In non-Abelian gauge theories (specifically QCD with SU(3)_C), the running
+    coupling constant α_s(μ) decreases logarithmically as the energy scale μ increases:
+    α_s(μ) ∝ 1/ln(μ/Λ_QCD). This "asymptotic freedom" implies that quarks and gluons
+    behave as nearly free particles at high energies (short distances), while the
+    coupling grows strong at low energies (confinement). Derived from the renormalization
+    group β-function of SU(3) gauge theory: β(g) = ∂g/∂ln μ = −β₀ g³/(16π²) + O(g⁵),
+    with β₀ = 11N_c/3 − 2n_f/3. For N_c=3 (QCD) and n_f=6: β₀ = 7 > 0 ⇒ negative β-function
+    ⇒ asymptotic freedom.
+
+    '
   quantities:
   - qty.color_charge
   - qty.energy
   scope:
   - quantum_regime
   - relativistic_regime
-  provenance: "Gross & Wilczek (1973); Politzer (1973); Peskin & Schroeder §16.7"
+  provenance: Gross & Wilczek (1973); Politzer (1973); Peskin & Schroeder §16.7
   hardness: firm
   layer: effective_law
   derived_from:
   - contingent.sm_gauge_group
-  - kernel.gauge_interactions
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality
 - id: cor.higgs_mechanism
-  relation: >
-    Spontaneous breaking of SU(2)_L × U(1)_Y → U(1)_EM via a complex
-    scalar doublet φ with vacuum expectation value v ≈ 246 GeV.
-    Three Goldstone bosons become longitudinal modes of W^± and Z
-    bosons, giving them mass: M_W = g₂v/2, M_Z = √(g₁²+g₂²)v/2.
-    The photon remains massless as the unbroken U(1)_EM gauge boson.
-    One physical scalar (Higgs boson h, m_h ≈ 125 GeV) remains.
-    The mechanism is contingent on the SM gauge group and Higgs
-    representation choice, but the structure principle — gauge symmetry
-    + spontaneous breaking → massive gauge bosons — is universal.
+  relation: 'Spontaneous breaking of SU(2)_L × U(1)_Y → U(1)_EM via a complex scalar
+    doublet φ with vacuum expectation value v ≈ 246 GeV. Three Goldstone bosons become
+    longitudinal modes of W^± and Z bosons, giving them mass: M_W = g₂v/2, M_Z = √(g₁²+g₂²)v/2.
+    The photon remains massless as the unbroken U(1)_EM gauge boson. One physical
+    scalar (Higgs boson h, m_h ≈ 125 GeV) remains. The mechanism is contingent on
+    the SM gauge group and Higgs representation choice, but the structure principle
+    — gauge symmetry + spontaneous breaking → massive gauge bosons — is universal.
+
+    '
   quantities:
   - qty.higgs_vev
   - qty.weak_mixing_angle
@@ -605,38 +583,37 @@ effective_laws:
   scope:
   - quantum_regime
   - relativistic_regime
-  provenance: "Higgs (1964); Englert & Brout (1964); Guralnik, Hagen & Kibble (1964); Weinberg (1967)"
+  provenance: Higgs (1964); Englert & Brout (1964); Guralnik, Hagen & Kibble (1964);
+    Weinberg (1967)
   hardness: firm
   layer: effective_law
   derived_from:
   - contingent.sm_gauge_group
   - contingent.sm_higgs_sector
-  - kernel.gauge_interactions
+  - kernel.path_integral_structure
 - id: cor.ckm_matrix
-  relation: >
-    In the Standard Model with 3 generations of quarks, the quark
-    mass eigenstates are not aligned with the weak interaction
-    eigenstates. The mismatch is parameterized by the 3×3 unitary
-    Cabibbo-Kobayashi-Maskawa (CKM) matrix V_CKM, which has 4
-    independent physical parameters: 3 mixing angles and 1 CP-violating
-    phase. The CKM matrix is physically necessary because:
-    (1) quark Yukawa couplings to the Higgs doublet are arbitrary
-    complex 3×3 matrices → diagonalization leaves a misalignment
-    between up-type and down-type quark bases;
-    (2) for n_g ≥ 3 generations, the CKM matrix inevitably contains
-    a CP-violating complex phase (Kobayashi & Maskawa 1973);
-    (3) without CKM, flavor-changing weak interactions (e.g., s→u
-    transition in kaon decay) would be inexplicable.
+  relation: 'In the Standard Model with 3 generations of quarks, the quark mass eigenstates
+    are not aligned with the weak interaction eigenstates. The mismatch is parameterized
+    by the 3×3 unitary Cabibbo-Kobayashi-Maskawa (CKM) matrix V_CKM, which has 4 independent
+    physical parameters: 3 mixing angles and 1 CP-violating phase. The CKM matrix
+    is physically necessary because: (1) quark Yukawa couplings to the Higgs doublet
+    are arbitrary complex 3×3 matrices → diagonalization leaves a misalignment between
+    up-type and down-type quark bases; (2) for n_g ≥ 3 generations, the CKM matrix
+    inevitably contains a CP-violating complex phase (Kobayashi & Maskawa 1973); (3)
+    without CKM, flavor-changing weak interactions (e.g., s→u transition in kaon decay)
+    would be inexplicable.
+
+    '
   quantities:
   - qty.generation
   scope:
   - quantum_regime
-  provenance: "Cabibbo (1963); Kobayashi & Maskawa (1973); PDG 2024"
+  provenance: Cabibbo (1963); Kobayashi & Maskawa (1973); PDG 2024
   hardness: firm
   layer: effective_law
   derived_from:
   - contingent.sm_gauge_group
   - contingent.sm_fermion_content
   - contingent.sm_higgs_sector
-  - kernel.gauge_interactions
+  - kernel.path_integral_structure
   - kernel.spacetime_dimensionality

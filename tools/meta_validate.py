@@ -385,16 +385,11 @@ def main():
     print("\n━━━ 2. NECESSITY: Kernel → Impact Analysis ━━━")
     necessity = analyze_necessity(nodes, deriv_map)
 
-    # Group by R-rule
+    # Group by T+EP framework (Round 15)
     r_groups = {
-        'R1 (Spacetime)': ['kernel.spacetime_dimensionality', 'kernel.lorentz_invariance',
-                           'kernel.equivalence_principle', 'kernel.general_covariance'],
-        'R2 (Least Action)': ['kernel.least_action'],
-        'R3 (Gauge)': ['kernel.gauge_interactions'],
-        'R4 (Quantum)': ['kernel.superposition_principle', 'kernel.unitary_evolution',
-                         'kernel.canonical_commutation', 'kernel.operator_observable'],
-        'R5 (Born Rule)': ['kernel.born_rule'],
-        'R6 (Statistical)': ['kernel.boltzmann_entropy', 'kernel.equal_prior_probability']
+        'T (Path Integral Structure)': ['kernel.path_integral_structure'],
+        'EP (Metric Dynamics)': ['kernel.metric_dynamics'],
+        'EC1 (Spacetime Dim D=3+1)': ['kernel.spacetime_dimensionality']
     }
 
     total_coverage = set()
